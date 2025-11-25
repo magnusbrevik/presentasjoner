@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norge, Europa og Verden - Presentasjon</title>
+<style>
+    /* --- DESIGN: Barnas Geo-eventyr (Mørk & vennlig) ---
+    Basert på malen, men med farger som inviterer til utforskning.
+    */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Bakgrunn: Dyp lilla/blå gradient for å symbolisere natt og eventyr */
+        background: linear-gradient(135deg, #1f0b37 0%, #30194c 50%, #442a6b 100%);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fce4ec; /* Lys rosa/hvit tekst */
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #2b1a45; /* Mørkt panel */
+        border-radius: 15px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        
+        /* Ramme i lys, spennende "eventyr-gul" */
+        border: 3px solid #ffeb3b; 
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #1c0f2d;
+        color: #ffeb3b;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #ffeb3b;
+        flex-shrink: 0;
+    }
+    .header h1 { 
+        margin: 0; 
+        font-size: 1.8rem; 
+        letter-spacing: 3px; 
+        font-weight: 800; 
+        text-transform: uppercase; 
+        color: #ffcc80; /* Myk oransje/gul */
+    }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 40px 80px;
+        overflow-y: auto;
+        animation: slideIn 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        /* Morsomt kart-mønster i bakgrunnen */
+        background-image: radial-gradient(#4d3369 1px, transparent 1px), radial-gradient(#4d3369 1px, transparent 1px);
+        background-size: 30px 30px;
+        background-position: 0 0, 15px 15px;
+        background-color: #2b1a45;
+    }
+    .slide.active { display: block; }
+    
+    /* Scrollbar styling for mørkt tema */
+    .slide::-webkit-scrollbar { width: 8px; }
+    .slide::-webkit-scrollbar-track { background: #1c0f2d; }
+    .slide::-webkit-scrollbar-thumb { background: #ffeb3b; border-radius: 4px; }
+
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+
+    h2 { 
+        color: #ff8a65; /* Korallrød tittel */
+        border-bottom: 3px solid #ffeb3b; 
+        padding-bottom: 15px; 
+        margin-top: 0; 
+        font-size: 2.8rem; 
+        font-weight: 700; 
+        text-shadow: 2px 2px #1c0f2d;
+    }
+    h3 { 
+        color: #ffeb3b; 
+        margin-top: 30px; 
+        font-size: 1.6rem; 
+        font-weight: bold; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+    }
+    p, li { 
+        font-size: 1.2rem; 
+        line-height: 1.8; 
+        color: #fce4ec; 
+        margin-bottom: 15px; 
+    }
+    strong { 
+        color: #81c784; /* Myk grønn */
+        font-weight: 700; 
+    }
+
+    .info-box {
+        background: #3c2759; 
+        border-left: 6px solid #ffeb3b;
+        padding: 25px;
+        margin: 30px 0;
+        border-radius: 0 10px 10px 0;
+        color: #fff;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    }
+
+    /* --- MENY (Grid) NYTT CSS --- */
+    .menu-grid { 
+        display: grid; 
+        grid-template-columns: repeat(3, 1fr); /* 3 kolonner for bedre utseende */
+        gap: 25px; 
+        margin-top: 40px; 
+    }
+    .menu-item {
+        background: #3c2759; /* Matchende info-box bakgrunn */
+        border: 1px solid #4d3369; 
+        padding: 25px; 
+        cursor: pointer; 
+        text-align: center; 
+        border-radius: 10px; 
+        transition: 0.3s;
+        box-shadow: 0 5px 0 #1c0f2d; 
+        min-height: 120px; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .menu-item:hover { 
+        transform: translateY(-5px); 
+        border-color: #ffeb3b; 
+        background: #4d3369; 
+        box-shadow: 0 10px 20px rgba(255, 235, 59, 0.25); 
+    }
+    .icon { 
+        font-size: 3rem; /* Større ikon for bedre synlighet */
+        display: block; 
+        margin-bottom: 10px; 
+    }
+    .menu-title { 
+        font-weight: bold; 
+        color: #ffeb3b; 
+        font-size: 1.2rem; 
+        line-height: 1.4;
+        text-transform: uppercase;
+    }
+    .menu-subtitle {
+        font-size: 0.95rem;
+        color: #fce4ec;
+        opacity: 0.8;
+        margin-top: 5px;
+    }
+    
+    /* --- KNAPPER (Buttons) --- */
+    .nav-buttons { margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #4d3369; padding-top: 25px; margin-bottom: 20px; }
+    .btn { 
+        padding: 15px 40px; 
+        background: linear-gradient(45deg, #ffeb3b, #ffc107); /* Gul/Gull gradient */
+        color: #1c0f2d; 
+        border: none; 
+        border-radius: 50px; 
+        font-size: 1.1rem; 
+        cursor: pointer; 
+        font-weight: bold; 
+        transition: 0.3s; 
+        box-shadow: 0 5px 15px rgba(255, 235, 59, 0.4); 
+        letter-spacing: 1px; 
+        text-transform: uppercase;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255, 235, 59, 0.6); }
+    .btn-outline { 
+        background: transparent; 
+        color: #ffeb3b; 
+        border: 2px solid #ffeb3b; 
+        border-radius: 50px; 
+        padding: 13px 38px; 
+        font-weight: bold; 
+        cursor: pointer; 
+        text-transform: uppercase; 
+        letter-spacing: 1px; 
+        transition: 0.3s; 
+    }
+    .btn-outline:hover { background: rgba(255, 235, 59, 0.1); color: #fff; border-color: #fff; }
+
+    /* Quiz styles */
+    .quiz-container { margin-top: 20px; }
+    .quiz-btn { 
+        display: block; 
+        width: 100%; 
+        padding: 18px; 
+        margin-bottom: 15px; 
+        background: #3c2759; 
+        border: 2px solid #4d3369; 
+        border-radius: 10px; 
+        text-align: left; 
+        font-size: 1.15rem; 
+        cursor: pointer; 
+        transition: 0.2s; 
+        color: #fff; 
+        box-shadow: 0 3px #1c0f2d;
+    }
+    .quiz-btn:hover { background: #4d3369; border-color: #ffeb3b; transform: translateY(-2px); box-shadow: 0 5px #1c0f2d; }
+    .correct { background: #388e3c !important; border-color: #81c784 !important; color: #fff; transform: scale(1.02); }
+    .wrong { background: #d32f2f !important; border-color: #ff8a65 !important; color: #fff; transform: scale(0.98); }
+
+    /* --- FORSIDE (SLIDE 0) SPESIALSTYLING --- */
+    .intro-title-container {
+        text-align: center;
+        margin-top: 50px;
+        position: relative;
+    }
+    
+    .main-title {
+        font-size: 5.5rem; /* Større for barn */
+        font-weight: 900;
+        background: -webkit-linear-gradient(#ffeb3b, #ff8a65); /* Gull og Korall gradient */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+        line-height: 1.1;
+        letter-spacing: -2px;
+        animation: spinAndPulse 4s infinite ease-in-out;
+    }
+    .main-title span { display: block; font-size: 0.7em; }
+
+    .subtitle {
+        font-size: 2rem;
+        color: #ffeb3b;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin-top: 30px;
+        font-weight: 300;
+    }
+
+    @keyframes spinAndPulse {
+        0%, 100% { transform: scale(1) rotateZ(0deg); text-shadow: 0 0 25px rgba(255, 235, 59, 0.4); }
+        50% { transform: scale(1.03) rotateZ(1deg); text-shadow: 0 0 45px rgba(255, 138, 101, 0.6); }
+        100% { transform: scale(1) rotateZ(0deg); text-shadow: 0 0 25px rgba(255, 235, 59, 0.4); }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🌎 PÅ REISE JORDA RUNDT 🧭</h1>
+        <div id="status-text">Velkommen!</div>
+    </div>
+
+    <!-- SLIDE 0: INTRODUKSJON (FORSIDE) -->
+    <div id="slide-intro" class="slide active">
+        <div class="intro-title-container">
+            <div class="main-title">
+                NORGE OG VERDEN
+            </div>
+            <div class="subtitle">En Global Reise</div>
+        </div>
+        
+        <p style="text-align: center; max-width: 700px; margin: 50px auto; font-size: 1.5rem; color: #ffeb3b;">
+            Er du klar for å utforske de største kontinentene, de dypeste havområdene og de morsomste kulturene? Ta på deg reisebeltet!
+        </p>
+        
+        <div class="info-box" style="max-width: 600px; margin: 30px auto; text-align: center; font-size: 1.1rem;">
+            <strong>I dag lærer vi om:</strong><br>
+            Norges plass i verden, hovedsteder i Europa, og de syv verdensdelene og fem store hav.
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center; border: none;">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Start Eventyret &rarr;</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 1: HOVEDMENY (NY SLIDE) -->
+    <div id="slide-menu" class="slide">
+        <h2>HOVEDMENY: Velg ditt tema 🎯</h2>
+        <p>Her kan du hoppe rett til temaet du vil lære mer om. Hvert tema er en del av vår globale reise!</p>
+        
+        <div class="menu-grid">
+            <div class="menu-item" onclick="goto('slide-1', '1. Norge i Verden')">
+                <span class="icon">🇳🇴</span>
+                <div class="menu-title">NORGE OG VERDEN</div>
+                <div class="menu-subtitle">Vår rolle i Arktis og global politikk</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-2', '2. Europa - Land og Hovedsteder')">
+                <span class="icon">🇪🇺</span>
+                <div class="menu-title">EUROPA'S KART</div>
+                <div class="menu-subtitle">Land, hovedsteder og politisk samarbeid</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-3', '3. Europeisk Kultur og Fester')">
+                <span class="icon">🍕</span>
+                <div class="menu-title">KULTUR & TRADISJONER</div>
+                <div class="menu-subtitle">Mat, språk og feiringer på kontinentet</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-4', '4. Verdensdelene')">
+                <span class="icon">🏞️</span>
+                <div class="menu-title">DE SYV KONTINENTENE</div>
+                <div class="menu-subtitle">Verdens største landmasser</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-5', '5. Havområdene')">
+                <span class="icon">🌊</span>
+                <div class="menu-title">DE FEM OSEANENE</div>
+                <div class="menu-subtitle">Hvorfor havet styrer planeten</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-quiz1', 'Quiz')">
+                <span class="icon">🎓</span>
+                <div class="menu-title">TEST KUNNSKAPEN</div>
+                <div class="menu-subtitle">Gå rett til Quiz for å se hva du husker!</div>
+            </div>
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+             <button class="btn" onclick="goto('slide-quiz1', 'Quiz')">Gå direkte til Quiz 🚀</button>
+        </div>
+    </div>
+
+
+    <!-- SLIDE 2: NORGE I VERDEN -->
+    <div id="slide-1" class="slide">
+        <h2>1. Norge i Verden 🇳🇴</h2>
+        <p>Norge er et lite land i <strong>Nord-Europa</strong>. Selv om vi er få (omtrent 5,5 millioner innbyggere), har vi stor innflytelse i verden.</p>
+        
+        <h3>Den norske kysten – Havets Supermakt</h3>
+        <ul>
+            <li><strong>Langs og På Vannet:</strong> Norges kystlinje er en av de lengste i verden (med fjorder er den over 100.000 km!). Dette betyr at vi er eksperter på <strong>sjømat</strong> og <strong>havteknologi</strong>.</li>
+            <li><strong>Viktig for Klima:</strong> Vi er omgitt av viktige hav som <strong>Norskehavet</strong> og <strong>Barentshavet</strong>. Isen i Arktis er viktig for å holde hele jordkloden kjølig.</li>
+        </ul>
+        
+        <h3>Hva betyr Norge for resten av verden?</h3>
+        <p>Norge er kjent for å være et rikt land som eksporterer mye. Våre viktigste eksportvarer er:</p>
+        <ol>
+            <li><strong>Olje og Gass:</strong> Selv om vi er et rent land, er vi en stor produsent av fossil energi.</li>
+            <li><strong>Sjømat:</strong> Spesielt <strong>laks</strong>, som spises over hele verden.</li>
+            <li><strong>Fredsmegling:</strong> Norge har ofte en rolle i å hjelpe land som krangler med å snakke sammen. Vi er kjent som et "fredsland".</li>
+        </ol>
+
+        <div class="info-box">
+            <strong>Fun fact:</strong> Norge er et av få land som har sitt eget spesielle område i Antarktis (Dronning Maud Land) og vi eier også øya Bouvetøya, som er en av de mest avsidesliggende øyene på jorden!
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-2', '2. Europa')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: EUROPA - LAND OG HOVEDSTEDER -->
+    <div id="slide-2" class="slide">
+        <h2>2. Europa – Vårt Nære Kontinent 🇪🇺</h2>
+        <p>Europa er kontinentet vi bor på. Det er relativt lite, men har over 40 forskjellige land – tett i tett!</p>
+        
+        <h3>Noen viktige land og hovedsteder:</h3>
+        <p>Å kunne hovedstedene er som å ha kart over kontinentet i hodet!</p>
+        
+        <ul>
+            <li><strong>Frankrike:</strong> Hovedstad er <strong>Paris</strong> (Kjent for Eiffeltårnet og mat!)</li>
+            <li><strong>Tyskland:</strong> Hovedstad er <strong>Berlin</strong> (Kjent for historie og teknologi)</li>
+            <li><strong>Italia:</strong> Hovedstad er <strong>Roma</strong> (Kjent for pizza, gamle ruiner og et Colosseum!)</li>
+            <li><strong>Spania:</strong> Hovedstad er <strong>Madrid</strong> (Kjent for flamenco-dans og sol)</li>
+            <li><strong>Storbritannia:</strong> Hovedstad er <strong>London</strong> (Kjent for Big Ben og dronningen)</li>
+            <li><strong>Russland:</strong> Hovedstad er <strong>Moskva</strong> (Dette landet strekker seg over både Europa og Asia!)</li>
+        </ul>
+
+        <h3>Hva er typisk Europeisk?</h3>
+        <p>Europa er et kontinent med mye historie, gamle slott og mange forskjellige språk. Vi har også en spesiell gruppe som heter <strong>Den Europeiske Union (EU)</strong>, som samarbeider om mange regler. Selv om Norge ikke er med i EU, er vi gode venner og samarbeider mye gjennom EØS-avtalen.</p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-3', '3. Europeisk Kultur')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: EUROPEISK KULTUR -->
+    <div id="slide-3" class="slide">
+        <h2>3. Europeisk Kultur og Fester 🎉</h2>
+        <p>Kultur er alt vi mennesker lager og gjør: musikk, mat, språk og måter å feire på. I Europa finnes det hundrevis av unike kulturer!</p>
+        
+        <h3>Mat-Eventyret</h3>
+        <p>Hvert land har sin mat-skatt. Kan du tenke deg en verden uten <strong>Italiensk pizza</strong>, <strong>Sveitsisk sjokolade</strong> eller <strong>Franske pannekaker (crêpes)</strong>?</p>
+        <ul>
+            <li><strong>Italia:</strong> Pasta, pizza og iskrem (gelato).</li>
+            <li><strong>Hellas:</strong> Fetaost, oliven og salat (gresk salat).</li>
+            <li><strong>Østerrike:</strong> Pølser og eplestrudel.</li>
+        </ul>
+
+        <h3>Kjente Feiringer</h3>
+        <p>Europa har noen av verdens mest kjente tradisjoner og festivaler:</p>
+        <ol>
+            <li><strong>Karneval i Venezia (Italia):</strong> Mennesker kler seg ut i flotte masker og kostymer.</li>
+            <li><strong>Oktoberfest i München (Tyskland):</strong> En stor folkefest med musikk, tradisjonelle klær og god mat.</li>
+            <li><strong>Jul:</strong> Tradisjoner rundt jul varierer stort. I Spania kommer gjerne gavene på Helligtrekongersdag (6. januar), mens i Norge kommer de på julaften (24. desember).</li>
+        </ol>
+        
+        <div class="info-box">
+            <strong>Språkforvirring:</strong> Det snakkes over 200 forskjellige språk i Europa. Visste du at Finsk, Estisk, Ungarsk og Maltesisk er de mest uvanlige språkene på kontinentet?
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-4', '4. Verdensdelene')">Neste &rarr;</button>
+        </div>
+    </div>
+    
+    <!-- SLIDE 5: VERDENSDELER (KONTINENTER) -->
+    <div id="slide-4" class="slide">
+        <h2>4. Verdensdelene – Sju Store Landmasser 🏞️</h2>
+        <p>Verden er delt inn i store landmasser som vi kaller **kontinenter** eller **verdensdeler**. Det er vanligvis syv av dem.</p>
+
+        <h3>De Syv Kontinentene:</h3>
+        <ol>
+            <li><strong>Asia:</strong> Den største og mest folkerike. Her finner du Kina, India og Mount Everest.</li>
+            <li><strong>Afrika:</strong> Kjent for Sahara-ørkenen, Nilen og mange ville dyr.</li>
+            <li><strong>Nord-Amerika:</strong> Her ligger USA, Canada og Mexico.</li>
+            <li><strong>Sør-Amerika:</strong> Hjem til Amazonas regnskog og Andesfjellene.</li>
+            <li><strong>Antarktis:</strong> Kjempekald, dekket av is, og ingen mennesker bor fast her.</li>
+            <li><strong>Europa:</strong> Vårt kontinent (den nest minste).</li>
+            <li><strong>Oseania:</strong> Den minste. Den består av Australia og mange små øyer i Stillehavet.</li>
+        </ol>
+
+        <p>Mange kaller ofte Nord- og Sør-Amerika for bare "Amerika", slik at de kun regner med <strong>seks</strong> kontinenter. Begge deler er riktig!</p>
+        
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-5', '5. Havområdene')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: HAVOMRÅDENE -->
+    <div id="slide-5" class="slide">
+        <h2>5. Havområdene – De Fem Store Oseanene 🌊</h2>
+        <p>Over 70% av jorden er dekket av vann! Havene er kjempeviktige, de produserer oksygenet vi puster, og de styrer været.</p>
+        
+        <h3>Verdens fem store hav (Oseaner):</h3>
+        <p>Disse havområdene henger sammen, men har forskjellige navn basert på hvor de ligger.</p>
+        
+        <ul>
+            <li><strong>Stillehavet (Pacific Ocean):</strong> Det største og dypeste. Det har så mange øyer at det nesten er umulig å telle dem!</li>
+            <li><strong>Atlanterhavet (Atlantic Ocean):</strong> Det nest største. Det skiller Amerika fra Europa og Afrika.</li>
+            <li><strong>Indiske hav (Indian Ocean):</strong> Ligger mellom Afrika, Asia og Australia. Kjent for varme strender.</li>
+            <li><strong>Sørishavet (Southern Ocean):</strong> Havet som omgir Antarktis. Iskaldt og hjem til pingviner.</li>
+            <li><strong>Nordishavet (Arctic Ocean):</strong> Det minste og grunneste. Ligger rundt Nordpolen. Det er her polarisen smelter.</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Utfordring:</strong> Vi må passe på havområdene våre! Plastforurensing og overfiske truer livet under vann i alle fem oseanene.
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-quiz1', 'Quiz')">Start Quiz &rarr;</button>
+        </div>
+    </div>
+    
+    <!-- QUIZ 1 -->
+    <div id="slide-quiz1" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 1 av 3</h3>
+        <h2>Hva er hovedstaden i Frankrike?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz2')">Madrid</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz2')">Paris</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz2')">Berlin</button>
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-quiz2', 'Quiz')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div id="slide-quiz2" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 2 av 3</h3>
+        <h2>Hvilket hav skiller Europa/Afrika fra Nord- og Sør-Amerika?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz3')">Stillehavet</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz3')">Atlanterhavet</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz3')">Indiske hav</button>
+        </div>
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-quiz3', 'Quiz')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 3 -->
+    <div id="slide-quiz3" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 3 av 3</h3>
+        <h2>Hvilket kontinent er det minste og består av Australia og mange små øyer?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-end')">Antarktis</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-end')">Sør-Amerika</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-end')">Oseania</button>
+        </div>
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-end', 'Resultat')">Vis Resultat &rarr;</button>
+        </div>
+    </div>
+
+    <!-- AVSLUTNING -->
+    <div id="slide-end" class="slide">
+        <h2 style="text-align: center; margin-top: 50px;">Fantastisk Eventyr! 🥳</h2>
+        <p style="text-align: center; font-size: 1.3rem;">Du har fullført din Superreise og lært masse om geografi!</p>
+        
+        <div class="info-box" style="text-align: center; max-width: 600px; margin: 40px auto; color: #ffeb3b;">
+            <strong>Husk:</strong> Verden er full av spenning og steder å utforske. Å vite hvor ting er, og hva som er spesielt med dem, er første steg til å bli en ekte verdensborger!
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center; border: none;">
+            <button class="btn" onclick="goto('slide-intro', 'Velkommen!')">Start på nytt ↺</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON ---
+    function goto(slideId, title) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(slideId).classList.add('active');
+        document.getElementById('status-text').innerText = title;
+        window.scrollTo(0, 0); // Scroller til toppen av den nye sliden
+    }
+
+    // --- QUIZ LOGIKK ---
+    function checkAnswer(btn, isCorrect, nextSlideId) {
+        let parent = btn.parentElement;
+        let buttons = parent.querySelectorAll('.quiz-btn');
+        
+        buttons.forEach(b => b.disabled = true); // Lås knapper
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            setTimeout(() => {
+                buttons.forEach(b => { 
+                    b.disabled = false; 
+                    b.classList.remove('wrong');
+                    b.classList.remove('correct');
+                });
+                if(nextSlideId === 'slide-end') {
+                    goto('slide-end', 'Resultat');
+                } else {
+                    goto(nextSlideId, 'Quiz');
+                }
+            }, 1500);
+        } else {
+            btn.classList.add('wrong');
+            setTimeout(() => {
+                buttons.forEach(b => { 
+                    b.disabled = false; 
+                    b.classList.remove('wrong'); 
+                });
+            }, 1500);
+        }
+    }
+</script>
+
+</body>
+</html>

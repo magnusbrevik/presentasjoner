@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reisen ut i Rommet</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/renderers/CSS2DRenderer.js"></script>
+
+<style>
+    /* --- SPACE DESIGN (Beholdt uendret) --- */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle, #0b0d17 0%, #151932 100%);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #1c1f33;
+        border-radius: 20px;
+        box-shadow: 0 0 50px rgba(100, 200, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 4px solid #4facfe;
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #0f3460;
+        color: #fff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #4facfe;
+        z-index: 100;
+    }
+    .header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; text-shadow: 0 0 10px #4facfe; }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 30px 60px;
+        overflow-y: auto;
+        animation: fadeIn 0.5s ease-in-out;
+        background-image: radial-gradient(white 1px, transparent 1px);
+        background-size: 50px 50px;
+        background-color: #1c1f33;
+    }
+    .slide.active { display: block; }
+
+    /* SPESIAL: 3D Slide Container */
+    #slide-3d {
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        position: relative;
+    }
+    
+    /* Container for Three.js canvas */
+    #three-container {
+        width: 100%;
+        height: 100%;
+        display: block;
+        outline: none;
+    }
+
+    /* Etiketter over planetene */
+    .planet-label-3d {
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 12px;
+        background: rgba(0,0,0,0.6);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid #4facfe;
+        text-shadow: 0 0 2px black;
+        margin-top: -10px; /* Løft litt over planeten */
+        pointer-events: none; /* Lar deg klikke gjennom teksten */
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+    h2 { color: #4facfe; border-bottom: 2px dashed #4facfe; padding-bottom: 10px; margin-top: 0; font-size: 2.2rem; }
+    h3 { color: #f093fb; margin-top: 20px; font-size: 1.5rem; }
+    p, li { font-size: 1.2rem; line-height: 1.5; color: #e0e0e0; margin-bottom: 10px; }
+    strong { color: #f093fb; }
+
+    /* --- BILDER --- */
+    .img-box {
+        width: 220px; height: 220px; overflow: hidden; border-radius: 50%;
+        box-shadow: 0 0 20px rgba(79, 172, 254, 0.5); margin: 10px auto; 
+        border: 3px solid #fff; background: #000; flex-shrink: 0; 
+        display: flex; justify-content: center; align-items: center;
+    }
+    .img-box img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.5s; }
+    .img-box img:hover { transform: scale(1.1) rotate(5deg); }
+
+    .img-box-large {
+        width: 100%; height: 250px; overflow: hidden; border-radius: 15px;
+        border: 2px solid #4facfe; margin-bottom: 15px;
+    }
+    .img-box-large img { width: 100%; height: 100%; object-fit: cover; }
+
+    .img-grid { display: flex; justify-content: center; gap: 30px; margin-top: 20px; flex-wrap: wrap; }
+    .grid-item { text-align: center; width: 220px; }
+
+    .info-box {
+        background: rgba(255, 255, 255, 0.05); border-left: 6px solid #f093fb;
+        padding: 20px; margin: 15px 0; border-radius: 10px;
+    }
+
+    /* --- MENY --- */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+    .menu-item {
+        background: rgba(255, 255, 255, 0.05); border: 2px solid #4facfe; padding: 15px; 
+        cursor: pointer; text-align: center; border-radius: 15px; transition: 0.2s;
+        box-shadow: 0 0 10px rgba(79, 172, 254, 0.2);
+    }
+    .menu-item:hover { transform: translateY(-3px); background: rgba(79, 172, 254, 0.2); }
+    .icon { font-size: 2.5rem; display: block; margin-bottom: 5px; }
+    .menu-title { font-weight: bold; color: #fff; }
+    
+    .game-card { border-color: #f093fb; box-shadow: 0 0 15px rgba(240, 147, 251, 0.3); }
+    .game-card:hover { background: rgba(240, 147, 251, 0.2); }
+    
+    /* 3D Modell Knapp */
+    .model-card { border-color: #ffff00; box-shadow: 0 0 15px rgba(255, 255, 0, 0.3); grid-column: span 2; }
+    .model-card:hover { background: rgba(255, 255, 0, 0.1); }
+
+    .nav-buttons { margin-top: 20px; display: flex; justify-content: space-between; border-top: 1px solid #4facfe; padding-top: 15px; }
+    .btn { padding: 12px 30px; background: #4facfe; color: #000; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; font-weight: bold; box-shadow: 0 0 15px #4facfe; transition: 0.2s; }
+    .btn:hover { transform: scale(1.05); background: #fff; }
+    .btn-outline { background: transparent; color: #4facfe; border: 2px solid #4facfe; }
+    .btn-outline:hover { background: rgba(79, 172, 254, 0.1); }
+    .btn-red { background: #ff0055; color: white; border: none; box-shadow: 0 0 15px #ff0055; }
+    .btn-red:hover { background: #ff4d88; }
+
+    .scene-controls {
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+        display: flex; gap: 10px; z-index: 200;
+    }
+    .instruction-text {
+        position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+        color: rgba(255,255,255,0.8); font-size: 1rem; pointer-events: none; z-index: 10;
+        background: rgba(0,0,0,0.6); padding: 8px 15px; border-radius: 20px; border: 1px solid #4facfe;
+    }
+
+    /* --- QUIZ --- */
+    .quiz-btn { display: block; width: 100%; padding: 15px; margin-bottom: 10px; background: rgba(255,255,255,0.1); border: 2px solid #4facfe; border-radius: 10px; text-align: left; font-size: 1.1rem; cursor: pointer; transition: 0.2s; color: white; }
+    .quiz-btn:hover { background: rgba(79, 172, 254, 0.3); }
+    .correct { background: #27ae60 !important; border-color: #2ecc71 !important; }
+    .wrong { background: #c0392b !important; border-color: #e74c3c !important; }
+
+    /* --- GAME STYLES --- */
+    #game-container {
+        position: relative; width: 100%; height: 450px;
+        background: #000; border: 4px solid #f093fb;
+        overflow: hidden; margin-bottom: 20px; border-radius: 10px;
+        display: grid; grid-template-columns: repeat(20, 1fr); grid-template-rows: repeat(15, 1fr);
+    }
+    .grid-cell { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
+    .player { font-size: 2rem; filter: drop-shadow(0 0 5px cyan); }
+    .enemy { font-size: 2rem; }
+    .star { font-size: 1.5rem; filter: drop-shadow(0 0 5px yellow); }
+    #game-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; z-index: 20; }
+    #game-hud { position: absolute; top: 10px; left: 20px; color: #f093fb; font-weight: bold; font-size: 1.5rem; z-index: 10; }
+    .d-pad { display: flex; gap: 10px; justify-content: center; margin-top: -10px; }
+    .d-btn { width: 60px; height: 60px; background: #4facfe; color: #000; border-radius: 10px; font-size: 1.5rem; border: none; cursor: pointer; box-shadow: 0 0 10px #4facfe; }
+    .d-btn:active { transform: translateY(4px); box-shadow: none; }
+    #ingame-exit { position: absolute; top: 10px; right: 20px; background: #ff0055; color: white; border: 2px solid white; font-weight: bold; padding: 8px 15px; cursor: pointer; z-index: 2000; border-radius: 5px; pointer-events: auto; }
+    #ingame-exit:hover { transform: scale(1.05); }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🚀 REISEN UT I ROMMET</h1>
+        <div id="status-text">Start</div>
+    </div>
+
+    <div id="slide-intro" class="slide active">
+        <h2>Er vi alene? 🌌</h2>
+        <p>Se opp på himmelen i kveld. Det er mørkt, men det er fullt av lys! Hvert eneste lille lyspunkt du ser er en stjerne, akkurat som vår egen sol.</p>
+        <p>Vi bor på en bitteliten planet som svever rundt en gigantisk ildkule (Sola). Sammen med oss svever andre planeter, steiner og isklumper. I dag skal vi lære om dette spennende nabolaget: <strong>Solsystemet</strong>.</p>
+        
+        <div class="img-box-large">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Solar_sys8.jpg/1280px-Solar_sys8.jpg" alt="Solsystemet">
+        </div>
+
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Start Oppskyting &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-menu" class="slide">
+        <h2>Hva vil du utforske?</h2>
+        <div class="menu-grid">
+            <div class="menu-item model-card" onclick="goto('slide-3d', '3D Modell')">
+                <span class="icon">🪐</span>
+                <div class="menu-title">3D Solsystem</div>
+                <div>Interaktiv Modell</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-sol', 'Sola')">
+                <span class="icon">☀️</span>
+                <div class="menu-title">1. Sola</div>
+                <div>Stjernen vår</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-planeter', 'Planetene')">
+                <span class="icon">🪐</span>
+                <div class="menu-title">2. Planetene</div>
+                <div>Stein og Gass</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-maane', 'Månen')">
+                <span class="icon">🌑</span>
+                <div class="menu-title">3. Månen</div>
+                <div>Vår nærmeste nabo</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-nordlys', 'Nordlys')">
+                <span class="icon">💚</span>
+                <div class="menu-title">4. Nordlys</div>
+                <div>Magisk lysshow</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-aarstider', 'Årstider')">
+                <span class="icon">❄️</span>
+                <div class="menu-title">5. Årstider</div>
+                <div>Hvorfor er det kaldt?</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-stjerner', 'Stjerner')">
+                <span class="icon">✨</span>
+                <div class="menu-title">6. Stjerner</div>
+                <div>Melkeveien</div>
+            </div>
+            <div class="menu-item game-card" onclick="goto('slide-game', 'Spill: Asteroide-beltet')">
+                <span class="icon">🚀</span>
+                <div class="menu-title">SPILL: Romfergen</div>
+                <div>Unngå steinene!</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-3d" class="slide">
+        <div id="three-container"></div>
+        <div class="instruction-text">Bruk musen/fingeren for å rotere og zoome! 🖱️</div>
+        <div class="scene-controls">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Tilbake</button>
+        </div>
+    </div>
+
+    <div id="slide-sol" class="slide">
+        <h2>Sola: Motoren vår ☀️</h2>
+        <p>Sola er ikke en planet – den er en stjerne! Den er en gigantisk ball av brennende gass (hydrogen og helium). Den er så tung at den holder hele solsystemet på plass med tyngdekraften sin.</p>
+        <div class="info-box">
+            <strong>Visste du at?</strong><br>
+            <ul>
+                <li>Sola er 4,6 milliarder år gammel.</li>
+                <li>Lyset bruker 8 minutter på å reise fra Sola til deg.</li>
+                <li>Du kan få plass til 1,3 millioner jordkloder inni Sola!</li>
+            </ul>
+            <strong>Hvor varm er den?</strong><br>
+            Overflaten: 5 500 grader.<br>
+            Kjernen: 15 000 000 grader!
+        </div>
+        <p>Uten Sola ville det vært bekmørkt og iskaldt her (minus 270 grader). Alt liv på jorda – planter, dyr og mennesker – er avhengig av energien fra Sola.</p>
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-planeter', 'Planetene')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-planeter" class="slide">
+        <h2>Nabolaget vårt 🪐</h2>
+        <p>Vi har 8 planeter i solsystemet. De er delt i to hovedgrupper basert på hva de er laget av:</p>
+
+        <div class="img-grid">
+            <div class="grid-item">
+                <div class="img-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/OSIRIS_Mars_true_color.jpg/640px-OSIRIS_Mars_true_color.jpg" alt="Mars">
+                </div>
+                <strong>Steinplanetene</strong><br>Merkur, Venus, Jorda, Mars.<br>
+                <span style="font-size: 0.9rem; color: #ccc;">Disse er små og harde. Du kan stå på dem.</span>
+            </div>
+            <div class="grid-item">
+                <div class="img-box">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Jupiter_New_Horizons.jpg/640px-Jupiter_New_Horizons.jpg" alt="Jupiter">
+                </div>
+                <strong>Gasskjempene</strong><br>Jupiter, Saturn, Uranus, Neptun.<br>
+                <span style="font-size: 0.9rem; color: #ccc;">Disse er enorme gassballer. Ingen fast overflate!</span>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <strong>Planet-fakta:</strong>
+            <ul>
+                <li><strong>Merkur:</strong> Den minste og raskeste planeten.</li>
+                <li><strong>Venus:</strong> Den varmeste planeten på grunn av tykk skydekke.</li>
+                <li><strong>Jupiter:</strong> Har en storm ("Den røde flekken") som er større enn Jorda!</li>
+                <li><strong>Saturn:</strong> Kjent for sine vakre ringer av is og stein.</li>
+            </ul>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-maane', 'Månen')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-maane" class="slide">
+        <h2>Månen: Vår vaktmester 🌑</h2>
+        <p>Månen er det eneste stedet i rommet mennesker har besøkt. Neil Armstrong gikk der først i 1969. Månen har ingen luft, så det er helt stille der.</p>
+        <div class="img-box">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/640px-FullMoon2010.jpg" alt="Månen">
+        </div>
+        <div class="info-box">
+            <strong>Superkrefter:</strong><br>
+            <ul>
+                <li><strong>Tidevann:</strong> Månen fungerer som en magnet på havet vårt. Den drar i vannet slik at vi får flo og fjære.</li>
+                <li><strong>Lav tyngdekraft:</strong> Månen er mindre enn Jorda. Hvis du veier 30 kg her, veier du bare 5 kg på Månen! Du kan hoppe kjempehøyt.</li>
+                <li><strong>Evige fotspor:</strong> Siden det ikke er vind på Månen, ligger fotsporene fra astronautene der fremdeles!</li>
+            </ul>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-nordlys', 'Nordlys')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-nordlys" class="slide">
+        <h2>Nordlyset (Aurora) 💚</h2>
+        <p>I Norge, spesielt i nord, kan vi om vinteren se magiske grønne, rosa og lilla flammer danse over himmelen. Men hva er det egentlig?</p>
+        
+        <div class="info-box">
+            <strong>Hvordan virker det?</strong><br>
+            1. Sola nyser! Den sender ut en "vind" av små elektriske partikler.<br>
+            2. Jorda har et magnetfelt (som et usynlig skjold) som fanger opp disse.<br>
+            3. Magnetfeltet leder partiklene ned mot Nordpolen og Sørpolen.<br>
+            4. Når partiklene krasjer med lufta (oksygen og nitrogen), lyser lufta opp!
+        </div>
+
+        <p><strong>Farger:</strong> Oksygen lager det grønne lyset. Nitrogen kan lage blått eller lilla lys.</p>
+        <p><em>I gamle dager trodde vikingene at nordlyset var gjenskinnet fra rustningene til valkyriene – krigskvinnene som hentet falne helter.</em></p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-aarstider', 'Årstider')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-aarstider" class="slide">
+        <h2>Hvorfor er det vinter? ❄️</h2>
+        <p>Mange tror det er vinter fordi Jorda er langt unna Sola, men det er faktisk omvendt! Jorda er nærmest sola i januar. Så hvorfor er det så kaldt i Norge da?</p>
+        <div class="info-box">
+            <strong>Hemmeligheten er Helningen:</strong><br>
+            Jorda står ikke rett opp og ned, den står på skrå (ca 23 grader).<br><br>
+            Om vinteren heller den nordlige delen av Jorda (hvor Norge ligger) <strong>bort</strong> fra sola. Da treffer ikke solstrålene oss direkte, og de blir svakere.<br>
+            Om sommeren heller vi <strong>mot</strong> sola, og da blir det varmt.
+        </div>
+        <ul>
+            <li><strong>Mørketid:</strong> I Nord-Norge om vinteren står sola aldri opp, fordi vi heller så langt bort fra den.</li>
+            <li><strong>Midnattssol:</strong> Om sommeren går sola aldri ned i nord, fordi vi heller konstant mot lyset.</li>
+        </ul>
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-stjerner', 'Stjerner')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-stjerner" class="slide">
+        <h2>Stjerner og Galakser ✨</h2>
+        <p>Når du ser opp på himmelen, ser du egentlig bakover i tid. Lyset fra stjernene har reist i hundrevis eller tusenvis av år før det treffer øyet ditt!</p>
+        <ul>
+            <li><strong>Karlsvogna:</strong> En del av stjernebildet "Store Bjørn". Den ser ut som en vogn og er lett å finne i nord.</li>
+            <li><strong>Nordstjernen (Polaris):</strong> Denne stjernen står nesten helt stille rett over Nordpolen. Den viser alltid vei mot nord.</li>
+            <li><strong>Stjerneskudd:</strong> Dette er egentlig ikke stjerner, men små steiner (meteorer) som brenner opp når de treffer lufta vår i høy fart.</li>
+        </ul>
+        <div class="info-box">
+            <strong>Melkeveien:</strong><br>
+            Sola er bare én av mange stjerner. Vi bor i en gigantisk "by" av stjerner som heter Melkeveien. Den inneholder mellom 100 og 400 milliarder stjerner!
+        </div>
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-game', 'Spill')">Start Spillet &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-game" class="slide" style="overflow: hidden;">
+        <h2>Spill: Romfergen 🚀</h2>
+        <p>Du er kaptein på romskipet. Oppdraget er å samle stjerner ⭐ for å få energi. Men pass opp! Asteroide-beltet er fullt av farlige steiner 🪨.</p>
+        
+        <div id="game-container">
+            <div id="ingame-exit" onclick="goto('slide-menu', 'Hovedmeny')">❌ AVSLUTT</div>
+            <div id="game-hud">Stjerner: 0</div>
+            <div id="game-overlay">
+                <h1 style="font-size: 3rem; margin:0; color: #f093fb;">KLAR?</h1>
+                <button class="btn" onclick="startGame()">START</button>
+            </div>
+        </div>
+
+        <div class="d-pad">
+            <button class="d-btn" onclick="handleMobileInput('ArrowLeft')">⬅️</button>
+            <button class="d-btn" onclick="handleMobileInput('ArrowUp')">⬆️</button>
+            <button class="d-btn" onclick="handleMobileInput('ArrowDown')">⬇️</button>
+            <button class="d-btn" onclick="handleMobileInput('ArrowRight')">➡️</button>
+        </div>
+
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn-red" onclick="goto('slide-menu', 'Hovedmeny')">Tilbake til Meny</button>
+        </div>
+    </div>
+    
+    <div id="slide-quiz1" class="slide">
+        <h3>Spørsmål 1 av 3</h3>
+        <h2>Hva er Sola?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">En planet</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-end')">En stjerne</button>
+        </div>
+    </div>
+
+    <div id="slide-end" class="slide">
+        <h2>Oppdrag Fullført! 🚀</h2>
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="location.reload()">Start på nytt</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON ---
+    function goto(slideId, title) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(slideId).classList.add('active');
+        document.getElementById('status-text').innerText = title;
+        
+        // Spesialhåndtering
+        if (slideId === 'slide-game') resetGame(); else stopGame();
+        
+        // Resize Three.js når vi går til 3D sliden for å sikre riktig størrelse
+        if (slideId === 'slide-3d' && typeof onWindowResize === 'function') {
+            setTimeout(onWindowResize, 50);
+        }
+    }
+
+    // --- 3D SYSTEM MED THREE.JS ---
+    let scene, camera, renderer, labelRenderer, controls;
+    let planets = [];
+    let orbitSpeeds = [];
+    
+    // Global tidsskala for simuleringen (Lavere tall = Tregere simulering)
+    const TIME_SCALE = 0.004; 
+
+    function initThreeJS() {
+        const container = document.getElementById('three-container');
+        if (!container) return;
+
+        // 1. Scene & Camera
+        scene = new THREE.Scene();
+        // Legg til stjernebakgrunn
+        {
+            const starsGeometry = new THREE.BufferGeometry();
+            const starsCount = 5000;
+            const posArray = new Float32Array(starsCount * 3);
+            for(let i = 0; i < starsCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 2000;
+            }
+            starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const starsMaterial = new THREE.PointsMaterial({size: 2, color: 0xffffff});
+            const starMesh = new THREE.Points(starsGeometry, starsMaterial);
+            scene.add(starMesh);
+        }
+
+        camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 5000);
+        camera.position.set(0, 150, 350);
+
+        // 2. Renderer
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // 2b. Label Renderer (For tekst over planeter)
+        labelRenderer = new THREE.CSS2DRenderer();
+        labelRenderer.setSize(container.clientWidth, container.clientHeight);
+        labelRenderer.domElement.style.position = 'absolute';
+        labelRenderer.domElement.style.top = '0px';
+        labelRenderer.domElement.style.pointerEvents = 'none'; // La mus gå gjennom
+        container.appendChild(labelRenderer.domElement);
+
+        // 3. Controls
+        controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.minDistance = 50;
+        controls.maxDistance = 800;
+
+        // 4. Lights
+        const ambientLight = new THREE.AmbientLight(0x333333);
+        scene.add(ambientLight);
+        
+        // Sol-lys (PointLight i midten)
+        const sunLight = new THREE.PointLight(0xffffff, 1.5, 1000);
+        scene.add(sunLight);
+
+        // 5. Textures (Bruker stabile GitHub raw lenker for demo)
+        const texLoader = new THREE.TextureLoader();
+        const texPath = 'https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/';
+        
+        // SOLA
+        const sunGeo = new THREE.SphereGeometry(16, 32, 32);
+        const sunMat = new THREE.MeshBasicMaterial({ color: 0xffcc00 }); // Enkel gul hvis tekstur feiler
+        // Glow effekt triks (sprite)
+        const sunMesh = new THREE.Mesh(sunGeo, new THREE.MeshBasicMaterial({
+            map: texLoader.load(texPath + '../sprites/lensflare0.png'), // Fallback til gul
+            color: 0xffaa00,
+            emissive: 0xff0000
+        }));
+        // Vi bruker en emissive standard material for selve solen
+        const sunRealMat = new THREE.MeshStandardMaterial({ 
+            emissive: 0xffaa00, 
+            emissiveIntensity: 1,
+            color: 0xffaa00,
+            roughness: 1
+        });
+        const sun = new THREE.Mesh(sunGeo, sunRealMat);
+        scene.add(sun);
+
+        // PLANET DATA 
+        // period = omløpstid i år (Jorda = 1). Farten regnes ut som 1 / period.
+        const planetData = [
+            { name: 'Merkur', r: 3, dist: 30, period: 0.24, color: 0xaaaaaa, tex: 'mercury.jpg' },
+            { name: 'Venus', r: 5, dist: 50, period: 0.62, color: 0xe6be8a, tex: 'venus_atmosphere.jpg' },
+            { name: 'Jorda', r: 5.5, dist: 75, period: 1.00, color: 0x2233ff, tex: 'earth_atmos_2048.jpg', moon: true },
+            { name: 'Mars', r: 4, dist: 100, period: 1.88, color: 0xff4500, tex: 'mars.jpg' },
+            { name: 'Jupiter', r: 12, dist: 150, period: 11.86, color: 0xd4a354, tex: 'jupiter.jpg' },
+            { name: 'Saturn', r: 10, dist: 200, period: 29.45, color: 0xe0ce8d, ring: true }, 
+            { name: 'Uranus', r: 8, dist: 250, period: 84.02, color: 0x74b9ff },
+            { name: 'Neptun', r: 8, dist: 300, period: 164.79, color: 0x0984e3 }
+        ];
+
+        planetData.forEach(p => {
+            // Beregn fart basert på perioden
+            const calculatedSpeed = (1 / p.period) * TIME_SCALE;
+
+            // Orbit ring (visuell linje)
+            const orbitGeo = new THREE.RingGeometry(p.dist - 0.3, p.dist + 0.3, 64);
+            const orbitMat = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 0.1, transparent: true, side: THREE.DoubleSide });
+            const orbitMesh = new THREE.Mesh(orbitGeo, orbitMat);
+            orbitMesh.rotation.x = Math.PI / 2;
+            scene.add(orbitMesh);
+
+            // Planet Group (for rotasjon rundt sola)
+            const pivot = new THREE.Object3D();
+            pivot.rotation.y = Math.random() * Math.PI * 2; // Tilfeldig startposisjon
+            scene.add(pivot);
+            
+            // Lagre farten i objektet vårt
+            orbitSpeeds.push({ pivot: pivot, speed: calculatedSpeed, mesh: null });
+
+            // Planet Mesh
+            const geo = new THREE.SphereGeometry(p.r, 32, 32);
+            let mat;
+            if (p.tex) {
+                mat = new THREE.MeshStandardMaterial({ 
+                    map: texLoader.load(texPath + p.tex),
+                    roughness: 0.8
+                });
+            } else {
+                mat = new THREE.MeshStandardMaterial({ color: p.color, roughness: 0.5 });
+            }
+            
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.x = p.dist;
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            pivot.add(mesh);
+            orbitSpeeds[orbitSpeeds.length-1].mesh = mesh; // Lagre ref for egenrotasjon
+
+            // Måne for Jorda
+            if(p.moon) {
+                const moonGeo = new THREE.SphereGeometry(1.5, 16, 16);
+                const moonMat = new THREE.MeshStandardMaterial({color: 0xeeeeee});
+                const moon = new THREE.Mesh(moonGeo, moonMat);
+                moon.position.x = 10;
+                mesh.add(moon); // Legg til som barn av planeten
+            }
+
+            // Ringer for Saturn
+            if(p.ring) {
+                const ringGeo = new THREE.RingGeometry(p.r + 2, p.r + 8, 32);
+                const ringMat = new THREE.MeshBasicMaterial({ 
+                    color: 0xcfb08a, 
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 0.7
+                });
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                ring.rotation.x = Math.PI / 2;
+                mesh.add(ring);
+            }
+
+            // Label (Tekst)
+            const div = document.createElement('div');
+            div.className = 'planet-label-3d';
+            div.textContent = p.name;
+            const label = new THREE.CSS2DObject(div);
+            label.position.set(0, p.r + 2, 0);
+            mesh.add(label);
+        });
+
+        animate();
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        // Roter planetene rundt sola
+        orbitSpeeds.forEach(obj => {
+            obj.pivot.rotation.y += obj.speed;
+            // Roter planeten rundt seg selv (bare for syns skyld)
+            if(obj.mesh) obj.mesh.rotation.y += 0.005;
+        });
+
+        controls.update();
+        renderer.render(scene, camera);
+        labelRenderer.render(scene, camera);
+    }
+
+    window.onWindowResize = function() {
+        const container = document.getElementById('three-container');
+        if(!container || !camera || !renderer) return;
+        
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+        
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height);
+        labelRenderer.setSize(width, height);
+    };
+    
+    window.addEventListener('resize', window.onWindowResize);
+
+    // Start Three.js når siden lastes
+    window.addEventListener('DOMContentLoaded', initThreeJS);
+
+
+    // --- GAME LOGIC (Beholdt uendret) ---
+    // --- QUIZ (Beholdt uendret) ---
+    function checkAnswer(btn, isCorrect, nextSlideId) {
+        if (isCorrect) {
+            btn.classList.add('correct');
+            setTimeout(() => goto(nextSlideId, 'Quiz'), 1000);
+        } else {
+            btn.classList.add('wrong');
+        }
+    }
+
+    const GRID_W = 20; const GRID_H = 15;
+    const container = document.getElementById('game-container');
+    const hud = document.getElementById('game-hud');
+    const overlay = document.getElementById('game-overlay');
+    let gameInterval; let score = 0; let playerPos = {x: 10, y: 13}; 
+    let enemies = []; let stars = []; let direction = {x: 0, y: 0};
+
+    let cells = [];
+    for(let i=0; i<GRID_W*GRID_H; i++) {
+        let div = document.createElement('div');
+        div.classList.add('grid-cell');
+        container.appendChild(div);
+        cells.push(div);
+    }
+    container.appendChild(overlay);
+    container.appendChild(document.getElementById('ingame-exit'));
+    container.appendChild(hud);
+
+    function getIdx(x, y) { return y * GRID_W + x; }
+
+    function draw() {
+        cells.forEach(c => c.innerHTML = '');
+        enemies.forEach(e => { if(e.y >= 0 && e.y < GRID_H) cells[getIdx(e.x, e.y)].innerHTML = '<span class="enemy">🪨</span>'; });
+        stars.forEach(s => { if(s.y >= 0 && s.y < GRID_H) cells[getIdx(s.x, s.y)].innerHTML = '<span class="star">⭐</span>'; });
+        cells[getIdx(playerPos.x, playerPos.y)].innerHTML = '<span class="player">🚀</span>';
+    }
+
+    function spawnObjects() {
+        if(Math.random() > 0.6) enemies.push({x: Math.floor(Math.random() * GRID_W), y: 0});
+        if(Math.random() > 0.8) stars.push({x: Math.floor(Math.random() * GRID_W), y: 0});
+    }
+
+    function gameLoop() {
+        let nextX = playerPos.x + direction.x;
+        if(nextX >= 0 && nextX < GRID_W) playerPos.x = nextX;
+        direction = {x: 0, y: 0};
+
+        enemies.forEach(e => e.y++); stars.forEach(s => s.y++);
+        enemies = enemies.filter(e => e.y < GRID_H); stars = stars.filter(s => s.y < GRID_H);
+        spawnObjects();
+
+        let hitStar = stars.findIndex(s => s.x === playerPos.x && s.y === playerPos.y);
+        if(hitStar !== -1) {
+            score += 10; hud.innerText = "Stjerner: " + score; stars.splice(hitStar, 1);
+            if(score >= 200) { stopGame(); overlay.style.display = 'flex'; overlay.innerHTML = `<h1>SEIER! 🏆</h1><button class="btn" onclick="resetGame()">IGJEN</button>`; return; }
+        }
+
+        let hitEnemy = enemies.find(e => e.x === playerPos.x && e.y === playerPos.y);
+        if(hitEnemy) { stopGame(); overlay.style.display = 'flex'; overlay.innerHTML = `<h2>Krasj!</h2><button class="btn" onclick="startGame()">IGJEN</button>`; }
+        draw();
+    }
+
+    function startGame() {
+        score = 0; playerPos = {x: 10, y: 13}; enemies = []; stars = [];
+        overlay.style.display = 'none'; container.focus();
+        clearInterval(gameInterval); gameInterval = setInterval(gameLoop, 200); draw();
+    }
+
+    function stopGame() { clearInterval(gameInterval); }
+    function resetGame() { stopGame(); overlay.style.display = 'flex'; overlay.innerHTML = `<h1>KLAR?</h1><button class="btn" onclick="startGame()">START</button>`; }
+
+    document.addEventListener('keydown', (e) => {
+        if(["ArrowLeft","ArrowRight"].indexOf(e.code) > -1) { e.preventDefault();
+            direction = {x: e.code === 'ArrowLeft' ? -1 : 1, y: 0};
+        }
+    });
+    function handleMobileInput(key) {
+        if(key === 'ArrowLeft') direction = {x: -1, y: 0};
+        if(key === 'ArrowRight') direction = {x: 1, y: 0};
+    }
+</script>
+
+</body>
+</html>

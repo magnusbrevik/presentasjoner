@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oppdrag: Elementene & Været</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<style>
+    /* --- DESIGN --- */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #ffffff;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 5px solid #fff;
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #0066cc;
+        color: #fff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid #004c99;
+    }
+    .header h1 { margin: 0; font-size: 1.6rem; letter-spacing: 1px; font-weight: 800; }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 30px 60px;
+        overflow-y: auto;
+        animation: slideIn 0.4s ease-out;
+    }
+    .slide.active { display: block; }
+
+    @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    h2 { color: #0066cc; border-bottom: 3px dashed #89f7fe; padding-bottom: 10px; margin-top: 0; font-size: 2.2rem; }
+    h3 { color: #ff9900; margin-top: 25px; font-size: 1.6rem; }
+    p, li { font-size: 1.15rem; line-height: 1.5; color: #444; margin-bottom: 12px; }
+    strong { color: #0066cc; }
+
+    .info-box {
+        background: #eef9ff;
+        border-left: 8px solid #0066cc;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 10px;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* --- MENY --- */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+    .menu-item {
+        background: #fff; border: 3px solid #eee; padding: 15px; 
+        cursor: pointer; text-align: center; border-radius: 15px; transition: 0.2s;
+        box-shadow: 0 5px 0 #ddd;
+    }
+    .menu-item:hover { transform: translateY(-3px); border-color: #0066cc; background: #f0f8ff; }
+    .icon { font-size: 2.5rem; display: block; margin-bottom: 5px; }
+    
+    .element-start { background: #eef9ff; border-color: #54a0ff; box-shadow: 0 5px 0 #2e86de; grid-column: span 2; }
+    .element-start:hover { background: #dff9fb; }
+
+    .game-card { background: #fff9db; border-color: #ffcc00; box-shadow: 0 5px 0 #e6b800; }
+    .game-card:hover { background: #fff3cd; }
+    
+    .quiz-card { background: #d4edda; border-color: #28a745; box-shadow: 0 5px 0 #1e7e34; }
+    .quiz-card:hover { background: #c3e6cb; }
+
+    .nav-buttons { margin-top: 20px; display: flex; justify-content: space-between; border-top: 2px solid #eee; padding-top: 15px; }
+    .btn { padding: 12px 30px; background: #0066cc; color: white; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #004c99; transition: 0.2s; }
+    .btn:hover { transform: scale(1.05); background: #005bb5; }
+    .btn-outline { background: white; color: #0066cc; border: 3px solid #0066cc; }
+    .btn-outline:hover { background: #eef9ff; }
+    .btn-red { background: #ff4757; box-shadow: 0 4px 0 #c0392b; color: white; border: none; }
+    .btn-red:hover { background: #ff6b81; }
+
+    /* --- 3D CONTAINER --- */
+    #canvas-container {
+        width: 100%;
+        height: 350px;
+        background: #87CEEB;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        position: relative;
+        overflow: hidden;
+        border: 4px solid #54a0ff;
+    }
+    .instruction-overlay {
+        position: absolute; top: 10px; left: 10px;
+        background: rgba(255,255,255,0.8); padding: 5px 10px;
+        border-radius: 5px; font-size: 0.9rem; pointer-events: none;
+    }
+    
+    /* Etiketter i 3D-modellen */
+    .label-3d {
+        position: absolute; background: rgba(255,255,255,0.9);
+        padding: 2px 8px; border-radius: 4px; font-weight: bold;
+        color: #0066cc; pointer-events: none; border: 1px solid #0066cc;
+        font-size: 0.9rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    /* --- GAME ENGINE --- */
+    #game-area {
+        position: relative; width: 100%; height: 400px;
+        background: #87CEEB; border: 5px solid #0066cc;
+        overflow: hidden; margin-bottom: 20px; border-radius: 15px;
+        box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+    }
+    
+    #player {
+        position: absolute; bottom: 10px; left: 50%; width: 70px; height: 70px;
+        background-color: #ffcc00; border: 4px solid #fff;
+        transform: translateX(-50%); border-radius: 15px;
+        display: flex; justify-content: center; align-items: center; font-size: 40px;
+        transition: left 0.08s linear; 
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+
+    .falling-item {
+        position: absolute; width: 50px; height: 50px;
+        display: flex; justify-content: center; align-items: center;
+        font-size: 30px; font-weight: bold; border-radius: 50%;
+        background: white; border: 2px solid rgba(0,0,0,0.1);
+        box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+    }
+
+    .controls { display: flex; gap: 20px; justify-content: center; width: 100%; height: 60px; }
+    .ctrl-btn { 
+        flex: 1; max-width: 200px; font-size: 1.5rem; background: #0066cc; 
+        color: white; border: none; border-radius: 15px; cursor: pointer; 
+        box-shadow: 0 6px 0 #004c99;
+    }
+    .ctrl-btn:active { transform: translateY(6px); box-shadow: none; }
+
+    #game-hud {
+        position: absolute; top: 15px; left: 15px; color: white; 
+        font-weight: 900; font-size: 1.4rem; z-index: 10;
+        text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px;
+    }
+    #game-msg {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        background: rgba(255,255,255,0.95); color: #333; padding: 30px; border-radius: 20px;
+        text-align: center; z-index: 20; display: flex; flex-direction: column; gap: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 4px solid #0066cc;
+    }
+    #ingame-exit {
+        position: absolute; top: 15px; right: 15px;
+        background: #ff4757; color: white; border: 2px solid white;
+        font-weight: bold; padding: 10px 20px; cursor: pointer;
+        z-index: 1000; border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        font-family: 'Segoe UI', sans-serif;
+        pointer-events: auto;
+    }
+    #ingame-exit:hover { transform: scale(1.05); background: #ff6b81; }
+
+    /* --- QUIZ STYLES --- */
+    .quiz-section { margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
+    .quiz-question { font-weight: bold; font-size: 1.3rem; margin-bottom: 15px; color: #004c99; }
+    .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .quiz-btn { 
+        padding: 12px; background: white; border: 2px solid #eee; 
+        border-radius: 10px; text-align: left; font-size: 1rem; 
+        cursor: pointer; transition: 0.2s; color: #333;
+    }
+    .quiz-btn:hover { background: #f0f8ff; border-color: #0066cc; transform: translateY(-2px); }
+    .quiz-btn.correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; cursor: default; }
+    .quiz-btn.wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; opacity: 0.7; cursor: default; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>NATURENS ELEMENTER</h1>
+        <div id="status-text">Start</div>
+    </div>
+
+    <div id="slide-intro" class="slide active">
+        <h2>Velkommen til Vær-Laben! 🌍</h2>
+        <p>Hei og velkommen! Her skal vi utforske de usynlige og synlige kreftene som styrer planeten vår.</p>
+        <p>Har du noen gang lurt på hvorfor det regner, hvorfor vinden blåser, eller hva ild egentlig er?</p>
+        
+        <div class="info-box">
+            <h3>Bli en Element-ekspert!</h3>
+            <p>Vi skal se nærmere på <strong>Ild, Luft, Jord og Vann</strong>. Dette er byggeklossene for alt liv og vær på jorda. Du kan lese, se på 3D-modeller, ta en quiz og spille spill!</p>
+        </div>
+
+        <p>Er du klar for å starte oppdagelsesferden?</p>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Gå til Meny &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-menu" class="slide">
+        <h2>Hva vil du utforske?</h2>
+        <div class="menu-grid">
+            <div class="menu-item element-start" onclick="goto('slide-ild', 'Element: ILD')">
+                <span class="icon">🔥💨🌱🌊</span>
+                <h3>De 4 Elementene</h3>
+                <p>Start læringen her</p>
+            </div>
+
+            <div class="menu-item" onclick="goto('slide-vannsyklus', 'Vannets Syklus')">
+                <span class="icon">💧</span>
+                <h3>Vannets Reise (3D)</h3>
+                <p>Se interaktiv modell</p>
+            </div>
+            <div class="menu-item" onclick="goto('slide-atmosfare', 'Atmosfæren')">
+                <span class="icon">🌍</span>
+                <h3>Atmosfæren</h3>
+                <p>Jordas dyne</p>
+            </div>
+            <div class="menu-item" onclick="goto('slide-trykk', 'Trykk & Vind')">
+                <span class="icon">💨</span>
+                <h3>Trykk & Vind</h3>
+                <p>Hvorfor blåser det?</p>
+            </div>
+            <div class="menu-item" onclick="goto('slide-klima', 'Vær vs Klima')">
+                <span class="icon">⏳</span>
+                <h3>Vær vs. Klima</h3>
+                <p>Hva er forskjellen?</p>
+            </div>
+            <div class="menu-item quiz-card" onclick="goto('slide-quiz', 'Quiz')">
+                <span class="icon">🎓</span>
+                <h3>Element-Quiz</h3>
+                <p>Test kunnskapen din!</p>
+            </div>
+            <div class="menu-item game-card" onclick="goto('slide-game', 'Spill: Værstasjonen')" style="grid-column: span 2;">
+                <span class="icon">⚡</span>
+                <h3>Spill: Værstasjonen</h3>
+                <p>Klarer du level 5?</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-ild" class="slide">
+        <h2 style="color: #ff6b6b;">1. Element: ILD 🔥</h2>
+        <p>Ild er ren energi som frigjøres! Mennesker har brukt ild til varme, lys og matlaging i tusenvis av år.</p>
+        
+        <div class="info-box">
+            <h3>Branntrekanten</h3>
+            <p>For å lage ild må vi ha tre ting samtidig:</p>
+            <ul>
+                <li>🪵 <strong>Brennbart materiale:</strong> Som ved, papir eller gass.</li>
+                <li>🌬️ <strong>Oksygen:</strong> Ilden må puste luften rundt oss.</li>
+                <li>🔥 <strong>Varme:</strong> Høy temperatur for å starte reaksjonen.</li>
+            </ul>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-luft', 'Element: LUFT')">Neste: LUFT &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-luft" class="slide">
+        <h2 style="color: #48dbfb;">2. Element: LUFT 💨</h2>
+        <p>Luft er usynlig, men den er overalt. Selv om du ikke ser den, veier den faktisk noe!</p>
+        
+        <div class="info-box">
+            <h3>Luftmotstand</h3>
+            <p>Har du prøvd å løpe i motvind? Da kjenner du at lufta dytter tilbake. Dette kalles luftmotstand.</p>
+        </div>
+
+        <p>Når lufta flytter på seg, kaller vi det <strong>vind</strong>. Vinden skapes av temperaturforskjeller på jorda.</p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-ild', 'Element: ILD')">Forrige</button>
+            <button class="btn" onclick="goto('slide-jord', 'Element: JORD')">Neste: JORD &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-jord" class="slide">
+        <h2 style="color: #1dd1a1;">3. Element: JORD 🌱</h2>
+        <p>Jorda er grunnlaget for livet på land. I jorda vokser planter, og her lever milliarder av småkryp.</p>
+        
+        <div class="info-box">
+            <h3>Jordas dvale</h3>
+            <p>Om vinteren hviler naturen. Planter sender næringen ned i røttene sine under jorda for å overleve kulda. Snøen legger seg oppå som en isolerende dyne, slik at jorda ikke fryser for dypt.</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-luft', 'Element: LUFT')">Forrige</button>
+            <button class="btn" onclick="goto('slide-vann', 'Element: VANN')">Neste: VANN &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-vann" class="slide">
+        <h2 style="color: #54a0ff;">4. Element: VANN 🌊</h2>
+        <p>Vann dekker over 70% av jordas overflate. Uten vann finnes det ikke liv!</p>
+        
+        <div class="info-box">
+            <h3>Tre former</h3>
+            <p>Vann er unikt fordi det finnes naturlig i tre former:</p>
+            <ul>
+                <li>🧊 <strong>Is:</strong> Fast form (når det er kaldt).</li>
+                <li>💧 <strong>Væske:</strong> Flytende (i hav og elver).</li>
+                <li>☁️ <strong>Damp:</strong> Gass (i lufta/skyer).</li>
+            </ul>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-jord', 'Element: JORD')">Forrige</button>
+            <button class="btn" onclick="goto('slide-vannsyklus', 'Vannets Syklus')">Se 3D-modell &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-vannsyklus" class="slide">
+        <h2>Vannets Evige Reise (3D) 💧</h2>
+        <p>Slik fungerer kretsløpet: Fra hav til himmel, ned på fjellet, og tilbake i elva!</p>
+        
+        <div id="canvas-container">
+            <div class="instruction-overlay">Se på vannets reise</div>
+            
+            <div class="label-3d" style="bottom: 20px; left: 20px;">Havet</div>
+            <div class="label-3d" style="top: 120px; left: 120px;">Fordamping ⬆️</div>
+            <div class="label-3d" style="top: 70px; left: 50%; transform: translateX(-50%);">Kondensering ☁️</div>
+            <div class="label-3d" style="top: 110px; right: 80px;">Nedbør 🌧️</div>
+            <div class="label-3d" style="bottom: 100px; right: 50px;">Avrenning 🌊</div>
+        </div>
+
+        <div class="info-box">
+            <ol>
+                <li>☀️ <strong>Fordamping:</strong> Sola varmer havet (til venstre). Vannet stiger opp.</li>
+                <li>☁️ <strong>Kondensering:</strong> Dampen blir til skyer.</li>
+                <li>🌧️ <strong>Nedbør:</strong> Når skyen treffer fjellet (til høyre), regner det.</li>
+                <li>🌊 <strong>Avrenning:</strong> Elva fører vannet tilbake til havet.</li>
+            </ol>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-atmosfare', 'Atmosfæren')">Neste: Atmosfæren &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-atmosfare" class="slide">
+        <h2>Atmosfæren: Jordas Dyne 🌍</h2>
+        <p>Rundt jorda ligger et lag med gasser som vi kaller atmosfæren. Den fungerer som en beskyttende dyne.</p>
+        
+        <div class="info-box">
+            <h3>Drivhuseffekten</h3>
+            <p>Atmosfæren slipper inn sollys, men holder på varmen slik at den ikke forsvinner rett ut i verdensrommet igjen. Uten denne effekten ville jorda vært en isklump!</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-trykk', 'Trykk & Vind')">Neste: Vind &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-trykk" class="slide">
+        <h2>Hvorfor blåser det? 💨</h2>
+        <p>Vær skapes når luftmasser dytter på hverandre. Vind blåser alltid fra der det er <strong>Mye luft (Høytrykk)</strong> til der det er <strong>Lite luft (Lavtrykk)</strong>.</p>
+        
+        <div class="info-box">
+            <h3>Fronter (Værkrig!)</h3>
+            <ul>
+                <li>🔴 <strong>Varmfront:</strong> Varm luft kommer snikende. Gir ofte regn som varer lenge.</li>
+                <li>🔵 <strong>Kaldfront:</strong> Kald luft kommer brasende! Den dytter varm luft rett opp. Da smeller det ofte med kraftig regn.</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-atmosfare', 'Atmosfæren')">Forrige</button>
+            <button class="btn" onclick="goto('slide-klima', 'Vær vs. Klima')">Neste: Klima &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-klima" class="slide">
+        <h2>Vær vs. Klima ⏳</h2>
+        <p>Mange blander disse to, men det er en viktig forskjell!</p>
+
+        <div class="info-box">
+            <h3>Været (Akkurat nå)</h3>
+            <p>Været er det som skjer i dag. Det skifter hele tiden. "I dag regner det."</p>
+        </div>
+
+        <div class="info-box" style="border-left-color: #ff9900;">
+            <h3>Klimaet (Over lang tid)</h3>
+            <p>Klimaet er gjennomsnittet av været over mange år. "I Sahara er klimaet tørt."</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-quiz', 'Quiz')">Ta Quizen &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-quiz" class="slide">
+        <h2>🎓 Element-Quiz</h2>
+        <p>Har du fulgt med? Test kunnskapene dine her!</p>
+
+        <div class="quiz-section">
+            <div class="quiz-question">1. Hva må til for å lage ild (Branntrekanten)?</div>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Vann, Luft og Jord</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">Varme, Oksygen og Brennbart materiale</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Bensin, Fyrstikk og Vind</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Sol, Regn og Skyer</button>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <div class="quiz-question">2. Hva skjer med varm luft?</div>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">Den stiger opp fordi den er lettere</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Den synker ned i jorda</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Den blir til is</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Ingenting skjer</button>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <div class="quiz-question">3. Hva er nedbør?</div>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Når sola skinner</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Når vannet fordamper oppover</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">Vann som faller ned (regn/snø)</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">En type stein</button>
+            </div>
+        </div>
+        
+        <div class="quiz-section" style="border:none;">
+            <div class="quiz-question">4. Hva gjør atmosfæren?</div>
+            <div class="quiz-options">
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Gjør jorda flat</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, true)">Holder på varmen som en dyne</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Skaper jordskjelv</button>
+                <button class="quiz-btn" onclick="checkAnswer(this, false)">Stopper vinden</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Tilbake til Meny</button>
+            <button class="btn" onclick="goto('slide-game', 'Spill')">Belønning: Spill &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-game" class="slide" style="overflow: hidden;">
+        <h2>Spill: Værstasjonen ⚡</h2>
+        <p>Du styrer værstasjonen (parabolen). Fang sol ☀️ og regn 💧.</p>
+        <p><strong>Pass deg for lynet ⚡!</strong></p>
+        
+        <div id="game-area">
+            <div id="ingame-exit" onclick="goto('slide-menu', 'Hovedmeny')">❌ AVSLUTT SPILL</div>
+            <div id="game-hud">Poeng: 0 | Nivå: 1 | Liv: ❤️❤️❤️</div>
+            <div id="player">📡</div>
+            <div id="game-msg">
+                <h2>KLAR?</h2>
+                <button class="btn" onclick="startGame()">START SPILL</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="ctrl-btn" onmousedown="moveLeft()" onmouseup="stopMove()" ontouchstart="moveLeft()" ontouchend="stopMove()">⬅️ VENSTRE</button>
+            <button class="ctrl-btn" onmousedown="moveRight()" onmouseup="stopMove()" ontouchstart="moveRight()" ontouchend="stopMove()">HØYRE ➡️</button>
+        </div>
+
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn btn-red" onclick="goto('slide-menu', 'Hovedmeny')">Gå tilbake til MENY</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON & OPPSTART ---
+    let threeJSInitialized = false;
+
+    function goto(slideId, title) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(slideId).classList.add('active');
+        document.getElementById('status-text').innerText = title;
+        
+        // Håndter spill-tilstand
+        if (slideId === 'slide-game') {
+            resetGame();
+        } else {
+            stopGame();
+        }
+
+        // Start 3D scene KUN når vi går til vannsyklus-sliden
+        if (slideId === 'slide-vannsyklus') {
+            if (!threeJSInitialized) {
+                initThreeJS();
+                threeJSInitialized = true;
+            }
+            is3DActive = true;
+        } else {
+            is3DActive = false;
+        }
+    }
+
+    // --- QUIZ LOGIKK ---
+    function checkAnswer(btn, isCorrect) {
+        // Deaktiver alle knapper i samme spørsmål
+        const parent = btn.parentElement;
+        const buttons = parent.getElementsByClassName('quiz-btn');
+        
+        for(let i=0; i<buttons.length; i++) {
+            buttons[i].disabled = true;
+            buttons[i].style.cursor = 'default';
+        }
+
+        if(isCorrect) {
+            btn.classList.add('correct');
+            btn.innerHTML += " ✅ Riktig!";
+        } else {
+            btn.classList.add('wrong');
+            btn.innerHTML += " ❌ Feil.";
+        }
+    }
+
+    // --- THREE.JS (VANN-SYKLUS 3D MODELL) ---
+    let scene, camera, renderer;
+    let sunMesh, whiteCloud, rainCloud, rainSystem, evaporationSystem, riverMesh;
+    let is3DActive = false;
+
+    function initThreeJS() {
+        const container = document.getElementById('canvas-container');
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+
+        // 1. SCENE
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x87CEEB); // Himmelblå
+
+        // Kamera plassert for å se bildet flatt forfra/ovenfra (Som tegningen)
+        camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+        camera.position.set(0, 10, 35); 
+        camera.lookAt(0, 0, 0);
+
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(w, h);
+        renderer.shadowMap.enabled = true;
+        container.appendChild(renderer.domElement);
+
+        // KONTROLLER - ROTASJON, ZOOM OG PAN DEAKTIVERT
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableRotate = false; 
+        controls.enableZoom = false;
+        controls.enablePan = false;
+        controls.update();
+
+        // LYS
+        const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambient);
+        const sunLight = new THREE.DirectionalLight(0xffffff, 1);
+        sunLight.position.set(-10, 20, 10);
+        sunLight.castShadow = true;
+        scene.add(sunLight);
+
+        // --- GEOMETRI ---
+        
+        // 1. HAVET (Til Venstre)
+        const seaGeo = new THREE.PlaneGeometry(30, 30);
+        const seaMat = new THREE.MeshPhongMaterial({ color: 0x006994, shininess: 80 });
+        const sea = new THREE.Mesh(seaGeo, seaMat);
+        sea.rotation.x = -Math.PI / 2;
+        sea.position.set(-15, 0, 0); 
+        scene.add(sea);
+
+        // 2. LAND/KYST (Midten)
+        const groundGeo = new THREE.PlaneGeometry(20, 30);
+        const groundMat = new THREE.MeshLambertMaterial({ color: 0xE3C099 }); // Sand/Lys jord
+        const ground = new THREE.Mesh(groundGeo, groundMat);
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.set(5, 0.1, 0); 
+        ground.receiveShadow = true;
+        scene.add(ground);
+
+        // Trær på landet
+        const treeGroup = new THREE.Group();
+        const trunkGeo = new THREE.CylinderGeometry(0.2, 0.3, 1.5);
+        const trunkMat = new THREE.MeshLambertMaterial({color: 0x8B4513});
+        const leavesGeo = new THREE.DodecahedronGeometry(0.8);
+        const leavesMat = new THREE.MeshLambertMaterial({color: 0x228B22});
+
+        for(let i=0; i<5; i++) {
+            const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+            const leaves = new THREE.Mesh(leavesGeo, leavesMat);
+            leaves.position.y = 1.5;
+            const tree = new THREE.Group();
+            tree.add(trunk);
+            tree.add(leaves);
+            tree.position.set(Math.random()*5, 0.75, Math.random()*10 - 5);
+            treeGroup.add(tree);
+        }
+        treeGroup.position.set(0, 0, 0); // Midt på land
+        scene.add(treeGroup);
+
+        // 3. FJELLET (Til Høyre)
+        const mtnGeo = new THREE.ConeGeometry(10, 12, 32);
+        const mtnMat = new THREE.MeshLambertMaterial({ color: 0x228B22 }); 
+        const mountain = new THREE.Mesh(mtnGeo, mtnMat);
+        mountain.position.set(15, 6, -5);
+        mountain.castShadow = true;
+        mountain.receiveShadow = true;
+        scene.add(mountain);
+
+        // Snøtopp
+        const snowGeo = new THREE.ConeGeometry(3, 3, 32);
+        const snowMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const snow = new THREE.Mesh(snowGeo, snowMat);
+        snow.position.set(15, 10.5, -5);
+        scene.add(snow);
+
+        // 4. ELV (Fra fjell til hav)
+        const path = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(15, 6, -4), // Start i fjellet
+            new THREE.Vector3(10, 1, 0),  // Nedover
+            new THREE.Vector3(5, 0.2, 2), // Over landet
+            new THREE.Vector3(-2, 0.2, 0), // Kysten
+            new THREE.Vector3(-5, -0.5, 0) // Ut i havet
+        ]);
+        const tubeGeo = new THREE.TubeGeometry(path, 20, 0.8, 8, false);
+        const riverMat = new THREE.MeshPhongMaterial({ color: 0x00BFFF });
+        riverMesh = new THREE.Mesh(tubeGeo, riverMat);
+        scene.add(riverMesh);
+
+        // 5. SOLA (Oppe til Venstre)
+        const sunGeo = new THREE.SphereGeometry(2.5, 32, 32);
+        const sunMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 });
+        sunMesh = new THREE.Mesh(sunGeo, sunMat);
+        sunMesh.position.set(-15, 15, -5);
+        scene.add(sunMesh);
+        
+        // Solstråler
+        const rayGeo = new THREE.CylinderGeometry(0.1, 0.1, 8);
+        for(let i=0; i<8; i++) {
+            const ray = new THREE.Mesh(rayGeo, sunMat);
+            ray.rotation.z = (Math.PI * 2 / 8) * i;
+            sunMesh.add(ray);
+        }
+
+        // 6. SKYER
+        whiteCloud = createCloud(0xffffff);
+        whiteCloud.position.set(-5, 10, 0);
+        scene.add(whiteCloud);
+
+        rainCloud = createCloud(0x555555);
+        rainCloud.position.set(12, 12, 0);
+        scene.add(rainCloud);
+
+        // 7. PARTIKLER (Regn & Fordampning)
+        // REGN
+        const rainGeo = new THREE.BufferGeometry();
+        const rainCount = 400;
+        const rainPos = new Float32Array(rainCount * 3);
+        for(let i=0; i<rainCount*3; i+=3) {
+            rainPos[i] = 12 + (Math.random()-0.5)*6; 
+            rainPos[i+1] = 10 + Math.random()*5;     
+            rainPos[i+2] = (Math.random()-0.5)*4;    
+        }
+        rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPos, 3));
+        rainSystem = new THREE.Points(rainGeo, new THREE.PointsMaterial({color:0x0000aa, size:0.2}));
+        scene.add(rainSystem);
+
+        // FORDAMPNING
+        const evapGeo = new THREE.BufferGeometry();
+        const evapCount = 200;
+        const evapPos = new Float32Array(evapCount * 3);
+        for(let i=0; i<evapCount*3; i+=3) {
+            evapPos[i] = -15 + (Math.random()-0.5)*10; 
+            evapPos[i+1] = 0.5 + Math.random()*8;      
+            evapPos[i+2] = (Math.random()-0.5)*10;     
+        }
+        evapGeo.setAttribute('position', new THREE.BufferAttribute(evapPos, 3));
+        evaporationSystem = new THREE.Points(evapGeo, new THREE.PointsMaterial({color:0xffffff, size:0.15, opacity:0.6, transparent:true}));
+        scene.add(evaporationSystem);
+
+        // ANIMASJON
+        const animate = function () {
+            requestAnimationFrame(animate);
+            if(!is3DActive) return;
+
+            // Roter sola
+            sunMesh.rotation.z -= 0.005;
+
+            // Regn faller
+            const rPos = rainSystem.geometry.attributes.position.array;
+            for(let i=1; i<rainCount*3; i+=3) {
+                rPos[i] -= 0.3;
+                if(rPos[i] < 0) rPos[i] = 12;
+            }
+            rainSystem.geometry.attributes.position.needsUpdate = true;
+
+            // Fordampning stiger
+            const ePos = evaporationSystem.geometry.attributes.position.array;
+            for(let i=1; i<evapCount*3; i+=3) {
+                ePos[i] += 0.05;
+                if(ePos[i] > 10) ePos[i] = 0.5;
+            }
+            evaporationSystem.geometry.attributes.position.needsUpdate = true;
+
+            // Skyer beveger seg litt
+            whiteCloud.position.x = -5 + Math.sin(Date.now()*0.001)*0.5;
+            rainCloud.position.x = 12 + Math.cos(Date.now()*0.001)*0.5;
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth;
+            const h = container.clientHeight;
+            renderer.setSize(w, h);
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+        });
+    }
+
+    function createCloud(color) {
+        const group = new THREE.Group();
+        const geo = new THREE.DodecahedronGeometry(1.5);
+        const mat = new THREE.MeshLambertMaterial({ color: color });
+        const pos = [{x:0,y:0,z:0}, {x:1.5,y:0,z:0}, {x:-1.5,y:0,z:0}, {x:0.8,y:1,z:0.5}, {x:-0.8,y:0.8,z:-0.5}];
+        pos.forEach(p => {
+            const m = new THREE.Mesh(geo, mat);
+            m.position.set(p.x, p.y, p.z);
+            group.add(m);
+        });
+        return group;
+    }
+
+    // --- GAME LOGIC ---
+    let gameActive = false;
+    let score = 0;
+    let lives = 3;
+    let level = 1;
+    let playerPos = 50; 
+    let moveDir = 0; 
+    let gameLoopInterval;
+    let spawnInterval;
+    let baseSpeed = 4;
+    let spawnRate = 1000; 
+    let badChance = 0.2; 
+
+    const gameArea = document.getElementById('game-area');
+    const player = document.getElementById('player');
+    const hud = document.getElementById('game-hud');
+    const msg = document.getElementById('game-msg');
+
+    function resetGame() {
+        stopGame();
+        score = 0;
+        lives = 3;
+        level = 1;
+        baseSpeed = 4;
+        spawnRate = 1000;
+        badChance = 0.2;
+        playerPos = 50;
+        updatePos();
+        document.querySelectorAll('.falling-item').forEach(e => e.remove());
+        updateHUD();
+        msg.style.display = 'flex';
+        msg.innerHTML = `<h2>KLAR?</h2><button class="btn" onclick="startGame()">START SPILL</button>`;
+    }
+
+    function startGame() {
+        gameActive = true;
+        msg.style.display = 'none';
+        gameLoopInterval = setInterval(gameLoop, 20);
+        spawnLoop(); 
+    }
+
+    function stopGame() {
+        gameActive = false;
+        clearInterval(gameLoopInterval);
+        clearTimeout(spawnInterval);
+    }
+
+    function handleInput(e) {
+        if (e.target.id === 'ingame-exit' || e.target.tagName === 'BUTTON' || e.target.classList.contains('btn-red')) return; 
+        if(e.type === 'keydown') {
+            if (e.key === 'ArrowLeft') moveDir = -2;
+            if (e.key === 'ArrowRight') moveDir = 2;
+        }
+    }
+    function moveLeft() { moveDir = -2; } 
+    function moveRight() { moveDir = 2; }
+    function stopMove() { moveDir = 0; }
+
+    document.addEventListener('keydown', (e) => { if (gameActive) handleInput(e); });
+    document.addEventListener('keyup', () => stopMove());
+    window.addEventListener('mousedown', (e) => { if (gameActive) e.preventDefault(); });
+
+    function updatePos() {
+        playerPos += moveDir;
+        if (playerPos < 0) playerPos = 0;
+        if (playerPos > 85) playerPos = 85; 
+        player.style.left = playerPos + '%';
+    }
+
+    function spawnLoop() {
+        if (!gameActive) return;
+        spawnItem();
+        spawnInterval = setTimeout(spawnLoop, spawnRate);
+    }
+
+    function spawnItem() {
+        const item = document.createElement('div');
+        item.classList.add('falling-item');
+        let currentBadChance = badChance + (score * 0.005);
+        if(currentBadChance > 0.6) currentBadChance = 0.6; 
+        const isBad = Math.random() < currentBadChance;
+        item.innerText = isBad ? '⚡' : (Math.random() > 0.5 ? '☀️' : '💧');
+        item.dataset.type = isBad ? 'bad' : 'good';
+        item.style.backgroundColor = isBad ? '#ff4757' : '#fff';
+        item.style.color = isBad ? '#fff' : '#333';
+        if(isBad) item.style.borderColor = '#c0392b';
+        item.style.left = Math.random() * 90 + '%';
+        item.style.top = '-50px';
+        let speed = baseSpeed + (score * 0.1);
+        item.dataset.speed = speed;
+        gameArea.appendChild(item);
+    }
+
+    function gameLoop() {
+        updatePos();
+        const items = document.querySelectorAll('.falling-item');
+        items.forEach(item => {
+            let top = parseFloat(item.style.top || -50);
+            let speed = parseFloat(item.dataset.speed);
+            top += speed; 
+            item.style.top = top + 'px';
+            const playerRect = player.getBoundingClientRect();
+            const itemRect = item.getBoundingClientRect();
+
+            if (itemRect.bottom >= playerRect.top && itemRect.top <= playerRect.bottom &&
+                itemRect.right >= playerRect.left && itemRect.left <= playerRect.right) {
+                if (item.dataset.type === 'bad') {
+                    lives--;
+                    gameArea.style.backgroundColor = '#ff4757';
+                    setTimeout(() => gameArea.style.backgroundColor = '#87CEEB', 100);
+                } else {
+                    score += 10;
+                }
+                item.remove();
+                if (score % 50 === 0 && score > 0) {
+                    level++;
+                    spawnRate = Math.max(300, 1000 - (level * 60)); 
+                }
+                updateHUD();
+            } else if (top > 450) {
+                item.remove();
+            }
+        });
+    }
+
+    function updateHUD() {
+        let hearts = "";
+        for(let i=0; i<lives; i++) hearts += "❤️";
+        hud.innerText = `Poeng: ${score} | Nivå: ${level} | Liv: ${hearts}`;
+        if (lives <= 0) {
+            stopGame();
+            msg.style.display = 'flex';
+            msg.innerHTML = `<h2>GAME OVER</h2><p>Poeng: ${score} (Nivå ${level})</p><button class="btn" onclick="resetGame()">PRØV IGJEN</button>`;
+        }
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Julens Store Historie</title>
+<style>
+    /* --- JULE-DESIGN --- */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle, #8e0e00 0%, #1f1c18 100%); /* Dyp julerød */
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #fdfbf7; /* Kremhvit */
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 8px solid #c0392b; /* Rød ramme */
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #27ae60; /* Julegrønn */
+        color: #fff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid #145a32;
+    }
+    .header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; font-weight: 900; text-shadow: 2px 2px 0 #000; }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 40px 60px;
+        overflow-y: auto;
+        animation: fadeIn 0.5s ease-in-out;
+        background-image: radial-gradient(#e5e7e9 10%, transparent 10%);
+        background-size: 20px 20px;
+    }
+    .slide.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    h2 { color: #c0392b; border-bottom: 3px dashed #27ae60; padding-bottom: 10px; margin-top: 0; font-size: 2.2rem; }
+    h3 { color: #d35400; margin-top: 30px; font-size: 1.5rem; }
+    p, li { font-size: 1.15rem; line-height: 1.6; color: #2c3e50; margin-bottom: 15px; }
+    strong { color: #c0392b; }
+
+    .info-box {
+        background: #e9f7ef;
+        border-left: 6px solid #27ae60;
+        padding: 20px;
+        margin: 25px 0;
+        border-radius: 10px;
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.05);
+    }
+
+    /* --- MENY --- */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+    .menu-item {
+        background: #fff; border: 2px solid #dcdce6; padding: 15px; 
+        cursor: pointer; text-align: center; border-radius: 15px; transition: 0.2s;
+        box-shadow: 0 4px 0 #ccc;
+    }
+    .menu-item:hover { transform: translateY(-3px); border-color: #c0392b; background: #fff5f5; }
+    .icon { font-size: 2.5rem; display: block; margin-bottom: 5px; }
+    .menu-title { font-weight: bold; color: #2c3e50; font-size: 1.1rem; }
+    
+    .game-card { background: #fcf3cf; border-color: #f1c40f; box-shadow: 0 4px 0 #d4ac0d; }
+    .game-card:hover { background: #fff; }
+
+    .nav-buttons { margin-top: 30px; display: flex; justify-content: space-between; border-top: 2px solid #eee; padding-top: 20px; }
+    .btn { padding: 15px 35px; background: #c0392b; color: white; border: none; border-radius: 50px; font-size: 1.2rem; cursor: pointer; font-weight: bold; box-shadow: 0 4px 0 #922b21; transition: 0.2s; }
+    .btn:hover { transform: scale(1.05); background: #a93226; }
+    .btn-outline { background: white; color: #27ae60; border: 3px solid #27ae60; }
+    .btn-outline:hover { background: #e9f7ef; }
+    .btn-red { background: #c0392b; color: white; border: none; }
+    .btn-red:hover { background: #a93226; }
+
+    /* --- QUIZ --- */
+    .quiz-btn { display: block; width: 100%; padding: 15px; margin-bottom: 10px; background: white; border: 2px solid #bdc3c7; border-radius: 10px; text-align: left; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+    .quiz-btn:hover { background: #f0f8ff; border-color: #c0392b; }
+    .correct { background: #d4edda !important; border-color: #28a745 !important; }
+    .wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
+
+    /* --- GAME STYLES: NISSE-JAKT (Whack-a-Mole) --- */
+    #game-container {
+        position: relative; width: 100%; height: 450px;
+        background: #2c3e50; /* Vegg */
+        border: 8px solid #8e44ad; /* Ramme */
+        overflow: hidden; margin-bottom: 20px; border-radius: 10px;
+        display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+        padding: 20px; box-sizing: border-box; gap: 10px;
+    }
+
+    .game-hole {
+        width: 30%; height: 30%;
+        background: #34495e;
+        border-radius: 50%;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 5px solid #fff; /* Snøkant */
+        cursor: crosshair;
+    }
+
+    .mole {
+        position: absolute; top: 100%; left: 0; width: 100%; height: 100%;
+        display: flex; justify-content: center; align-items: center;
+        font-size: 5rem; transition: top 0.1s;
+        pointer-events: none; 
+    }
+
+    .mole.up { top: 10%; }
+
+    /* Overlegg */
+    #game-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.8); display: flex; flex-direction: column; 
+        justify-content: center; align-items: center; color: white; 
+        font-family: 'Segoe UI', sans-serif; text-align: center; z-index: 20;
+    }
+
+    #game-hud {
+        position: absolute; top: 10px; left: 20px; color: #f1c40f; font-weight: bold; font-size: 1.5rem; z-index: 10;
+    }
+    
+    /* TYDELIG AVSLUTT-KNAPP */
+    #ingame-exit {
+        position: absolute; top: 10px; right: 20px;
+        background: #c0392b; color: white; border: 2px solid white;
+        font-weight: bold; padding: 10px 25px; cursor: pointer;
+        z-index: 2000; border-radius: 50px; box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+        font-family: sans-serif; pointer-events: auto;
+    }
+    #ingame-exit:hover { transform: scale(1.05); background: #e74c3c; }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎄 JULENS STORHETSTID</h1>
+        <div id="status-text">Start</div>
+    </div>
+
+    <!-- SLIDE 1: INTRO -->
+    <div id="slide-intro" class="slide active">
+        <h2>Velkommen til Julestemning! 🎅</h2>
+        <p>Desember er den mørkeste måneden i året, men også den koseligste.</p>
+        <p>I dag skal vi lære om hvorfor vi egentlig feirer jul. Er det bare på grunn av Jesusbarnet? Eller feiret vikingene jul før det?</p>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Gå til Menyen &rarr;</button>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: MENY -->
+    <div id="slide-menu" class="slide">
+        <h2>Hva vil du lære om?</h2>
+        <div class="menu-grid">
+            <div class="menu-item" onclick="goto('slide-viking', 'Vikingenes Jól')">
+                <span class="icon">⚔️</span>
+                <div class="menu-title">1. Vikingenes Jól</div>
+                <div>Solsnu og fest</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-kristen', 'Juleevangeliet')">
+                <span class="icon">🌟</span>
+                <div class="menu-title">2. Jesus & Stjernen</div>
+                <div>Reisen til Betlehem</div>
+            </div>
+            <!-- NY -->
+            <div class="menu-item" onclick="goto('slide-juletre', 'Juletreet')">
+                <span class="icon">🎄</span>
+                <div class="menu-title">3. Juletreet</div>
+                <div>Hvorfor har vi tre inne?</div>
+            </div>
+            <!-- NY -->
+            <div class="menu-item" onclick="goto('slide-dyr', 'Dyrene')">
+                <span class="icon">🐮</span>
+                <div class="menu-title">4. Dyrene</div>
+                <div>Kunne de snakke?</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-nisse', 'Nisse vs. Nisse')">
+                <span class="icon">🎅</span>
+                <div class="menu-title">5. Nissen</div>
+                <div>Fjøsnisse vs. Julenisse</div>
+            </div>
+            <div class="menu-item game-card" onclick="goto('slide-game', 'Spill: Nisse-jakten')">
+                <span class="icon">🔨</span>
+                <div class="menu-title">SPILL: Nisse-Jakten</div>
+                <div>Er du raskere enn nissen?</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-quiz1', 'Julequiz')">
+                <span class="icon">🎁</span>
+                <div class="menu-title">Quiz</div>
+                <div>Test kunnskapen!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TEMA 1: VIKINGENES JÓL -->
+    <div id="slide-viking" class="slide">
+        <h2>Vikingenes "Jól" (Solsnu) ⚔️</h2>
+        <p>Ordet "Jul" kommer fra norrønt "Jól". Lenge før folk i Norge hørte om Jesus, feiret vikingene fest midt på vinteren.</p>
+        
+        <div class="info-box">
+            <strong>Solsnu:</strong><br>
+            Rundt 21. desember er den mørkeste dagen i året (Vintersolverv). Etter dette snur sola, og dagene blir lysere igjen. Vikingene drakk "juleøl" og ofret mat til gudene Odin og Tor for å feire at lyset og livet kom tilbake.
+        </div>
+
+        <p>Da kristendommen kom til Norge, bestemte kongen (Håkon den gode) at "Jól" skulle flyttes til desember for å klaffe med den kristne feiringen.</p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-kristen', 'Juleevangeliet')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- TEMA 2: JULEEVANGELIET -->
+    <div id="slide-kristen" class="slide">
+        <h2>Det store underet (Juleevangeliet) 🌟</h2>
+        <p>For de kristne er julen bursdagsfesten til Jesus. Her er historien om hva som skjedde for over 2000 år siden:</p>
+
+        <div class="info-box" style="border-left-color: #f1c40f;">
+            <h3>1. Keiserens ordre 📜</h3>
+            <p>Keiser Augustus bestemte at hele verden skulle telles ("innskrives i manntall") for at han skulle få skattepenger. Derfor måtte Josef og Maria reise helt fra Nasaret til Betlehem.</p>
+        </div>
+
+        <div class="info-box">
+            <h3>2. Ingen plass i herberget 🛖</h3>
+            <p>Betlehem var full av folk. Maria og Josef fant ingen steder å sove. Til slutt måtte de sove i en stall sammen med dyrene. Der ble Jesus født, og Maria la ham i en <strong>krybbe</strong> (matfatet til dyrene).</p>
+        </div>
+
+        <div class="info-box" style="border-left-color: #3498db;">
+            <h3>3. Stjernen og gavene ⭐</h3>
+            <p>En stor stjerne lyste på himmelen. Den viste vei for "De tre vise menn" (Kaspar, Melkior og Baltasar) som kom fra Østen. De ga Jesus de aller første julegavene: <strong>Gull, Røkelse og Myra</strong>.</p>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-juletre', 'Juletreet')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- NY: JULETREET -->
+    <div id="slide-juletre" class="slide">
+        <h2>Juletreet 🎄</h2>
+        <p>Det er rart å tenke på at vi tar et helt tre inn i stua! Hvorfor gjør vi egentlig det?</p>
+
+        <h3>En tysk oppfinnelse</h3>
+        <p>Tradisjonen startet i Tyskland på 1500-tallet. I Norge begynte vi ikke med det før på 1800-tallet, og først var det bare de rike som hadde råd til pynt.</p>
+        
+        <div class="info-box">
+            <strong>Eviggrønt liv:</strong><br>
+            Gran og furu mister ikke nålene om vinteren. De er grønne selv når alt annet er dødt og kaldt. Derfor ble treet et symbol på <strong>liv</strong> og håp om at våren kommer tilbake.
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-dyr', 'Dyrene')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- NY: DYRENE -->
+    <div id="slide-dyr" class="slide">
+        <h2>Dyrene Julenatta 🐮🐴</h2>
+        <p>Siden vi er på en gård, er dette ekstra viktig! Julen var en høytid for dyrene også.</p>
+
+        <h3>Julenek og ekstra mat</h3>
+        <p>Det var en regel om at alle dyrene på gården skulle få ekstra god mat julaften. Fuglene fikk julenek (kornband), hesten fikk havre, og kua fikk ekstra høy.</p>
+        
+        <div class="info-box" style="background: #fffde7; border-color: #f1c40f;">
+            <strong>Kunne dyrene snakke?</strong><br>
+            En gammel legende sier at nøyaktig ved midnatt på julaften, kunne dyrene i fjøset snakke menneskespråk i noen få minutter! De gjorde dette for å hylle Jesusbarnet som ble født i en stall blant dyr. Men det var farlig for mennesker å tjuvlytte på dem!
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-nisse', 'Nissen')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- TEMA: NISSEN -->
+    <div id="slide-nisse" class="slide">
+        <h2>Hvem er egentlig Nissen? 🎅</h2>
+        <p>Vi blander ofte to forskjellige nisser. Vet du forskjellen?</p>
+        
+        <div style="display: flex; gap: 20px;">
+            <div style="flex: 1; background: #fff; padding: 15px; border-radius: 10px; border: 2px solid #ddd;">
+                <h3>Fjøsnissen (Norsk)</h3>
+                <p>Liten, grå klær, rød lue. Bor på låven og passer på dyrene. Han er veldig streng! Hvis han ikke får grøt med smørøye julaften, kan han bli kjempesint og gjøre rampestreker, eller til og med skade dyrene.</p>
+            </div>
+            <div style="flex: 1; background: #fff; padding: 15px; border-radius: 10px; border: 2px solid #ddd;">
+                <h3>Julenissen (St. Nikolas)</h3>
+                <p>Basert på biskopen St. Nikolas fra Tyrkia som levde på 300-tallet. Han var kjent for å gi gaver til fattige barn i hemmelighet. I dag ser vi ham som en stor, tykk mann med hvitt skjegg og reinsdyr.</p>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-game', 'Spill')">Start Spillet &rarr;</button>
+        </div>
+    </div>
+
+    <!-- GAME SLIDE: WHACK-A-NISSE -->
+    <div id="slide-game" class="slide" style="overflow: hidden;">
+        <h2>Spill: Nisse-Jakten! 🔨</h2>
+        <p>Nissene popper opp fra pipene! Klikk på dem så fort du kan.</p>
+        <p><strong>Klikk på Nissen 🎅 = Poeng. Ikke klikk på Trollet 👹!</strong></p>
+        
+        <div id="game-container">
+            <div id="ingame-exit" onclick="goto('slide-menu', 'Hovedmeny')">❌ AVSLUTT</div>
+            <div id="game-hud">Poeng: 0 | Tid: 30s</div>
+            
+            <!-- 9 hull for nisser -->
+            <div class="game-hole" onclick="bonk(0)"><div class="mole" id="mole-0">🎅</div></div>
+            <div class="game-hole" onclick="bonk(1)"><div class="mole" id="mole-1">🎅</div></div>
+            <div class="game-hole" onclick="bonk(2)"><div class="mole" id="mole-2">🎅</div></div>
+            <div class="game-hole" onclick="bonk(3)"><div class="mole" id="mole-3">🎅</div></div>
+            <div class="game-hole" onclick="bonk(4)"><div class="mole" id="mole-4">🎅</div></div>
+            <div class="game-hole" onclick="bonk(5)"><div class="mole" id="mole-5">🎅</div></div>
+            <div class="game-hole" onclick="bonk(6)"><div class="mole" id="mole-6">🎅</div></div>
+            <div class="game-hole" onclick="bonk(7)"><div class="mole" id="mole-7">🎅</div></div>
+            <div class="game-hole" onclick="bonk(8)"><div class="mole" id="mole-8">🎅</div></div>
+
+            <div id="game-overlay">
+                <h1 style="font-size: 3rem; margin:0; color: #f1c40f;">KLAR?</h1>
+                <button class="btn" onclick="startGame()">START</button>
+            </div>
+        </div>
+
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn-red" onclick="goto('slide-menu', 'Hovedmeny')">Tilbake til Meny</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 1 -->
+    <div id="slide-quiz1" class="slide">
+        <h3>Spørsmål 1 av 4</h3>
+        <h2>Hvorfor måtte Maria og Josef reise til Betlehem?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">For å kjøpe julegaver</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz2')">Fordi Keiseren ville telle alle menneskene (manntall)</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">For å besøke bestemor</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div id="slide-quiz2" class="slide">
+        <h3>Spørsmål 2 av 4</h3>
+        <h2>Hva feiret vikingene under "Jól"?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz3')">At sola snudde og det ble lysere (Solsnu)</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">At Jesus ble født</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">At de hadde vunnet i lotto</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <!-- QUIZ 3 (NY) -->
+    <div id="slide-quiz3" class="slide">
+        <h3>Spørsmål 3 av 4</h3>
+        <h2>Hvorfor tar vi inn et tre i stua?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">For at katten skal ha noe å klatre i</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz4')">Fordi det er grønt hele året og symboliserer liv</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Fordi det lukter godt</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <!-- QUIZ 4 -->
+    <div id="slide-quiz4" class="slide">
+        <h3>Spørsmål 4 av 4</h3>
+        <h2>Hva skjer hvis Fjøsnissen ikke får grøt?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Han blir lei seg og drar</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Han ringer politiet</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-end')">Han blir sint og kan gjøre rampestreker mot dyr og folk</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <!-- SLUTT -->
+    <div id="slide-end" class="slide">
+        <h2>God Jul! 🎄</h2>
+        <p>Du er nå en ekspert på julens historie.</p>
+        <p>Nå er det tid for juleverksted!</p>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="location.reload()">Start på nytt</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON ---
+    function goto(slideId, title) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(slideId).classList.add('active');
+        document.getElementById('status-text').innerText = title;
+        if (slideId === 'slide-game') {
+            resetGame();
+        } else {
+            stopGame();
+        }
+    }
+
+    // --- QUIZ ---
+    function checkAnswer(btn, isCorrect, nextSlideId) {
+        let parent = btn.parentElement;
+        let feedback = parent.nextElementSibling;
+        let buttons = parent.querySelectorAll('.quiz-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            feedback.style.color = "green";
+            feedback.innerText = "Riktig! 🎅";
+            setTimeout(() => goto(nextSlideId, 'Quiz'), 1500);
+        } else {
+            btn.classList.add('wrong');
+            feedback.style.color = "red";
+            feedback.innerText = "Feil, prøv igjen!";
+            setTimeout(() => {
+                buttons.forEach(b => { b.disabled = false; b.classList.remove('wrong'); });
+                feedback.innerText = "";
+            }, 1500);
+        }
+    }
+
+    // --- GAME LOGIC: WHACK-A-NISSE ---
+    let score = 0;
+    let lastHole;
+    let timeUp = false;
+    let gameTimer;
+    let peepTimer;
+    let timeLeft = 30;
+    const holes = document.querySelectorAll('.mole');
+    const scoreBoard = document.getElementById('game-hud');
+    const overlay = document.getElementById('game-overlay');
+
+    function randomTime(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+
+    function randomHole(holes) {
+        const idx = Math.floor(Math.random() * holes.length);
+        const hole = holes[idx];
+        if (hole === lastHole) return randomHole(holes);
+        lastHole = hole;
+        return hole;
+    }
+
+    function peep() {
+        const time = randomTime(600, 1200); 
+        const mole = randomHole(holes);
+        
+        const isTroll = Math.random() < 0.2; // 20% sjanse for troll
+        mole.innerText = isTroll ? '👹' : '🎅';
+        mole.dataset.type = isTroll ? 'bad' : 'good';
+        
+        mole.classList.add('up');
+        
+        peepTimer = setTimeout(() => {
+            mole.classList.remove('up');
+            if (!timeUp) peep();
+        }, time);
+    }
+
+    function startGame() {
+        scoreBoard.innerHTML = "Poeng: 0 | Tid: 30s";
+        score = 0;
+        timeLeft = 30;
+        timeUp = false;
+        overlay.style.display = 'none';
+        peep();
+        
+        gameTimer = setInterval(() => {
+            timeLeft--;
+            scoreBoard.innerHTML = `Poeng: ${score} | Tid: ${timeLeft}s`;
+            if (timeLeft <= 0) {
+                clearInterval(gameTimer);
+                timeUp = true;
+                overlay.style.display = 'flex';
+                overlay.innerHTML = `<h2>TIDEN ER UTE!</h2><p>Du fikk ${score} poeng!</p><button class="btn" onclick="startGame()">Prøv igjen</button>`;
+            }
+        }, 1000);
+    }
+    
+    function stopGame() {
+        timeUp = true;
+        clearInterval(gameTimer);
+        clearTimeout(peepTimer);
+        holes.forEach(h => h.classList.remove('up'));
+    }
+
+    function resetGame() {
+        stopGame();
+        overlay.style.display = 'flex';
+        overlay.innerHTML = `<h1>KLAR?</h1><button class="btn" onclick="startGame()">START</button>`;
+    }
+
+    function bonk(index) {
+        const mole = document.getElementById(`mole-${index}`);
+        if(!mole.classList.contains('up')) return;
+        
+        mole.classList.remove('up');
+        
+        if(mole.dataset.type === 'good') {
+            score += 10;
+        } else {
+            score -= 20; 
+            document.getElementById('game-container').style.borderColor = '#e74c3c';
+            setTimeout(() => document.getElementById('game-container').style.borderColor = '#8e44ad', 200);
+        }
+        scoreBoard.innerHTML = `Poeng: ${score} | Tid: ${timeLeft}s`;
+    }
+
+</script>
+
+</body>
+</html>

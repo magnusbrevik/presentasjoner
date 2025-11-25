@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ressurser og Bærekraft</title>
+<style>
+    /* --- DESIGN: ECO-FUTURISM --- */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Bakgrunn: Dyp blågrønn gradient som symboliserer hav og skog */
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #e0f2f1;
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #131e24; /* Mørkt panel */
+        border-radius: 12px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        
+        /* Ramme i lys "miljø-grønn" */
+        border: 2px solid #00e676;
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #0a1317;
+        color: #00e676;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #00e676;
+        flex-shrink: 0;
+    }
+    .header h1 { 
+        margin: 0; 
+        font-size: 1.6rem; 
+        letter-spacing: 2px; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+    }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 40px 80px;
+        overflow-y: auto;
+        animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        /* Abstrakt topografisk kart-mønster med CSS */
+        background-image: radial-gradient(circle at 100% 100%, rgba(0, 230, 118, 0.05) 0, rgba(0, 230, 118, 0.05) 20px, transparent 20px),
+                          radial-gradient(circle at 0% 0%, rgba(0, 230, 118, 0.05) 0, rgba(0, 230, 118, 0.05) 20px, transparent 20px);
+        background-size: 60px 60px;
+        background-color: #131e24;
+    }
+    .slide.active { display: block; }
+    
+    /* Scrollbar styling */
+    .slide::-webkit-scrollbar { width: 8px; }
+    .slide::-webkit-scrollbar-track { background: #131e24; }
+    .slide::-webkit-scrollbar-thumb { background: #00e676; border-radius: 4px; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    h2 { color: #ffffff; border-bottom: 3px solid #26a69a; padding-bottom: 15px; margin-top: 0; font-size: 2.4rem; font-weight: 300; }
+    h3 { color: #69f0ae; margin-top: 35px; font-size: 1.5rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+    p, li { font-size: 1.15rem; line-height: 1.7; color: #cfd8dc; margin-bottom: 15px; }
+    strong { color: #00e676; font-weight: 600; }
+
+    .info-box {
+        background: #1c2a30; 
+        border-left: 5px solid #00e676;
+        padding: 25px;
+        margin: 30px 0;
+        border-radius: 0 8px 8px 0;
+        color: #fff;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* --- MENY --- */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 40px; }
+    .menu-item {
+        background: #1c2a30; border: 1px solid #263238; padding: 25px; 
+        cursor: pointer; text-align: center; border-radius: 6px; transition: 0.3s;
+        box-shadow: 0 4px 0 #10191d;
+    }
+    .menu-item:hover { transform: translateY(-5px); border-color: #00e676; background: #263238; box-shadow: 0 10px 20px rgba(0, 230, 118, 0.15); }
+    .icon { font-size: 2.5rem; display: block; margin-bottom: 15px; }
+    .menu-title { font-weight: bold; color: #00e676; font-size: 1.3rem; }
+    
+    /* --- KNAPPER --- */
+    .nav-buttons { margin-top: 40px; display: flex; justify-content: space-between; border-top: 1px solid #263238; padding-top: 25px; margin-bottom: 20px; }
+    .btn { padding: 15px 40px; background: linear-gradient(45deg, #00e676, #00c853); color: #0a1317; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(0, 230, 118, 0.3); letter-spacing: 1px; text-transform: uppercase;}
+    .btn:hover { transform: scale(1.05); box-shadow: 0 8px 20px rgba(0, 230, 118, 0.5); }
+    .btn-outline { background: transparent; color: #00e676; border: 2px solid #00e676; border-radius: 50px; padding: 13px 38px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+    .btn-outline:hover { background: rgba(0, 230, 118, 0.1); color: #fff; border-color: #fff; }
+
+    /* Quiz styles */
+    .quiz-container { margin-top: 20px; }
+    .quiz-btn { display: block; width: 100%; padding: 20px; margin-bottom: 15px; background: #1c2a30; border: 1px solid #263238; border-radius: 8px; text-align: left; font-size: 1.15rem; cursor: pointer; transition: 0.2s; color: #fff; }
+    .quiz-btn:hover { background: #263238; border-color: #00e676; transform: translateX(5px); }
+    .correct { background: #1b5e20 !important; border-color: #00e676 !important; color: #fff; }
+    .wrong { background: #b71c1c !important; border-color: #ff5252 !important; color: #fff; }
+
+    /* Intro tittel animasjon */
+    .intro-title-container {
+        text-align: center;
+        margin-top: 80px;
+        position: relative;
+    }
+    
+    .main-title {
+        font-size: 4rem;
+        font-weight: 900;
+        background: -webkit-linear-gradient(#00e676, #29b6f6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+        animation: pulse 3s infinite;
+    }
+
+    .subtitle {
+        font-size: 1.5rem;
+        color: #b0bec5;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-top: 20px;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); text-shadow: 0 0 20px rgba(0,230,118,0.2); }
+        50% { transform: scale(1.02); text-shadow: 0 0 40px rgba(0,230,118,0.5); }
+        100% { transform: scale(1); text-shadow: 0 0 20px rgba(0,230,118,0.2); }
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>NATURFAG & SAMFUNN 🌍</h1>
+        <div id="status-text">Startside</div>
+    </div>
+
+    <!-- INTRODUKSJON -->
+    <div id="slide-intro" class="slide active">
+        <div class="intro-title-container">
+            <div class="main-title">VÅR FELLES FREMTID</div>
+            <div class="subtitle">Ressurser, Rettferdighet og Balanse</div>
+        </div>
+        
+        <p style="text-align: center; max-width: 700px; margin: 50px auto; font-size: 1.3rem;">
+            Vi bruker opp jorda raskere enn den klarer å fornye seg. Hvis alle levde som oss i Norge, ville vi trengt 3,6 jordkloder. Hvordan snur vi denne trenden?
+        </p>
+        
+        <div class="info-box" style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <strong>Dagens tema:</strong><br>
+            Vi skal dykke dypt ned i ressursforvaltning, forstå hva "bærekraft" <em>egentlig</em> betyr, og se på løsninger som sirkulærøkonomi og det grønne skiftet.
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center; border: none;">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Utforsk Temaet &rarr;</button>
+        </div>
+    </div>
+
+    <!-- HOVEDMENY -->
+    <div id="slide-menu" class="slide">
+        <h2>Oversikt</h2>
+        <div class="menu-grid">
+            <div class="menu-item" onclick="goto('slide-ressurser', '1. Hva er ressurser?')">
+                <span class="icon">💎</span>
+                <div class="menu-title">1. Ressurstyper</div>
+                <div>Lager, kretsløp og betinget</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-baerekraft', '2. Bærekraftig utvikling')">
+                <span class="icon">⚖️</span>
+                <div class="menu-title">2. Bærekraftig utvikling</div>
+                <div>De tre dimensjonene</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-fotavtrykk', '3. Økologisk fotavtrykk')">
+                <span class="icon">👣</span>
+                <div class="menu-title">3. Økologisk fotavtrykk</div>
+                <div>Jordas tåleevne</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-energi', '4. Energi & Det grønne skiftet')">
+                <span class="icon">⚡</span>
+                <div class="menu-title">4. Det grønne skiftet</div>
+                <div>Fra fossil til fornybar</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-sirkular', '5. Sirkulærøkonomi')">
+                <span class="icon">🔄</span>
+                <div class="menu-title">5. Sirkulærøkonomi</div>
+                <div>Bruk og kast er ut</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-konflikt', '6. Interessekonflikter')">
+                <span class="icon">⚔️</span>
+                <div class="menu-title">6. Interessekonflikter</div>
+                <div>Naturvern vs. Klima</div>
+            </div>
+        </div>
+        <div class="nav-buttons" style="justify-content: center;">
+             <button class="btn" onclick="goto('slide-quiz1', 'Quiz')">Gå til Quiz 🎓</button>
+        </div>
+    </div>
+
+    <!-- 1. RESSURSTYPER -->
+    <div id="slide-ressurser" class="slide">
+        <h2>1. Hva er ressurser? 💎</h2>
+        <p>En <strong>ressurs</strong> er noe vi mennesker har nytte av. Det blir først en ressurs når vi vet om den, har teknologi til å utnytte den, og ser verdien i den (f.eks. olje var ikke en ressurs for vikingene).</p>
+        
+        <h3>Vi deler naturressurser i to hovedgrupper:</h3>
+        
+        <ul>
+            <li><strong>Ikke-fornybare ressurser (Lagerressurser):</strong>
+                <br>Disse finnes det en bestemt mengde av. Når vi har brukt det opp, er det tomt.
+                <br><em>Eksempler:</em> Olje, kull, gass, metaller (jern, kobber) og mineraler.</li>
+                
+            <li><strong>Fornybare ressurser:</strong>
+                <br>Disse tar ikke slutt hvis vi behandler dem rett. De deles videre inn i to:
+                <ul>
+                    <li><em>Kretsløpsressurser:</em> Fornyes hele tiden av sola og vannets kretsløp. (Vannkraft, vind, sol, bølger).</li>
+                    <li><em>Betinget fornybare ressurser:</em> Disse fornyes, men bare hvis vi ikke bruker mer enn naturen klarer å produsere. (Fisk, skog, jordsmonn, rent vann). Hvis vi hogger mer skog enn det vokser til, mister vi ressursen.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Kritisk punkt:</strong> Overfiske er et eksempel på at en betinget fornybar ressurs kan bli utryddet hvis vi ikke forvalter den bærekraftig.
+        </div>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-baerekraft', '2. Bærekraftig utvikling')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 2. BÆREKRAFTIG UTVIKLING -->
+    <div id="slide-baerekraft" class="slide">
+        <h2>2. Bærekraftig utvikling ⚖️</h2>
+        <p>Begrepet ble gjort kjent av Brundtlandkommisjonen i 1987. Definisjonen er nøkkelen til alt miljøarbeid:</p>
+        
+        <blockquote>
+            "En utvikling som imøtekommer dagens behov uten å ødelegge mulighetene for at kommende generasjoner skal få dekket sine behov."
+        </blockquote>
+
+        <h3>De tre dimensjonene:</h3>
+        <p>For at noe skal være bærekraftig, må det fungere på tre områder samtidig:</p>
+        <ol>
+            <li><strong>Miljømessig bærekraft:</strong> Vi må ta vare på naturen, klimaet og biomangfoldet. Vi kan ikke bruke ressurser fortere enn de fornyes.</li>
+            <li><strong>Sosial bærekraft:</strong> Alle mennesker har rett til et godt liv. Dette handler om menneskerettigheter, utdanning, helse og trygghet. Uten rettferdighet får vi krig og uro.</li>
+            <li><strong>Økonomisk bærekraft:</strong> Vi må tjene penger og skape arbeidsplasser, men det må skje uten å ødelegge de to andre punktene. Gapet mellom fattig og rik må minskes.</li>
+        </ol>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-fotavtrykk', '3. Økologisk fotavtrykk')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 3. ØKOLOGISK FOTAVTRYKK -->
+    <div id="slide-fotavtrykk" class="slide">
+        <h2>3. Det økologiske fotavtrykket 👣</h2>
+        <p>Det økologiske fotavtrykket er en måte å måle hvor mye av jordas overflate som kreves for å skaffe ressursene du bruker, og for å absorbere avfallet (CO₂) du produserer.</p>
+        
+        <h3>Jordas bæreevne</h3>
+        <p>Jorda har en grense for hvor mange mennesker den kan brødfø og hvor mye forurensning den tåler. I dag lever vi som om vi hadde 1,7 jordkloder.</p>
+
+        <h3>Earth Overshoot Day</h3>
+        <p>Dette er datoen hvert år hvor vi har brukt opp de ressursene jorda klarer å regenerere (gjenskape) det året. Resten av året lever vi "på kreditt" – vi stjeler fra fremtidige generasjoner.</p>
+        <ul>
+            <li>På 1970-tallet falt denne dagen i desember.</li>
+            <li>I dag faller den i juli/august.</li>
+            <li>For Norge (hvis alle levde som nordmenn) faller den allerede i april.</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Hvorfor har Norge så høyt fotavtrykk?</strong><br>
+            Selv om vi har ren vannkraft, har vi et ekstremt høyt personlig forbruk. Vi reiser mye med fly, kjøper mye klær og elektronikk, og spiser mye kjøtt.
+        </div>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-energi', '4. Det grønne skiftet')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 4. DET GRØNNE SKIFTET -->
+    <div id="slide-energi" class="slide">
+        <h2>4. Energiressurser & Det grønne skiftet ⚡</h2>
+        <p>Verden trenger enorme mengder energi. Historisk har vi fått dette fra fossile lagerressurser, men dette skaper klimakrisen ved å slippe ut CO₂.</p>
+        
+        <h3>Fra svart til grønt</h3>
+        <p><strong>Det grønne skiftet</strong> betyr omstillingen fra en økonomi basert på fossil energi (olje, kull, gass) til en økonomi basert på fornybar energi og bærekraft.</p>
+
+        <ul>
+            <li><strong>Fossil energi:</strong> Kullkraftverk slipper ut mest CO₂. Olje brukes til transport og plast. Gass er renere enn kull, men fortsatt fossil.</li>
+            <li><strong>Fornybar energi:</strong>
+                <br>- <em>Vannkraft:</em> Norges ryggrad. Stabilt og rent, men krever store inngrep i naturen (demninger).
+                <br>- <em>Vindkraft:</em> Billigst å bygge ut nå, men skaper støy og visuell forurensning, og truer fugleliv.
+                <br>- <em>Solenergi:</em> I eksplosiv vekst, men fungerer dårligere om natten/vinteren (krever batterier).</li>
+        </ul>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-sirkular', '5. Sirkulærøkonomi')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 5. SIRKULÆRØKONOMI -->
+    <div id="slide-sirkular" class="slide">
+        <h2>5. Sirkulærøkonomi 🔄</h2>
+        <p>Dagens system er ofte en <strong>lineær økonomi</strong>: Vi utvinner råvarer -> lager produkter -> bruker dem -> kaster dem. Dette skaper enorme søppelberg og tømmer ressursene.</p>
+        
+        <h3>Sirkulær modell:</h3>
+        <p>I en sirkulærøkonomi skal ressursene forbli i kretsløpet så lenge som mulig. Avfall skal ikke finnes – avfall er bare ressurser på avveie.</p>
+
+        <div class="info-box">
+            <strong>De tre R-ene (hierarkiet):</strong><br>
+            1. <strong>Reduce (Reduser):</strong> Kjøp mindre nytt. Dette er det viktigste tiltaket.<br>
+            2. <strong>Reuse (Gjenbruk):</strong> Reparer, kjøp brukt, pant, del ting med naboen.<br>
+            3. <strong>Recycle (Gjenvinn):</strong> Smelt om metallet, lag nye klær av gamle tekstiler. Dette krever energi, så det er siste utvei.
+        </div>
+
+        <p>Eksempel på nytt tankesett: I stedet for å kjøpe en lyspære, leier du "lys" fra produsenten. Da lønner det seg for produsenten å lage pærer som varer evig, i stedet for pærer som ryker fort så du må kjøpe ny.</p>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-konflikt', '6. Interessekonflikter')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 6. INTERESSEKONFLIKTER -->
+    <div id="slide-konflikt" class="slide">
+        <h2>6. Interessekonflikter ⚔️</h2>
+        <p>Bærekraftig utvikling er vanskelig fordi målene ofte krasjer med hverandre. Dette kaller vi interessekonflikter eller målkonflikter.</p>
+        
+        <h3>Klima vs. Naturvern (Det klassiske dilemmaet)</h3>
+        <p>For å redde klimaet (redusere CO₂) trenger vi ren energi.
+        <br>MEN:
+        <br>- <strong>Vindmøller</strong> krever store arealer, dreper fugl og ødelegger urørt natur.
+        <br>- <strong>Vannkraft</strong> legger elver i rør og ødelegger livsgrunnlaget for fisk og insekter.
+        <br>- <strong>Gruvedrift</strong> etter kobber (til el-biler) kan forurense fjorder.</p>
+        
+        <p>Hva er viktigst? Å redde klimaet globalt, eller bevare sårbar natur lokalt? </p>
+
+        <h3>Global urettferdighet</h3>
+        <p>De rike landene har blitt rike på å brenne olje og kull. Nå sier vi til fattige land at de <em>ikke</em> kan gjøre det samme pga. klimaet. Er det rettferdig? De fattige landene rammes hardest av klimaendringene, selv om de har sluppet ut minst.</p>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-quiz1', 'Quiz')">Start Quiz &rarr;</button></div>
+    </div>
+
+    <!-- QUIZ 1 -->
+    <div id="slide-quiz1" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 1 av 3</h3>
+        <h2>Hvilken definisjon passer best på "Bærekraftig utvikling"?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz2')">At vi skal tjene mest mulig penger nå.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz2')">At vi dekker dagens behov uten å ødelegge for fremtidige generasjoner.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz2')">At vi slutter å bruke teknologi og flytter ut i skogen.</button>
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn" onclick="goto('slide-quiz2', 'Quiz')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div id="slide-quiz2" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 2 av 3</h3>
+        <h2>Hva slags ressurs er fisken i havet?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz3')">Lagerressurs (Ikke-fornybar)</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz3')">Kretsløpsressurs (Alltid fornybar)</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz3')">Betinget fornybar (Kan brukes opp hvis vi fisker for mye)</button>
+        </div>
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn" onclick="goto('slide-quiz3', 'Quiz')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 3 -->
+    <div id="slide-quiz3" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 3 av 3</h3>
+        <h2>Hva er hovedmålet med sirkulærøkonomi?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-end')">Å øke forbruket for å skape vekst.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-end')">Å holde ressursene i kretsløpet lengst mulig og unngå avfall.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-end')">Å brenne søppel for å lage varme.</button>
+        </div>
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn" onclick="goto('slide-end', 'Resultat')">Vis Resultat &rarr;</button>
+        </div>
+    </div>
+
+    <!-- AVSLUTNING -->
+    <div id="slide-end" class="slide">
+        <h2 style="text-align: center; margin-top: 50px;">Godt jobbet! 🌍</h2>
+        <p style="text-align: center; font-size: 1.3rem;">Du har fullført kurset om Ressurser og Bærekraft.</p>
+        
+        <div class="info-box" style="text-align: center; max-width: 600px; margin: 40px auto;">
+            Du forstår nå at alt henger sammen. Økonomi, natur og sosiale forhold må balanseres. Kunnskapen din er første skritt mot en mer rettferdig og grønn fremtid.
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center; border: none;">
+            <button class="btn" onclick="location.reload()">Start på nytt ↺</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON ---
+    function goto(slideId, title) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(slideId).classList.add('active');
+        document.getElementById('status-text').innerText = title;
+    }
+
+    // --- QUIZ LOGIKK ---
+    function checkAnswer(btn, isCorrect, nextSlideId) {
+        let parent = btn.parentElement;
+        let buttons = parent.querySelectorAll('.quiz-btn');
+        
+        buttons.forEach(b => b.disabled = true); // Lås knapper
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            setTimeout(() => {
+                if(nextSlideId === 'slide-end') {
+                    goto('slide-end', 'Resultat');
+                } else {
+                    goto(nextSlideId, 'Quiz');
+                }
+            }, 1500);
+        } else {
+            btn.classList.add('wrong');
+            setTimeout(() => {
+                buttons.forEach(b => { 
+                    b.disabled = false; 
+                    b.classList.remove('wrong'); 
+                });
+            }, 1500);
+        }
+    }
+</script>
+
+</body>
+</html>

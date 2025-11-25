@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vitenskapelig Metode - Fordypning</title>
+<style>
+    /* --- DESIGN: SCIENCE & LAB --- */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Bakgrunn: Mørk, dyp vitenskapsblå */
+        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #e0e0e0;
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #1a1a2e; /* Mørk blå-sort boks */
+        border-radius: 8px;
+        box-shadow: 0 0 50px rgba(0, 210, 255, 0.1);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        
+        /* Neon-cyan ramme */
+        border: 2px solid #00d2ff;
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #16213e;
+        color: #00d2ff;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #00d2ff;
+        flex-shrink: 0;
+    }
+    .header h1 { 
+        margin: 0; 
+        font-size: 1.8rem; 
+        letter-spacing: 2px; 
+        font-weight: 700; 
+        text-transform: uppercase; 
+        text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+    }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 40px 80px;
+        overflow-y: auto;
+        animation: fadeIn 0.5s ease-in-out;
+        /* Gitter-bakgrunn for "teknisk" følelse */
+        background-image: linear-gradient(#1f4068 1px, transparent 1px), linear-gradient(90deg, #1f4068 1px, transparent 1px);
+        background-size: 40px 40px;
+        background-color: #1a1a2e;
+    }
+    .slide.active { display: block; }
+    
+    /* Scrollbar styling */
+    .slide::-webkit-scrollbar { width: 8px; }
+    .slide::-webkit-scrollbar-track { background: #1a1a2e; }
+    .slide::-webkit-scrollbar-thumb { background: #00d2ff; border-radius: 4px; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+    h2 { color: #ffffff; border-bottom: 3px solid #e94560; padding-bottom: 10px; margin-top: 0; font-size: 2.4rem; }
+    h3 { color: #00d2ff; margin-top: 30px; font-size: 1.5rem; font-weight: bold; }
+    p, li { font-size: 1.15rem; line-height: 1.6; color: #b0b0b0; margin-bottom: 15px; }
+    strong { color: #e94560; /* Neon rød/rosa for viktige ord */ }
+
+    .info-box {
+        background: #0f3460; 
+        border-left: 5px solid #00d2ff;
+        padding: 25px;
+        margin: 25px 0;
+        border-radius: 0 8px 8px 0;
+        color: #fff;
+    }
+
+    /* --- MENY --- */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+    .menu-item {
+        background: #16213e; border: 1px solid #1f4068; padding: 25px; 
+        cursor: pointer; text-align: center; border-radius: 4px; transition: 0.3s;
+        box-shadow: 0 4px 0 #0f3460;
+    }
+    .menu-item:hover { transform: translateY(-3px); border-color: #00d2ff; background: #1a1a2e; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
+    .icon { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+    .menu-title { font-weight: bold; color: #00d2ff; font-size: 1.3rem; }
+    
+    /* --- KNAPPER --- */
+    .nav-buttons { margin-top: 30px; display: flex; justify-content: space-between; border-top: 1px solid #1f4068; padding-top: 20px; margin-bottom: 20px; }
+    .btn { padding: 15px 35px; background: #e94560; color: #fff; border: none; border-radius: 4px; font-size: 1.1rem; cursor: pointer; font-weight: bold; transition: 0.2s; box-shadow: 0 4px 0 #961e32; letter-spacing: 1px; text-transform: uppercase;}
+    .btn:hover { background: #ff2e4c; transform: translateY(-2px); box-shadow: 0 6px 0 #961e32; }
+    .btn-outline { background: transparent; color: #00d2ff; border: 2px solid #00d2ff; border-radius: 4px; padding: 13px 33px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;}
+    .btn-outline:hover { background: rgba(0, 210, 255, 0.1); box-shadow: 0 0 10px rgba(0, 210, 255, 0.4); color: #fff; }
+
+    /* Quiz styles */
+    .quiz-container { margin-top: 20px; }
+    .quiz-btn { display: block; width: 100%; padding: 20px; margin-bottom: 15px; background: #16213e; border: 1px solid #1f4068; border-radius: 4px; text-align: left; font-size: 1.15rem; cursor: pointer; transition: 0.2s; color: #fff; }
+    .quiz-btn:hover { background: #23315e; border-color: #00d2ff; }
+    .correct { background: #054d26 !important; border-color: #00ff00 !important; color: #fff; font-weight: bold; box-shadow: 0 0 10px #00ff00; }
+    .wrong { background: #4d0505 !important; border-color: #ff0000 !important; color: #fff; }
+
+    /* Intro tittel effekt */
+    .glitch-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: #fff;
+        text-transform: uppercase;
+        position: relative;
+        display: inline-block;
+    }
+    .glitch-title::after {
+        content: "SANNHETEN";
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: #00d2ff;
+        z-index: -1;
+        transform: translate(4px, 4px);
+    }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>VITENSKAP 🧪</h1>
+        <div id="status-text">Startside</div>
+    </div>
+
+    <!-- INTRODUKSJON -->
+    <div id="slide-intro" class="slide active" style="text-align: center; padding-top: 100px;">
+        <h2 style="border: none; margin-bottom: 10px;">JAKTEN PÅ</h2>
+        <div class="glitch-title">SANNHETEN</div>
+        <p style="margin-top: 40px; font-size: 1.4rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+            Hvordan skiller vi fakta fra ren overtro? Hvordan vet vi at medisiner virker? <br>
+            Svaret er ikke magi. Svaret er en streng, systematisk metode.
+        </p>
+        
+        <div class="info-box" style="text-align: left; max-width: 700px; margin: 40px auto;">
+            <strong>Oppdraget:</strong><br>
+            I dagens samfunn med "fake news" er kritisk tenkning viktigere enn noensinne. Du skal lære forskernes verktøykasse: Hvordan stille spørsmål, teste dem presist, og akseptere feil.
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center; border: none;">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Start Eksperimentet &rarr;</button>
+        </div>
+    </div>
+
+    <!-- HOVEDMENY -->
+    <div id="slide-menu" class="slide">
+        <h2>Laboratoriet</h2>
+        <div class="menu-grid">
+            <div class="menu-item" onclick="goto('slide-metode', '1. Vitenskapelig metode')">
+                <span class="icon">⚙️</span>
+                <div class="menu-title">1. Den vitenskapelige metode</div>
+                <div>Falsifisering & Publisering</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-hypotese', '2. Hypoteser')">
+                <span class="icon">🤔</span>
+                <div class="menu-title">2. Hypoteser</div>
+                <div>Teori vs Hypotese</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-variabler', '3. Variabler')">
+                <span class="icon">🎛️</span>
+                <div class="menu-title">3. Variabler</div>
+                <div>Årsak & Virkning</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-maling', '4. Måling og Data')">
+                <span class="icon">📏</span>
+                <div class="menu-title">4. Måling og Data</div>
+                <div>Presisjon vs Nøyaktighet</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-feil', '5. Feilkilder')">
+                <span class="icon">⚠️</span>
+                <div class="menu-title">5. Feilkilder</div>
+                <div>Systematisk vs Tilfeldig</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-forsok', '6. Egne forsøk')">
+                <span class="icon">🧪</span>
+                <div class="menu-title">6. Design ditt forsøk</div>
+                <div>Risiko & Rapport</div>
+            </div>
+        </div>
+        <div class="nav-buttons" style="justify-content: center;">
+             <button class="btn" onclick="goto('slide-quiz1', 'Quiz')">Gå til Quiz 🎓</button>
+        </div>
+    </div>
+
+    <!-- 1. DEN VITENSKAPELIGE METODE -->
+    <div id="slide-metode" class="slide">
+        <h2>1. Den vitenskapelige metode ⚙️</h2>
+        <p>Vitenskap er ikke bare en samling fakta, men en <em>prosess</em> for å finne ut hvordan verden henger sammen. Denne prosessen er designet for å fjerne menneskelige feil og ønsketenkning.</p>
+        
+        <h3>Den hypotetisk-deduktive metode:</h3>
+        <ol>
+            <li><strong>Observasjon:</strong> Du legger merke til noe (f.eks. "Brød mugner fortere i plastpose").</li>
+            <li><strong>Hypotese:</strong> Du lager en gjetning som forklarer hvorfor.</li>
+            <li><strong>Deduksjon:</strong> Du forutsier hva som vil skje i et forsøk.</li>
+            <li><strong>Eksperiment:</strong> Du tester det i virkeligheten.</li>
+            <li><strong>Analyse & Konklusjon:</strong> Stemte det? Hvis nei: Forkast hypotesen og start på nytt!</li>
+        </ol>
+
+        <div class="info-box">
+            <strong>Fagfellevurdering (Peer Review):</strong><br>
+            Når en forsker tror de har funnet svaret, er de ikke ferdige. De må skrive en artikkel som sendes til <em>andre</em> eksperter (konkurrenter). Disse prøver å finne feil i metoden. Først når arbeidet er "godkjent" av andre, blir det publisert som vitenskap.
+        </div>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-hypotese', '2. Hypoteser')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 2. HYPOTESER -->
+    <div id="slide-hypotese" class="slide">
+        <h2>2. Hypoteser og Teorier 🤔</h2>
+        <p>Mange blander ordene "teori" og "hypotese". I vitenskapen betyr de to helt forskjellige ting.</p>
+        
+        <h3>Hypotesen: Gjetningen</h3>
+        <p>En hypotese er en antagelse vi gjør <em>før</em> vi har testet den. Den bør skrives etter formelen: 
+        <br><strong>"Hvis... [jeg gjør dette], så... [skjer dette], fordi... [faglig begrunnelse]."</strong></p>
+        <ul>
+            <li>Kravet om <strong>falsifiserbarhet</strong>: Det må være mulig å bevise at hypotesen er feil. Påstanden "Det finnes usynlige spøkelser som ikke kan måles" er <em>ikke</em> vitenskapelig, fordi den aldri kan motbevises.</li>
+        </ul>
+
+        <h3>Teorien: Det nærmeste vi kommer sannhet</h3>
+        <p>En vitenskapelig teori (som Evolusjonsteorien eller Big Bang-teorien) er <strong>ikke</strong> bare en gjetning. Det er en forklaring som er testet tusenvis av ganger, av tusenvis av forskere, og som aldri har blitt motbevist. Det er den høyeste statusen en idé kan ha i vitenskapen.</p>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-variabler', '3. Variabler')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 3. VARIABLER -->
+    <div id="slide-variabler" class="slide">
+        <h2>3. Variabelkontroll 🎛️</h2>
+        <p>Et eksperiment er kun gyldig hvis vi tester <strong>én ting av gangen</strong>. Dette kalles variabler.</p>
+        
+        <div class="info-box">
+            <strong>Eksempel: Du vil teste om gjødsel får planter til å vokse høyere.</strong>
+            <br><br>
+            <strong>1. Uavhengig variabel (Det du endrer):</strong><br>
+            Mengden gjødsel. Du har f.eks. tre planter: En uten gjødsel, en med litt, en med mye.
+            <br><br>
+            <strong>2. Avhengig variabel (Det du måler):</strong><br>
+            Høyden på plantene i centimeter etter 2 uker.
+            <br><br>
+            <strong>3. Kontrollerte variabler (Det du må holde likt):</strong><br>
+            Alt annet! Mengde vann, type jord, pottestørrelse, temperatur, lysmengde.
+        </div>
+        
+        <p>Hvis planten med gjødsel også fikk mer sollys, vet du ikke om det var sola eller gjødselet som fikk den til å vokse. Forsøket er da ugyldig (variabel-rot).</p>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-maling', '4. Måling og Data')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 4. MÅLING OG DATA -->
+    <div id="slide-maling" class="slide">
+        <h2>4. Måling, Data og Enheter 📏</h2>
+        <p>Vitenskapens språk er matematikk. Vi bruker <strong>SI-systemet</strong> (Standardiserte måleenheter) slik at en forsker i Norge og en i Japan forstår hverandre (Meter, Kilogram, Sekund).</p>
+        
+        <h3>Presisjon vs. Nøyaktighet:</h3>
+        <ul>
+            <li><strong>Nøyaktighet:</strong> Hvor nær målingen din er den <em>sanne</em> verdien. (Treffer du blinken?).</li>
+            <li><strong>Presisjon:</strong> Hvor like målingene dine er hver gang du måler. (Treffer du samme sted hver gang, selv om det er utenfor blinken?).</li>
+        </ul>
+
+        <h3>Databehandling:</h3>
+        <p>Rådata (listene med tall) er vanskelig å lese. Derfor må vi bearbeide dem:</p>
+        <ul>
+            <li><strong>Gjennomsnitt:</strong> Summer alle tallene og del på antall målinger. Dette jevner ut småfeil.</li>
+            <li><strong>Visualisering:</strong> Bruk søylediagram for kategorier (epler vs pærer) og linjediagram for utvikling over tid (temperaturendring).</li>
+        </ul>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-feil', '5. Feilkilder')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 5. FEILKILDER -->
+    <div id="slide-feil" class="slide">
+        <h2>5. Feilkilder og Usikkerhet ⚠️</h2>
+        <p>Ingen måling er 100% perfekt. Å være ærlig om feilkilder styrker troverdigheten din. Vi skiller mellom to hovedtyper:</p>
+        
+        <h3>1. Systematiske feil (Alltid feil samme vei):</h3>
+        <p>Dette skyldes ofte utstyret eller metoden.
+        <br><em>Eksempel:</em> Vekten du bruker er ikke nullstilt, så den viser alltid 5 gram for mye. Eller du leser av volumet i målesylinderen fra feil vinkel hver gang. Dette gir dårlig nøyaktighet, men god presisjon.</p>
+
+        <h3>2. Tilfeldige feil (Støy):</h3>
+        <p>Uunngåelige variasjoner. 
+        <br><em>Eksempel:</em> En plutselig vindpust mens du veier, eller at du trykker på stoppeklokka litt for sent.
+        <br><strong>Løsning:</strong> Gjør mange målinger og regn ut gjennomsnittet!</p>
+
+        <div class="info-box">
+            <strong>Confirmation Bias (Bekreftelsesfelle):</strong><br>
+            En farlig menneskelig feilkilde. Vi har en tendens til å legge merke til data som bekrefter det vi allerede tror, og ignorere data som motbeviser det. Blindtester brukes for å unngå dette.
+        </div>
+        
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-forsok', '6. Egne forsøk')">Neste &rarr;</button></div>
+    </div>
+
+    <!-- 6. DESIGN DITT FORSØK -->
+    <div id="slide-forsok" class="slide">
+        <h2>6. Design og Rapportering 🧪</h2>
+        <p>Når du skal gjennomføre ditt eget forsøk, følg denne sjekklisten:</p>
+        
+        <ol>
+            <li><strong>Problemstilling:</strong> Hva lurer du på? Formuler det som et spørsmål.</li>
+            <li><strong>Risikovurdering (HMS):</strong> Hva kan gå galt? Er det farlige kjemikalier, varme eller glasskår? Hvordan beskytter du deg (vernebriller, hansker)?</li>
+            <li><strong>Utstyrsliste:</strong> Hva trenger du? Vær spesifikk (f.eks. "250 ml begerglass").</li>
+            <li><strong>Gjennomføring:</strong> Følg planen, vær nøyaktig med variablene. Noter alt som skjer underveis, også det uventede.</li>
+        </ol>
+
+        <h3>Rapporten:</h3>
+        <p>Forskning som ikke skrives ned, har aldri skjedd. En rapport skal ha en struktur som gjør at <em>hvem som helst</em> skal kunne lese den og gjenta forsøket ditt nøyaktig likt. Inkluder alltid diskusjon av feilkilder!</p>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button><button class="btn" onclick="goto('slide-quiz1', 'Quiz')">Start Quiz &rarr;</button></div>
+    </div>
+
+    <!-- QUIZ 1 -->
+    <div id="slide-quiz1" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 1 av 3</h3>
+        <h2>Hva menes med at en hypotese må være "falsifiserbar"?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz2')">At den alltid er falsk.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz2')">At det må være mulig å motbevise den gjennom forsøk.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz2')">At den må bekreftes av en lærer.</button>
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn" onclick="goto('slide-quiz2', 'Quiz')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div id="slide-quiz2" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 2 av 3</h3>
+        <h2>Hvis vekten din alltid viser 2 kg for mye fordi den er ødelagt, hva slags feil er dette?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz3')">En tilfeldig feil.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz3')">En systematisk feil.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-quiz3')">En variabel feil.</button>
+        </div>
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn" onclick="goto('slide-quiz3', 'Quiz')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 3 -->
+    <div id="slide-quiz3" class="slide">
+        <h2>Quiz 🎓</h2>
+        <h3>Spørsmål 3 av 3</h3>
+        <h2>Hvorfor er det viktig å kontrollere variabler?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-end')">For å gjøre forsøket billigere.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'slide-end')">For å få det resultatet vi ønsker oss.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-end')">For å vite sikkert hva som er årsaken til resultatet.</button>
+        </div>
+        <div class="nav-buttons" style="justify-content: flex-end;">
+            <button class="btn" onclick="goto('slide-end', 'Resultat')">Vis Resultat &rarr;</button>
+        </div>
+    </div>
+
+    <!-- AVSLUTNING -->
+    <div id="slide-end" class="slide">
+        <h2>Gratulerer! 🧪</h2>
+        <p>Du har fullført fordypningen i Vitenskapelig Metode.</p>
+        <p>Du vet nå forskjellen på en hypotese og en teori, hvordan du unngår systematiske feil, og hvorfor variabelkontroll er nøkkelen til sannhet. Bruk denne kunnskapen til å tenke kritisk!</p>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="location.reload()">Start på nytt</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON ---
+    function goto(slideId, title) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById(slideId).classList.add('active');
+        document.getElementById('status-text').innerText = title;
+    }
+
+    // --- QUIZ LOGIKK ---
+    function checkAnswer(btn, isCorrect, nextSlideId) {
+        let parent = btn.parentElement;
+        let buttons = parent.querySelectorAll('.quiz-btn');
+        
+        buttons.forEach(b => b.disabled = true); // Lås knapper
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            setTimeout(() => {
+                if(nextSlideId === 'slide-end') {
+                    goto('slide-end', 'Resultat');
+                } else {
+                    goto(nextSlideId, 'Quiz');
+                }
+            }, 1500);
+        } else {
+            btn.classList.add('wrong');
+            setTimeout(() => {
+                buttons.forEach(b => { 
+                    b.disabled = false; 
+                    b.classList.remove('wrong'); 
+                });
+            }, 1500);
+        }
+    }
+</script>
+
+</body>
+</html>

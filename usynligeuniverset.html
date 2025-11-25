@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Det Usynlige Universet</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+<style>
+    /* --- DESIGN: SCIENCE / LAB / SPACE --- */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle, #1a1a2e 0%, #16213e 100%);
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #e0e0e0;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #0f3460;
+        border-radius: 20px;
+        box-shadow: 0 0 50px rgba(57, 255, 20, 0.1); /* Neon grønn glød */
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 4px solid #e94560;
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #16213e;
+        color: #fff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #e94560;
+        z-index: 100;
+        flex-shrink: 0;
+    }
+    .header h1 { margin: 0; font-size: 1.8rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; color: #00d4ff; }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 30px 60px;
+        overflow-y: auto;
+        animation: fadeIn 0.3s ease-in-out;
+        background-color: #0f3460;
+    }
+    .slide.active { display: block; }
+
+    /* SPESIAL: 3D Slide Container */
+    #slide-atom-model {
+        padding: 0;
+        overflow: hidden;
+        background: #000;
+        position: relative;
+    }
+    #atom-canvas-container {
+        width: 100%;
+        height: 100%;
+        display: block;
+        outline: none;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
+
+    h2 { color: #39ff14; border-bottom: 2px dashed #39ff14; padding-bottom: 10px; margin-top: 0; font-size: 2.2rem; }
+    h3 { color: #00d4ff; margin-top: 20px; font-size: 1.5rem; }
+    p, li { font-size: 1.2rem; line-height: 1.5; color: #e0e0e0; margin-bottom: 10px; }
+    strong { color: #e94560; }
+
+    .info-box {
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 6px solid #00d4ff;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* --- MENY --- */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+    .menu-item {
+        background: rgba(255, 255, 255, 0.05); border: 2px solid #00d4ff; padding: 15px; 
+        cursor: pointer; text-align: center; border-radius: 15px; transition: 0.2s;
+        box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    }
+    .menu-item:hover { transform: translateY(-3px); background: rgba(0, 212, 255, 0.2); }
+    .icon { font-size: 2rem; display: block; margin-bottom: 5px; }
+    .menu-title { font-weight: bold; color: #fff; font-size: 1.1rem; }
+    
+    /* Spesialkort for 3D modell */
+    .model-card { border-color: #ffff00; box-shadow: 0 0 15px rgba(255, 255, 0, 0.3); grid-column: span 2; }
+    .model-card:hover { background: rgba(255, 255, 0, 0.1); }
+
+    .game-card { border-color: #e94560; box-shadow: 0 0 15px rgba(233, 69, 96, 0.3); }
+    .game-card:hover { background: rgba(233, 69, 96, 0.2); }
+
+    .nav-buttons { margin-top: 20px; display: flex; justify-content: space-between; border-top: 1px solid #555; padding-top: 15px; }
+    .btn { padding: 12px 30px; background: #39ff14; color: #000; border: none; border-radius: 50px; font-size: 1.1rem; cursor: pointer; font-weight: bold; box-shadow: 0 0 15px #39ff14; transition: 0.2s; }
+    .btn:hover { transform: scale(1.05); background: #fff; }
+    .btn-outline { background: transparent; color: #39ff14; border: 2px solid #39ff14; }
+    .btn-outline:hover { background: rgba(57, 255, 20, 0.1); }
+    .btn-red { background: #e94560; color: white; border: none; box-shadow: 0 0 15px #e94560; }
+    .btn-red:hover { background: #ff6b81; }
+
+    /* Scene Controls for 3D */
+    .scene-controls {
+        position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+        display: flex; gap: 10px; z-index: 200;
+    }
+    .instruction-text {
+        position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+        color: rgba(255,255,255,0.8); font-size: 1rem; pointer-events: none; z-index: 10;
+        background: rgba(0,0,0,0.6); padding: 8px 15px; border-radius: 20px; border: 1px solid #00d4ff;
+    }
+
+    /* --- QUIZ --- */
+    .quiz-btn { display: block; width: 100%; padding: 15px; margin-bottom: 10px; background: rgba(255,255,255,0.1); border: 2px solid #555; border-radius: 10px; text-align: left; font-size: 1.1rem; cursor: pointer; transition: 0.2s; color: white; }
+    .quiz-btn:hover { background: rgba(57, 255, 20, 0.3); border-color: #39ff14; }
+    .correct { background: #27ae60 !important; border-color: #2ecc71 !important; }
+    .wrong { background: #c0392b !important; border-color: #e74c3c !important; }
+
+    /* --- GAME STYLES --- */
+    #game-container {
+        position: relative; width: 100%; height: 400px;
+        background: #000; border: 4px solid #e94560;
+        overflow: hidden; margin: 0 auto 10px auto; border-radius: 10px;
+    }
+    #game-canvas { width: 100%; height: 100%; display: block; }
+    #game-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; z-index: 20; }
+    #game-hud { position: absolute; top: 10px; left: 20px; color: #39ff14; font-weight: bold; font-size: 1.5rem; z-index: 10; }
+    .d-pad { display: flex; gap: 10px; justify-content: center; margin-top: 5px; }
+    .d-btn { width: 60px; height: 60px; background: #00d4ff; color: #000; border-radius: 10px; font-size: 1.5rem; border: none; cursor: pointer; box-shadow: 0 0 10px #00d4ff; }
+    .d-btn:active { transform: translateY(4px); box-shadow: none; }
+    #ingame-exit { position: absolute; top: 10px; right: 20px; background: #e94560; color: white; border: 2px solid white; font-weight: bold; padding: 8px 15px; cursor: pointer; z-index: 2000; border-radius: 5px; pointer-events: auto; }
+    #ingame-exit:hover { transform: scale(1.05); }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔬 Det Usynlige Universet</h1>
+        <div id="status-text">Start</div>
+    </div>
+
+    <div id="slide-intro" class="slide active">
+        <h2>Verden i miniatyr 🌌</h2>
+        <p>Se på hånden din. Se på pulten din. Se på lufta. Alt ser forskjellig ut, men visste du at alt egentlig er laget av nøyaktig det samme?</p>
+        <p>For over 2000 år siden tenkte en greker som het Demokrit: <em>"Hvis jeg deler en ost i to, og så deler den igjen og igjen... til slutt må jeg komme til en bit som er så liten at den ikke kan deles mer."</em></p>
+        
+        <div class="info-box">
+            <strong>Atom:</strong><br>
+            Ordet atom betyr "udel-bar" på gresk. Tenk på atomer som universets LEGO-klosser. Det finnes bare ca. 100 typer legoklosser, men du kan bygge millioner av forskjellige ting med dem!
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Start Mikroskopet &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-menu" class="slide">
+        <h2>Hva vil du forske på?</h2>
+        <div class="menu-grid">
+            <div class="menu-item model-card" onclick="goto('slide-atom-model', '3D Atom-Modell')" style="grid-column: span 2;">
+                <span class="icon">⚛️</span>
+                <div class="menu-title">3D ATOM-MODELL</div>
+                <div>Utforsk protoner og elektroner!</div>
+            </div>
+
+            <div class="menu-item" onclick="goto('slide-atomet', '1. Atomet')">
+                <span class="icon">🔍</span>
+                <div class="menu-title">1. Atomet</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-faser', '2. Partikkel-dans')">
+                <span class="icon">🌡️</span>
+                <div class="menu-title">2. Faser</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-grunnstoff', '3. Grunnstoffer')">
+                <span class="icon">🧪</span>
+                <div class="menu-title">3. Grunnstoffer</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-reaksjon', '4. Kjemi')">
+                <span class="icon">💥</span>
+                <div class="menu-title">4. Kjemi</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-tomrom', '5. Magnet-kraft')">
+                <span class="icon">🧲</span>
+                <div class="menu-title">5. Usynlig kraft</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-temp', '6. Temperatur')">
+                <span class="icon">❄️</span>
+                <div class="menu-title">6. Temperatur</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-quiz1', 'Quiz')">
+                <span class="icon">🎓</span>
+                <div class="menu-title">Quiz</div>
+            </div>
+            <div class="menu-item game-card" onclick="goto('slide-game', 'Spill: Partikkel-Kaos')">
+                <span class="icon">🕹️</span>
+                <div class="menu-title">SPILL: Kaos</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="slide-atom-model" class="slide">
+        <div id="atom-canvas-container"></div>
+        <div class="instruction-text">Roter med mus/finger • Scroll for å zoome</div>
+        <div class="scene-controls">
+            <button class="btn" onclick="goto('slide-menu', 'Hovedmeny')">Tilbake til Meny</button>
+        </div>
+    </div>
+
+    <div id="slide-atomet" class="slide">
+        <h2>1. Inni Atomet ⚛️</h2>
+        <p>Selv om "atom" betyr udelelig, vet vi i dag at det består av enda mindre deler. Det ligner litt på et solsystem!</p>
+        
+        <div class="info-box">
+            <ul>
+                <li><strong>Kjernen (Sola):</strong> I midten sitter <em>Protoner</em> (+) og <em>Nøytroner</em> (nøytrale). De er tunge og sitter helt stille.</li>
+                <li><strong>Skallet (Planetene):</strong> Rundt kjernen suser <em>Elektroner</em> (-) i en voldsom fart. De veier nesten ingenting.</li>
+            </ul>
+        </div>
+        <p>Det er antallet protoner i kjernen som bestemmer hvilket stoff det er. 1 proton = Hydrogen. 8 protoner = Oksygen. 79 protoner = Gull!</p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-faser', '2. Partikkel-dans')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-faser" class="slide">
+        <h2>2. Partiklenes dans (Faser) 💃</h2>
+        <p>Hva er forskjellen på is, vann og damp? Det er de samme partiklene, men de danser forskjellig!</p>
+        <p>Tenk deg at temperaturen er musikken:</p>
+
+        <div class="info-box">
+            <ul>
+                <li><strong>Fast form (Kaldt):</strong> Musikken er lav. Partiklene holder hender og står på rekke. De bare vibrerer litt.</li>
+                <li><strong>Væske (Middels):</strong> Musikken skrus opp! Partiklene slipper hendene og glir rundt hverandre som i en tett folkemengde.</li>
+                <li><strong>Gass (Varmt):</strong> Full fest! Partiklene har masse energi og flyr i alle retninger. De krasjer og spretter.</li>
+            </ul>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-grunnstoff', '3. Grunnstoffer')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-grunnstoff" class="slide">
+        <h2>3. Rent gull eller lapskaus? 🧪</h2>
+        <p>I kjemien skiller vi mellom rene stoffer og blandinger.</p>
+
+        <h3>Grunnstoffer (Rene stoffer)</h3>
+        <p>Dette er stoffer som bare består av <strong>én type</strong> atomer. I periodesystemet finner vi alle disse.
+        <br><em>Eksempler: Gull (Au), Oksygen (O), Jern (Fe).</em></p>
+
+        <h3>Molekyler (Sammensatte stoffer)</h3>
+        <p>Når forskjellige atomer kobler seg sammen, får vi et molekyl. Vann er et molekyl (H2O) fordi det er laget av to Hydrogen og én Oksygen.</p>
+        
+        <div class="info-box">
+            <strong>Fun Fact:</strong><br>
+            Bordsalt er laget av Natrium (et metall som eksploderer i vann) og Klor (en giftig gass). Men når de kobles sammen til NaCl, blir det deilig på pommes frites!
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-reaksjon', '4. Kjemi')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-reaksjon" class="slide">
+        <h2>4. Kjemiske Reaksjoner 💥</h2>
+        <p>Hva skjer når det smeller, bruser eller skifter farge? Det er en kjemisk reaksjon!</p>
+        <p>I en kjemisk reaksjon blir atomene verken skapt eller borte – de bare bytter plasser, som i en intens pardans.</p>
+
+        <div class="info-box">
+            <strong>Knekklys: Magi på boks? 🪄</strong><br>
+            Har du prøvd knekklys på fest? Inni plastrøret er det to forskjellige væsker som holdes adskilt av et tynt glass.<br>
+            Når du "knekker" røret, knuser glasset. Væskene blandes, og kjemien lager lys! Dette skjer helt uten strøm og uten at det blir varmt.
+        </div>
+
+        <p><strong>Alt er gjenbruk:</strong> Siden atomer aldri forsvinner, er du laget av gjenbruksmateriale. Karbonet i lillefingeren din kan ha vært en del av pusten til en dinosaur, eller støv fra en stjerne som eksploderte!</p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-tomrom', '5. Usynlig kraft')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-tomrom" class="slide">
+        <h2>5. Rører du egentlig skjermen? 📱</h2>
+        <p>Prøv å trykke fingeren mot bordet. Det føles hardt, ikke sant?</p>
+        <p>Men her er en hemmelighet: <strong>Du rører det egentlig ikke!</strong></p>
+        
+        <div class="info-box">
+            <strong>Magnet-trikset:</strong><br>
+            Har du prøvd å presse to like magneter mot hverandre? De dytter hverandre bort før de treffer.<br><br>
+            Det samme skjer med atomer! Utenpå alle atomer er det elektroner (minus). Siden fingeren din og bordet begge har minus-lading ytterst, dytter de hverandre bort.
+        </div>
+
+        <p>Så du svever egentlig bittelitt over stolen du sitter på akkurat nå!</p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-temp', '6. Temperatur')">Neste &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-temp" class="slide">
+        <h2>6. Hva er egentlig temperatur? 🌡️</h2>
+        <p>Vi føler kulde og varme, men for et atom er det bare én ting som gjelder: <strong>Bevegelse!</strong></p>
+        <p>Temperatur er rett og slett et mål på hvor mye atomene vibrerer.</p>
+        
+        <div class="info-box">
+            <ul>
+                <li><strong>Varm te:</strong> Vannmolekylene krasjer rundt i høy fart.</li>
+                <li><strong>Isbit:</strong> Vannmolekylene står nesten stille og bare skjelver litt.</li>
+            </ul>
+        </div>
+
+        <h3>Det absolutte nullpunkt 🥶</h3>
+        <p>Finnes det en grense for hvor kaldt det kan bli? Ja!</p>
+        <p>Ved <strong>-273,15 grader</strong> (Det absolutte nullpunkt) stopper bevegelsen helt opp. Ingenting i hele universet kan bli kaldere enn dette, for man kan ikke bevege seg mindre enn helt stille.</p>
+
+        <div class="nav-buttons">
+            <button class="btn-outline" onclick="goto('slide-menu', 'Hovedmeny')">Meny</button>
+            <button class="btn" onclick="goto('slide-game', 'Spill')">Start Spillet &rarr;</button>
+        </div>
+    </div>
+
+    <div id="slide-game" class="slide">
+        <h2>Spill: Partikkel-Kaos 🕹️</h2>
+        <p>Du er den <span style="color:#00d4ff">BLÅ</span> kjernen. Samle gule elektroner. UNNGÅ de <span style="color:#e94560">RØDE</span> partiklene!</p>
+        <p style="font-size: 0.9rem;">Advarsel: Når temperaturen (score) øker, beveger partiklene seg raskere!</p>
+        
+        <div id="game-container">
+            <div id="ingame-exit" onclick="goto('slide-menu', 'Hovedmeny')">❌ AVSLUTT</div>
+            <div id="game-hud">Elektroner: 0</div>
+            <canvas id="game-canvas" width="800" height="400"></canvas>
+            <div id="game-overlay">
+                <h1 style="font-size: 3rem; margin:0; color: #39ff14;">KLAR?</h1>
+                <button class="btn" onclick="startGame()">START</button>
+            </div>
+        </div>
+
+        <div class="d-pad">
+            <button class="d-btn" onclick="handleMobileInput('ArrowLeft')">⬅️</button>
+            <button class="d-btn" onclick="handleMobileInput('ArrowUp')">⬆️</button>
+            <button class="d-btn" onclick="handleMobileInput('ArrowDown')">⬇️</button>
+            <button class="d-btn" onclick="handleMobileInput('ArrowRight')">➡️</button>
+        </div>
+
+        <div class="nav-buttons" style="justify-content: center; margin-top: 10px;">
+            <button class="btn-red" onclick="goto('slide-menu', 'Hovedmeny')">Tilbake til Meny</button>
+        </div>
+    </div>
+    
+    <div id="slide-quiz1" class="slide">
+        <h3>Spørsmål 1 av 3</h3>
+        <h2>Hva finner vi i kjernen av et atom?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Elektroner og luft</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz2')">Protoner og Nøytroner</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Bare tomrom</button>
+        </div>
+    </div>
+
+    <div id="slide-quiz2" class="slide">
+        <h3>Spørsmål 2 av 3</h3>
+        <h2>Hva skjer med partiklene når det blir varmere?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz3')">De beveger seg raskere og tar mer plass</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">De fryser fast</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">De krymper</button>
+        </div>
+    </div>
+
+    <div id="slide-quiz3" class="slide">
+        <h3>Spørsmål 3 av 3</h3>
+        <h2>Hva er et molekyl?</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">En eksplosjon</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Et atom som er delt i to</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-end')">Flere atomer som er koblet sammen</button>
+        </div>
+    </div>
+
+    <div id="slide-end" class="slide">
+        <h2>Gratulerer! 🏆</h2>
+        <p>Du er nå en Partikkel-Ekspert!</p>
+        <p>Du vet nå at verden er bygget av LEGO, at varme er bevegelse, og at du mest består av tomrom.</p>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="location.reload()">Start på nytt</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON ---
+    function goto(slideId, title) {
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        let target = document.getElementById(slideId);
+        target.classList.add('active');
+        document.getElementById('status-text').innerText = title;
+
+        if(slideId === 'slide-game') resetGame(); else stopGame();
+
+        // Init 3D atom if it's that slide
+        if(slideId === 'slide-atom-model') {
+            setTimeout(initAtom3D, 50);
+        }
+    }
+
+    // --- QUIZ ---
+    function checkAnswer(btn, isCorrect, nextSlideId) {
+        let parent = btn.parentElement;
+        let buttons = parent.querySelectorAll('.quiz-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            setTimeout(() => goto(nextSlideId, 'Quiz'), 1500);
+        } else {
+            btn.classList.add('wrong');
+            setTimeout(() => {
+                buttons.forEach(b => { b.disabled = false; b.classList.remove('wrong'); });
+            }, 1500);
+        }
+    }
+
+    // --- 3D ATOM MODELL (THREE.JS) ---
+    let atomScene, atomCamera, atomRenderer, atomControls;
+    let nucleusGroup, electronsGroup;
+    let atomInitialized = false;
+
+    function initAtom3D() {
+        const container = document.getElementById('atom-canvas-container');
+        if(atomInitialized || !container) return; // Unngå dobbel init
+
+        // Scene setup
+        atomScene = new THREE.Scene();
+        // Ingen bakgrunnsfarge satt her, lar den være transparent så CSS-bakgrunnen synes (svart)
+
+        atomCamera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        atomCamera.position.set(0, 20, 60);
+
+        atomRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        atomRenderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(atomRenderer.domElement);
+
+        atomControls = new THREE.OrbitControls(atomCamera, atomRenderer.domElement);
+        atomControls.enableDamping = true;
+
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0x404040, 2);
+        atomScene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0xffffff, 2, 100);
+        pointLight.position.set(20, 20, 20);
+        atomScene.add(pointLight);
+
+        // 1. KJERNE (Protoner & Nøytroner)
+        nucleusGroup = new THREE.Group();
+        const sphereGeo = new THREE.SphereGeometry(1.5, 16, 16);
+        const protonMat = new THREE.MeshStandardMaterial({ color: 0xff3333, roughness: 0.4 }); // Rød
+        const neutronMat = new THREE.MeshStandardMaterial({ color: 0x888888, roughness: 0.4 }); // Grå
+        
+        // Lag en klynge av kuler
+        for(let i=0; i<16; i++) {
+            const isProton = Math.random() > 0.5;
+            const mesh = new THREE.Mesh(sphereGeo, isProton ? protonMat : neutronMat);
+            // Tilfeldig posisjon nær sentrum
+            mesh.position.set(
+                (Math.random() - 0.5) * 4,
+                (Math.random() - 0.5) * 4,
+                (Math.random() - 0.5) * 4
+            );
+            nucleusGroup.add(mesh);
+        }
+        atomScene.add(nucleusGroup);
+
+        // 2. ELEKTRONER I BANER
+        electronsGroup = new THREE.Group();
+        const orbitCount = 4;
+        const electronGeo = new THREE.SphereGeometry(0.6, 16, 16);
+        const electronMat = new THREE.MeshBasicMaterial({ color: 0x00ffff }); // Cyan neon
+        const trailMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.2, side: THREE.DoubleSide });
+
+        for(let i=0; i<orbitCount; i++) {
+            const orbitGroup = new THREE.Group();
+            const radius = 12 + i * 3; // Forskjellig størrelse på banene
+
+            // Selve banen (tynn ring/torus)
+            const torusGeo = new THREE.TorusGeometry(radius, 0.05, 8, 64);
+            const trail = new THREE.Mesh(torusGeo, trailMat);
+            orbitGroup.add(trail);
+
+            // Elektronet
+            const electron = new THREE.Mesh(electronGeo, electronMat);
+            // Vi legger elektronet i en wrapper for å animere det rundt banen
+            const electronWrapper = new THREE.Object3D();
+            electron.position.x = radius; // Plasser på kanten
+            electronWrapper.add(electron);
+            
+            // Gi banen en tilfeldig rotasjon
+            orbitGroup.rotation.x = Math.random() * Math.PI;
+            orbitGroup.rotation.y = Math.random() * Math.PI;
+            
+            // Lagre rotasjonshastighet for animasjon
+            orbitGroup.userData = { speed: 0.05 + Math.random() * 0.05, electronWrapper: electronWrapper };
+
+            orbitGroup.add(electronWrapper);
+            electronsGroup.add(orbitGroup);
+        }
+        atomScene.add(electronsGroup);
+
+        atomInitialized = true;
+        animateAtom();
+    }
+
+    function animateAtom() {
+        requestAnimationFrame(animateAtom);
+        
+        // Roter kjernen sakte
+        if(nucleusGroup) {
+            nucleusGroup.rotation.y += 0.005;
+            nucleusGroup.rotation.z += 0.002;
+        }
+
+        // Roter elektroner
+        if(electronsGroup) {
+            electronsGroup.children.forEach(orbit => {
+                // Roter selve elektronet rundt banen sin
+                orbit.userData.electronWrapper.rotation.z += orbit.userData.speed;
+            });
+            // Roter hele elektronskyen sakte
+            electronsGroup.rotation.y -= 0.002;
+        }
+
+        atomControls.update();
+        atomRenderer.render(atomScene, atomCamera);
+    }
+
+    // Resize handler for Atom
+    window.addEventListener('resize', () => {
+        if(!atomInitialized) return;
+        const container = document.getElementById('atom-canvas-container');
+        atomCamera.aspect = container.clientWidth / container.clientHeight;
+        atomCamera.updateProjectionMatrix();
+        atomRenderer.setSize(container.clientWidth, container.clientHeight);
+    });
+
+
+    // --- GAME LOGIC: PARTIKKEL-KAOS ---
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    const hud = document.getElementById('game-hud');
+    const overlay = document.getElementById('game-overlay');
+    
+    let gameInterval;
+    let score = 0;
+    let difficulty = 1.0; 
+    
+    let player = { x: 400, y: 200, r: 15, speed: 5 };
+    let enemies = [];
+    let coins = [];
+    let keys = {};
+
+    function resetGame() {
+        score = 0;
+        difficulty = 1.0; 
+        hud.innerText = "Elektroner: 0";
+        player.x = canvas.width / 2;
+        player.y = canvas.height / 2;
+        enemies = [];
+        coins = [];
+        
+        for(let i=0; i<5; i++) spawnEnemy();
+        spawnCoin();
+
+        overlay.style.display = 'flex';
+        overlay.innerHTML = `<h1>KLAR?</h1><p>Unngå RØDT. Fang GULT.</p><button class="btn" onclick="startGame()">START</button>`;
+        
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+
+    function spawnEnemy() {
+        enemies.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: 10 + Math.random() * 10,
+            dx: (Math.random() - 0.5) * 4,
+            dy: (Math.random() - 0.5) * 4
+        });
+    }
+
+    function spawnCoin() {
+        coins.push({
+            x: 50 + Math.random() * (canvas.width - 100),
+            y: 50 + Math.random() * (canvas.height - 100),
+            r: 5
+        });
+    }
+
+    function startGame() {
+        overlay.style.display = 'none';
+        if(gameInterval) clearInterval(gameInterval);
+        gameInterval = setInterval(update, 1000/60);
+    }
+
+    function stopGame() {
+        clearInterval(gameInterval);
+    }
+
+    function update() {
+        if (keys['ArrowLeft']) player.x -= player.speed;
+        if (keys['ArrowRight']) player.x += player.speed;
+        if (keys['ArrowUp']) player.y -= player.speed;
+        if (keys['ArrowDown']) player.y += player.speed;
+
+        if(player.x < player.r) player.x = player.r;
+        if(player.x > canvas.width - player.r) player.x = canvas.width - player.r;
+        if(player.y < player.r) player.y = player.r;
+        if(player.y > canvas.height - player.r) player.y = canvas.height - player.r;
+
+        enemies.forEach(e => {
+            e.x += e.dx * difficulty;
+            e.y += e.dy * difficulty;
+            if(e.x < e.r || e.x > canvas.width - e.r) e.dx *= -1;
+            if(e.y < e.r || e.y > canvas.height - e.r) e.dy *= -1;
+            
+            let dist = Math.hypot(player.x - e.x, player.y - e.y);
+            if(dist < player.r + e.r) gameOver();
+        });
+
+        for(let i = coins.length - 1; i >= 0; i--) {
+            let c = coins[i];
+            let dist = Math.hypot(player.x - c.x, player.y - c.y);
+            if(dist < player.r + c.r + 10) {
+                coins.splice(i, 1);
+                score++;
+                difficulty += 0.1; 
+                hud.innerText = "Elektroner: " + score;
+                spawnCoin();
+                if(score % 3 === 0) spawnEnemy();
+                if(score >= 15) victory();
+            }
+        }
+        draw();
+    }
+
+    function draw() {
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.shadowBlur = 20; ctx.shadowColor = "#00d4ff"; ctx.fillStyle = "#00d4ff";
+        ctx.beginPath(); ctx.arc(player.x, player.y, player.r, 0, Math.PI*2); ctx.fill();
+
+        ctx.shadowColor = "#e94560"; ctx.fillStyle = "#e94560";
+        enemies.forEach(e => { ctx.beginPath(); ctx.arc(e.x, e.y, e.r, 0, Math.PI*2); ctx.fill(); });
+
+        ctx.shadowColor = "#ffff00"; ctx.fillStyle = "#ffff00";
+        coins.forEach(c => { ctx.beginPath(); ctx.arc(c.x, c.y, c.r, 0, Math.PI*2); ctx.fill(); });
+        
+        ctx.shadowBlur = 0;
+    }
+
+    function gameOver() {
+        stopGame();
+        overlay.style.display = 'flex';
+        overlay.innerHTML = `<h2 style="color:#e94560">BOOM! 💥</h2><p>Score: ${score}</p><button class="btn" onclick="resetGame()">PRØV IGJEN</button>`;
+    }
+
+    function victory() {
+        stopGame();
+        overlay.style.display = 'flex';
+        overlay.innerHTML = `<h2 style="color:#39ff14">FULLLADET! ⚡</h2><p>Du vant!</p><button class="btn" onclick="resetGame()">SPILL IGJEN</button>`;
+    }
+
+    window.addEventListener('keydown', e => keys[e.code] = true);
+    window.addEventListener('keyup', e => keys[e.code] = false);
+
+    function handleMobileInput(key) {
+        if(key === 'ArrowLeft') player.x -= 20;
+        if(key === 'ArrowRight') player.x += 20;
+        if(key === 'ArrowUp') player.y -= 20;
+        if(key === 'ArrowDown') player.y += 20;
+    }
+
+</script>
+
+</body>
+</html>
