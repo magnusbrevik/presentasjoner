@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oversikt: Temaer for Ungdomstrinnet</title>
     <style>
-        /* Grunnleggende styling for oversiktssiden */
+        /* --- GLOBAL STYLING --- */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            /* Nytt: Animert bakgrunn */
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2b2b2b 100%);
+            animation: backgroundShift 15s ease infinite alternate;
             color: #f0f0f0;
             margin: 0;
             padding: 50px 20px;
@@ -18,6 +20,12 @@
             min-height: 100vh;
         }
 
+        @keyframes backgroundShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* --- HOVEDTITLER --- */
         .header-box {
             background-color: #000;
             padding: 30px 50px;
@@ -25,35 +33,38 @@
             border: 2px solid #39ff14;
             text-align: center;
             margin-bottom: 40px;
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.7); /* Sterkere glød */
         }
 
         h1 {
             color: #39ff14;
-            font-size: 2.5rem;
+            font-size: 3rem; /* Større tittel */
             margin-top: 0;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
+        }
+        
+        .header-box p {
+            font-size: 1.2rem;
+            color: #aaffaa;
+            margin-top: 5px;
         }
 
+        /* Kategoritittel */
         .category-title {
-            color: #ff5722;
-            font-size: 1.8rem;
-            margin-top: 40px;
-            margin-bottom: 15px;
+            color: #fff; /* Hvit hovedtittel */
+            font-size: 2rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            border-bottom: 3px solid #ff5722;
-            padding-bottom: 5px;
+            border-left: 5px solid #ff5722;
+            padding-left: 15px;
             width: 100%;
             text-align: left;
+            font-weight: 700;
         }
 
-        p {
-            color: #ccc;
-            font-size: 1.1rem;
-        }
-
-        /* Liste med lenker */
+        /* --- LENKELISTE --- */
         .link-container {
             max-width: 1000px;
             width: 100%;
@@ -62,7 +73,7 @@
         .link-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 20px; /* Redusert gap for tettere innhold */
             width: 100%;
             margin-bottom: 40px;
         }
@@ -71,57 +82,75 @@
             background: #1e1e1e;
             padding: 25px;
             border-radius: 8px;
-            border-left: 5px solid #ff5722;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 5px solid transparent; /* Starter transparent */
+            transition: transform 0.3s, box-shadow 0.3s, border-left-color 0.3s;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
+        /* Fargekoder per kategori */
+        .link-item:nth-child(4n+1) { border-left-color: #ff5722; } /* Samfunnsfag: Oransje */
+        .link-item:nth-child(4n+2) { border-left-color: #ff5722; }
+        .link-item:nth-child(4n+3) { border-left-color: #ff5722; }
+        .link-item:nth-child(4n+4) { border-left-color: #ff5722; }
+        
+        /* Naturfag bruker en annen farge */
+        .link-container h2:nth-of-type(2) ~ .link-grid .link-item { border-left-color: #06b6d4; } /* Naturfag: Cyan */
+
+        /* Hover effekt */
         .link-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(57, 255, 20, 0.3);
-            border-left: 5px solid #39ff14;
+            transform: translateY(-8px);
+            /* Legger til en lett glød fra venstre border */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), -10px 0 20px rgba(57, 255, 20, 0.15); 
         }
+        .link-item:hover a { color: #39ff14; }
+        .link-item:hover span { color: #fff; }
+
 
         .link-item a {
             color: #fff;
             text-decoration: none;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: block;
+            transition: color 0.3s;
         }
 
         .link-item span {
-            color: #ccc;
-            font-size: 0.95rem;
+            color: #aaa;
+            font-size: 0.9rem;
             display: block;
         }
         
-        .temp-item {
-            opacity: 0.5;
-            filter: grayscale(100%);
-            cursor: default;
-        }
-
+        /* --- BUNN GUIDE/GITHUB --- */
         .guide-box {
-            background: #1e1e1e;
-            border: 2px solid #ff5722;
-            padding: 20px;
-            margin-top: 40px;
-            border-radius: 8px;
+            background: #000;
+            border: 2px solid #39ff14;
+            padding: 25px;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.4);
+            max-width: 800px;
+            text-align: center;
         }
         .guide-box h3 {
-            color: #39ff14;
+            color: #ff5722; /* Fremhevet tittel */
+            font-size: 1.5rem;
             margin-top: 0;
-            border-bottom: 1px solid #39ff14;
             padding-bottom: 5px;
+            text-transform: uppercase;
         }
         .guide-box p {
-            font-size: 1rem;
-            line-height: 1.4;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #fff;
+        }
+        .guide-box strong {
+            color: #39ff14;
+            font-weight: 700;
         }
 
     </style>
@@ -129,7 +158,7 @@
 <body>
 
     <div class="header-box">
-        <h1>Våre Undervisningspresentasjoner</h1>
+        <h1>FAGLIGE PRESENTASJONER</h1>
         <p>Klikk på et tema for å starte presentasjonen i fullskjerm.</p>
     </div>
 
@@ -283,18 +312,6 @@
                 <span>Tema: Trias, Jura, Kritt, fossiler, utryddelse, fugler er dinosaurer.</span>
             </div>
 
-        </div>
-
-        <div class="guide-box">
-            <h3>VIKTIG: Slik får du lenkene til å fungere (Kun én gang)</h3>
-            <p>For at disse lenkene skal fungere (og ikke åpnes som tekst), må alle filene publiseres sammen på nett (f.eks. via **CodePen** eller **GitHub Pages**).</p>
-            <p><strong>Steg for publisering:</strong></p>
-            <ol>
-                <li>Samle <strong>alle</strong> HTML-filene du har laget (f.eks. `index.html`, `demokrati.html`, `isogvann.html`, osv.) i **én og samme mappe** på datamaskinen din.</li>
-                <li>Publiser denne mappen via en webtjeneste (f.eks. GitHub Pages).</li>
-                <li>Del **lenken til `index.html`** med dine kolleger. De kan da klikke og åpne presentasjonene i nettleseren som de skal. </li>
-            </ol>
-            <p>Dette sikrer at når kollegene klikker, finner `index.html` de andre filene i samme mappe og åpner dem korrekt.</p>
         </div>
     </div>
 
