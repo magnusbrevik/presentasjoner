@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oversikt: Temaer for Ungdomstrinnet</title>
+    <style>
+        /* Grunnleggende styling for oversiktssiden */
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2b2b2b 100%);
+            color: #f0f0f0;
+            margin: 0;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header-box {
+            background-color: #000;
+            padding: 30px 50px;
+            border-radius: 10px;
+            border: 2px solid #39ff14;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5);
+        }
+
+        h1 {
+            color: #39ff14;
+            font-size: 2.5rem;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .category-title {
+            color: #ff5722;
+            font-size: 1.8rem;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 3px solid #ff5722;
+            padding-bottom: 5px;
+            width: 100%;
+            text-align: left;
+        }
+
+        p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        /* Liste med lenker */
+        .link-container {
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .link-item {
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #ff5722;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .link-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(57, 255, 20, 0.3);
+            border-left: 5px solid #39ff14;
+        }
+
+        .link-item a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .link-item span {
+            color: #ccc;
+            font-size: 0.95rem;
+            display: block;
+        }
+        
+        .temp-item {
+            opacity: 0.5;
+            filter: grayscale(100%);
+            cursor: default;
+        }
+
+        .guide-box {
+            background: #1e1e1e;
+            border: 2px solid #ff5722;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+        }
+        .guide-box h3 {
+            color: #39ff14;
+            margin-top: 0;
+            border-bottom: 1px solid #39ff14;
+            padding-bottom: 5px;
+        }
+        .guide-box p {
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="header-box">
+        <h1>Våre Undervisningspresentasjoner</h1>
+        <p>Klikk på et tema for å starte presentasjonen i fullskjerm.</p>
+    </div>
+
+    <div class="link-container">
+        
+        <!-- SAMFUNNSFAG -->
+        <h2 class="category-title">Samfunnsfag (Historie, Geografi, Samfunnskunnskap, KRLE)</h2>
+        <div class="link-grid">
+
+            <!-- Demokrati & Medborgerskap -->
+            <div class="link-item">
+                <a href="demokrati.html">Demokrati & Medborgerskap</a>
+                <span>Tema: Frie valg, påvirkningskanaler, ytringsfrihet, menneskerettigheter.</span>
+            </div>
+
+            <!-- FN, Konflikter -->
+            <div class="link-item">
+                <a href="FNogKonflikter.html">FN, Konflikter og Mennesker på Flukt</a>
+                <span>Tema: FNs rolle, Sikkerhetsrådet, årsaker til konflikt, flyktninger og migrasjon.</span>
+            </div>
+            
+            <!-- Lov og Rett -->
+            <div class="link-item">
+                <a href="RettigheterOgPlikter.html">Lov og Rett: Spillereglene i Samfunnet</a>
+                <span>Tema: Rettigheter, plikter, ytringsfrihet, diskriminering, hatprat.</span>
+            </div>
+            
+            <!-- Samer & Urfolk -->
+            <div class="link-item">
+                <a href="SamerOgUrfolk.html">Samer og Urfolk</a>
+                <span>Tema: Fornorskingshistorien, Alta-saken, Sametinget, urfolksrettigheter.</span>
+            </div>
+
+            <!-- Kildekritikk -->
+            <div class="link-item">
+                <a href="KildekritikkOgDigitalespot.html">Kildekritikk & Digitale Spor</a>
+                <span>Tema: TONE-metoden, Deepfakes, algoritmer og personvern.</span>
+            </div>
+
+            <!-- Middelalderen og Svartedauden -->
+            <div class="link-item">
+                <a href="MiddelalderenOgSvartedauen.html">Middelalderen og Svartedauden</a>
+                <span>Tema: Samfunnsstruktur, pestens ankomst og konsekvenser.</span>
+            </div>
+
+            <!-- Vikingtiden -->
+            <div class="link-item">
+                <a href="Vikingene.html">Vikingtiden: Krigere, Handel og Mytologi</a>
+                <span>Tema: Skip, guder, samfunnshierarki, slutten på epoken.</span>
+            </div>
+            
+            <!-- Norge mot 1814 -->
+            <div class="link-item">
+                <a href="NorskHistorieMot1814.html">Norsk Historie: Veien mot 1814 (Grunnloven)</a>
+                <span>Tema: Napoleonskrigene, Kieltraktaten, Eidsvoll og Mossekonvensjonen.</span>
+            </div>
+            
+            <!-- Geografi / Norge i Verden -->
+            <div class="link-item">
+                <a href="NorgeOgEuropa.html">Norge, Europa og Verden (Geo-presentasjon)</a>
+                <span>Tema: Europa, verdensdeler, havområder.</span>
+            </div>
+            
+            <!-- Jul / KRLE -->
+            <div class="link-item">
+                <a href="jul.html">Julens Historie og Tradisjoner (KRLE)</a>
+                <span>Tema: Vikingenes Jól, Juleevangeliet, Nissen, tradisjoner.</span>
+            </div>
+
+        </div>
+
+        <!-- NATURFAG -->
+        <h2 class="category-title">Naturfag (Biologi, Kjemi, Fysikk, Geofag)</h2>
+        <div class="link-grid">
+
+            <!-- 1. Arv og Evolusjon -->
+            <div class="link-item">
+                <a href="ArvOgEvolusjon.html">Arv og Evolusjon</a>
+                <span>Tema: DNA, gener, mutasjoner, naturlig seleksjon, Darwin.</span>
+            </div>
+
+            <!-- 2. Økosystemer -->
+            <div class="link-item">
+                <a href="ØkosystemerOgTilpasning.html">Økosystemer & Tilpasning</a>
+                <span>Tema: Næringsnett, produsenter/konsumenter, symbiose, vinteroverlevelse.</span>
+            </div>
+            
+            <!-- 3. Ressurser og Bærekraft -->
+            <div class="link-item">
+                <a href="RessurserOgBærekraft.html">Ressurser og Bærekraft</a>
+                <span>Tema: Ressurstyper, bærekraftig utvikling, økologisk fotavtrykk, sirkulærøkonomi.</span>
+            </div>
+
+            <!-- 4. Fugler / Trekkfugler -->
+            <div class="link-item">
+                <a href="Fugler2.html">Ornitologi: Trekkfugler og Navigasjon</a>
+                <span>Tema: Fysiologi, magnetisk sans, verdensrekorder, trusler.</span>
+            </div>
+            
+            <!-- 5. Dyrespor / Vinter -->
+            <div class="link-item">
+                <a href="dyrespor.html">Dyrespor og Vinteroverlevelse</a>
+                <span>Tema: Sporjakt, overlevelsesstrategier, pels, kamuflasje, snøhuler.</span>
+            </div>
+
+            <!-- 6. Varme & Isolasjon -->
+            <div class="link-item">
+                <a href="varme.html">Vinterenergi: Varme og Isolasjon</a>
+                <span>Tema: Varmelæra (fysikk), pelstyper, brunt fett, trelagsprinsippet.</span>
+            </div>
+            
+            <!-- 7. Is og Vann -->
+            <div class="link-item">
+                <a href="isogvann.html">Isens Hemmeligheter</a>
+                <span>Tema: Vannets tetthet, isens kraft, frostsprengning, salt.</span>
+            </div>
+            
+            <!-- 8. Rommet -->
+            <div class="link-item">
+                <a href="rommet.html">Reisen ut i Rommet</a>
+                <span>Tema: Solsystemet, Månen, Nordlys, årstider, 3D-modell.</span>
+            </div>
+
+            <!-- 9. Det Usynlige Universet (Kjemi/Fysikk) -->
+            <div class="link-item">
+                <a href="usynligeuniverset.html">Det Usynlige Universet (Atomer & Kjemi)</a>
+                <span>Tema: Atomets oppbygning, faser, kjemiske reaksjoner, magnetisme.</span>
+            </div>
+            
+            <!-- 10. Vær og Elementer -->
+            <div class="link-item">
+                <a href="Været.html">Elementene & Været</a>
+                <span>Tema: Branntrekanten, vannets syklus, atmosfære, høytrykk/lavtrykk.</span>
+            </div>
+            
+            <!-- 11. Kartkunnskap -->
+            <div class="link-item">
+                <a href="kartkunnskaper.html">Kartkunnskap PRO (Geofag)</a>
+                <span>Tema: Målestokk, høydekoter, topografiske kart, kompass (1-2-3 metode).</span>
+            </div>
+
+            <!-- 12. Forskning og Metode -->
+            <div class="link-item">
+                <a href="ForskningOgMetode.html">Vitenskapelig Metode</a>
+                <span>Tema: Hypoteser, variabler, feilkilder, fagfellevurdering.</span>
+            </div>
+            
+            <!-- 13. Dinosaurer -->
+            <div class="link-item">
+                <a href="dinosaurer.html">Dinosaurernes Verden</a>
+                <span>Tema: Trias, Jura, Kritt, fossiler, utryddelse, fugler er dinosaurer.</span>
+            </div>
+
+        </div>
+
+        <div class="guide-box">
+            <h3>VIKTIG: Slik får du lenkene til å fungere (Kun én gang)</h3>
+            <p>For at disse lenkene skal fungere (og ikke åpnes som tekst), må alle filene publiseres sammen på nett (f.eks. via **CodePen** eller **GitHub Pages**).</p>
+            <p><strong>Steg for publisering:</strong></p>
+            <ol>
+                <li>Samle <strong>alle</strong> HTML-filene du har laget (f.eks. `index.html`, `demokrati.html`, `isogvann.html`, osv.) i **én og samme mappe** på datamaskinen din.</li>
+                <li>Publiser denne mappen via en webtjeneste (f.eks. GitHub Pages).</li>
+                <li>Del **lenken til `index.html`** med dine kolleger. De kan da klikke og åpne presentasjonene i nettleseren som de skal. </li>
+            </ol>
+            <p>Dette sikrer at når kollegene klikker, finner `index.html` de andre filene i samme mappe og åpner dem korrekt.</p>
+        </div>
+    </div>
+
+</body>
+</html>
