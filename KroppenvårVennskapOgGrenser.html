@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kroppen & Vennskap</title>
+<style>
+    /* --- DESIGN: KROPPEN & VENNSKAP (Barnevennlig) --- */
+    body {
+        font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif; /* Leken font */
+        background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); /* Lyseblå himmel-farge */
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+        overflow: hidden;
+        user-select: none;
+    }
+
+    .container {
+        width: 1000px;
+        height: 750px;
+        background: #ffffff;
+        border-radius: 30px; /* Rundere hjørner */
+        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border: 8px solid #FF8C00; /* Oransje glad ramme */
+    }
+
+    /* --- HEADER --- */
+    .header {
+        background: #FF8C00;
+        color: #fff;
+        padding: 15px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 5px solid #e67e22;
+        flex-shrink: 0;
+    }
+    .header h1 { margin: 0; font-size: 2rem; letter-spacing: 1px; font-weight: 800; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
+    #status-text { font-size: 1.2rem; font-weight: bold; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; }
+
+    /* --- SLIDES --- */
+    .slide {
+        display: none;
+        flex: 1;
+        padding: 40px 80px;
+        overflow-y: auto;
+        animation: fadeIn 0.5s ease-in-out;
+        background-image: radial-gradient(#FFD700 2px, transparent 2px); /* Polka dot bakgrunn */
+        background-size: 30px 30px;
+    }
+    .slide.active { display: block; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+    h2 { color: #d35400; border-bottom: 3px dashed #FF8C00; padding-bottom: 10px; margin-top: 0; font-size: 2.5rem; }
+    h3 { color: #2980b9; margin-top: 30px; font-size: 1.8rem; }
+    p, li { font-size: 1.3rem; line-height: 1.6; color: #444; margin-bottom: 15px; }
+    strong { color: #d35400; }
+
+    /* Fakta-bokser */
+    .info-box {
+        background: #fff9c4; /* Lys gul */
+        border-left: 8px solid #fbc02d;
+        padding: 25px;
+        margin: 25px 0;
+        border-radius: 15px;
+        box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+        font-size: 1.2rem;
+    }
+    
+    .fun-fact {
+        background: #e1f5fe; /* Lys blå */
+        border: 2px dashed #29b6f6;
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    /* --- MENY --- */
+    .menu-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 30px; }
+    .menu-item {
+        background: #fff; border: 3px solid #eee; padding: 20px; 
+        cursor: pointer; text-align: center; border-radius: 20px; transition: 0.2s;
+        box-shadow: 0 5px 0 #eee;
+    }
+    .menu-item:hover { transform: translateY(-5px); border-color: #FF8C00; background: #fff8e1; box-shadow: 0 5px 0 #FF8C00; }
+    .icon { font-size: 3.5rem; display: block; margin-bottom: 10px; }
+    .menu-title { font-weight: bold; color: #333; font-size: 1.3rem; }
+    
+    /* --- KNAPPER --- */
+    .nav-buttons { margin-top: 30px; display: flex; justify-content: space-between; border-top: 2px dashed #ccc; padding-top: 20px; }
+    .btn { padding: 15px 35px; background: #2ecc71; color: white; border: none; border-radius: 50px; font-size: 1.3rem; cursor: pointer; font-weight: bold; box-shadow: 0 5px 0 #27ae60; transition: 0.2s; }
+    .btn:hover { transform: scale(1.05); background: #2bd47d; }
+    .btn:active { transform: translateY(5px); box-shadow: none; }
+    
+    .btn-outline { background: white; color: #555; border: 3px solid #ccc; border-radius: 50px; padding: 13px 33px; font-weight: bold; cursor: pointer; font-size: 1.2rem; }
+    .btn-outline:hover { background: #f0f0f0; border-color: #bbb; }
+
+    /* Quiz styles */
+    .quiz-container { margin-top: 20px; display: grid; gap: 15px; }
+    .quiz-btn { display: block; width: 100%; padding: 20px; background: white; border: 3px solid #ddd; border-radius: 15px; text-align: left; font-size: 1.3rem; cursor: pointer; transition: 0.2s; font-family: inherit; font-weight: bold; }
+    .quiz-btn:hover { background: #fff3cd; border-color: #ffc107; transform: translateX(5px); }
+    .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724; }
+    .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24; }
+
+    /* Intro Animation */
+    .big-emoji { font-size: 8rem; text-align: center; display: block; animation: heartbeat 1.5s infinite; margin: 20px 0; }
+    @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>KROPPEN ER TOPP! 🌟</h1>
+        <div id="status-text">Hei på deg!</div>
+    </div>
+
+    <!-- FORSIDE -->
+    <div id="slide-intro" class="slide active">
+        <h2 style="text-align: center; border: none;">Velkommen til kroppen vår!</h2>
+        <span class="big-emoji">❤️🫁👋</span>
+        <p style="text-align: center;">I dag skal vi lære om to superviktige deler inni kroppen, og om hvordan vi kan være gode venner med hverandre.</p>
+        
+        <div class="info-box" style="text-align: center;">
+            <strong>Dagens plan:</strong><br>
+            1. Lære om hjertet og lungene 🩸💨<br>
+            2. Lære om grenser og vennskap 🛑🤝<br>
+            3. Ta en morsom quiz! 🏆
+        </div>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="goto('slide-menu', 'Meny')">Start reisen! &rarr;</button>
+        </div>
+    </div>
+
+    <!-- HOVEDMENY -->
+    <div id="slide-menu" class="slide">
+        <h2>Hva vil du lære om?</h2>
+        <div class="menu-grid">
+            <div class="menu-item" onclick="goto('slide-hjertet', '1. Hjertet')">
+                <span class="icon">❤️</span>
+                <div class="menu-title">1. Hjertet</div>
+                <div>Motoren i kroppen</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-lungene', '2. Lungene')">
+                <span class="icon">🫁</span>
+                <div class="menu-title">2. Lungene</div>
+                <div>Pust inn, pust ut</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-vennskap', '3. Vennskap')">
+                <span class="icon">🤝</span>
+                <div class="menu-title">3. Vennskap</div>
+                <div>Å være en venn</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-grenser', '4. Grenser')">
+                <span class="icon">🛑</span>
+                <div class="menu-title">4. Grenser</div>
+                <div>Min kropp er min!</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-trygghet', '5. Trygghet')">
+                <span class="icon">🛡️</span>
+                <div class="menu-title">5. Trygghet</div>
+                <div>Hvem kan hjelpe?</div>
+            </div>
+            <div class="menu-item" onclick="goto('slide-respekt', '6. Respekt')">
+                <span class="icon">👂</span>
+                <div class="menu-title">6. Respekt</div>
+                <div>Å lytte til andre</div>
+            </div>
+            
+            <div class="menu-item" style="background-color: #fff9c4;" onclick="goto('slide-quiz1', 'Quiz-tid!')">
+                <span class="icon">🏆</span>
+                <div class="menu-title">Quiz</div>
+                <div>Er du en ekspert?</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 1: HJERTET -->
+    <div id="slide-hjertet" class="slide">
+        <h2>1. Hjertet: Kroppens motor ❤️</h2>
+        <p>Hjertet ditt er en utrolig sterk muskel. Den er omtrent like stor som knyttneven din, og den slår hele tiden – selv når du sover!</p>
+        
+        <h3>Hva gjør hjertet?</h3>
+        <p>Hjertet fungerer som en <strong>pumpe</strong>. Det dytter blod rundt i hele kroppen gjennom blodårene. Blodet er som en "matpakke" til kroppen, fordi det har med seg oksygen og næring som tærne, magen og hodet ditt trenger for å virke.</p>
+
+        <div class="info-box">
+            <ul>
+                <li><strong>Dunk-dunk:</strong> Lyden du hører er hjerteklaffene som åpner og lukker seg.</li>
+                <li><strong>Trening:</strong> Når du løper fort, slår hjertet raskere for å sende mer oksygen til beina dine! 🏃‍♂️💨</li>
+            </ul>
+        </div>
+        
+        <div class="fun-fact">
+            💡 <strong>Visste du at?</strong> Hjertet ditt slår omtrent 100 000 ganger hver eneste dag!
+        </div>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Meny')">Til Meny</button><button class="btn" onclick="goto('slide-lungene', '2. Lungene')">Neste: Lungene &rarr;</button></div>
+    </div>
+
+    <!-- SLIDE 2: LUNGENE -->
+    <div id="slide-lungene" class="slide">
+        <h2>2. Lungene: Kroppens ballonger 🫁</h2>
+        <p>Vi har to lunger inne i brystkassen. De passer på at vi får luft. Uten luft kan ikke kroppen leve.</p>
+        
+        <h3>Hvordan virker de?</h3>
+        <p>Når du puster <strong>inn</strong>, fylles lungene med luft (akkurat som når du blåser opp en ballong). Da henter kroppen <em>oksygen</em> fra lufta.</p>
+        <p>Når du puster <strong>ut</strong>, slipper du ut luften igjen. Da kvitter kroppen seg med noe som heter karbondioksid (CO2), som vi ikke trenger.</p>
+        
+        <div class="info-box">
+            <strong>Prøv selv:</strong>
+            <br>Legg hånden på magen. Pust dypt inn gjennom nesa... kjenner du at magen går ut? Pust sakte ut gjennom munnen. Flink!
+        </div>
+
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Meny')">Til Meny</button><button class="btn" onclick="goto('slide-vennskap', '3. Vennskap')">Neste: Vennskap &rarr;</button></div>
+    </div>
+
+    <!-- SLIDE 3: VENNSKAP -->
+    <div id="slide-vennskap" class="slide">
+        <h2>3. Hva er en god venn? 🤝</h2>
+        <p>Nå skal vi snakke om noe like viktig som hjertet, nemlig vennskap. Å ha venner gjør at vi har det bra inni oss.</p>
+        
+        <h3>En god venn...</h3>
+        <ul>
+            <li>...er snill og grei.</li>
+            <li>...deler med andre.</li>
+            <li>...trøster hvis noen er lei seg.</li>
+            <li>...sier unnskyld hvis man har gjort noe dumt.</li>
+        </ul>
+
+        <div class="info-box">
+            <strong>Vi er forskjellige!</strong><br>
+            Noen liker fotball, andre liker lego. Noen er stille, andre prater mye. Det er helt greit! Vi kan være venner selv om vi er forskjellige. Faktisk blir verden mye kjedeligere hvis alle var like. 🌍
+        </div>
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Meny')">Til Meny</button><button class="btn" onclick="goto('slide-grenser', '4. Grenser')">Neste: Grenser &rarr;</button></div>
+    </div>
+
+    <!-- SLIDE 4: GRENSER -->
+    <div id="slide-grenser" class="slide">
+        <h2>4. Grenser: Min kropp er MIN! 🛑</h2>
+        <p>Akkurat som et hus har vegger og en dør, har du grenser. Det er DU som er sjefen over din kropp. Ingen andre bestemmer over den.</p>
+        
+        <h3>Stopp-regelen ✋</h3>
+        <p>Hvis noen gjør noe med kroppen din som du ikke liker (for eksempel kiler for hardt, klemmer når du ikke vil, eller slår), skal du si høyt og tydelig:</p>
+        <h1 style="text-align: center; color: red;">STOPP!</h1>
+        <p>Det er lov å si nei. Det er til og med veldig viktig å si nei hvis man ikke vil.</p>
+        
+        <div class="info-box">
+            <strong>Badedrakt-regelen:</strong>
+            De stedene på kroppen som dekkes av en badedrakt eller badebukse, er <em>private</em>. Det betyr at ingen andre skal røre dem, og du skal ikke røre andres private områder.
+        </div>
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Meny')">Til Meny</button><button class="btn" onclick="goto('slide-trygghet', '5. Trygghet')">Neste: Trygghet &rarr;</button></div>
+    </div>
+
+    <!-- SLIDE 5: TRYGGHET -->
+    <div id="slide-trygghet" class="slide">
+        <h2>5. Trygghet og hemmeligheter 🛡️</h2>
+        <p>Alle barn har rett til å være trygge. Det betyr at ingen har lov til å gjøre deg vondt eller gjøre ting som føles ekkelt.</p>
+        
+        <h3>Gode og vonde hemmeligheter 🤫</h3>
+        <ul>
+            <li><strong>Gode hemmeligheter:</strong> En overraskelse til bursdag eller julegave. Dette gir deg en god kribling i magen! 🥰</li>
+            <li><strong>Vonde hemmeligheter:</strong> Hvis noen ber deg holde noe hemmelig som gjør at du får vondt i magen eller blir redd. 😨</li>
+        </ul>
+        
+        <div class="info-box">
+            <strong>Viktig regel:</strong><br>
+            Du skal <em>aldri</em> holde på en vond hemmelighet. Hvis du har en vond hemmelighet, MÅ du fortelle det til en voksen du stoler på. Det er ikke sladring, det er å være modig!
+        </div>
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Meny')">Til Meny</button><button class="btn" onclick="goto('slide-respekt', '6. Respekt')">Neste: Respekt &rarr;</button></div>
+    </div>
+
+    <!-- SLIDE 6: RESPEKT -->
+    <div id="slide-respekt" class="slide">
+        <h2>6. Respekt: Å spørre først 👂</h2>
+        <p>Respekt er et vanskelig ord, men det betyr egentlig bare å "se hverandre" og være høflig mot andres grenser.</p>
+        
+        <h3>Spør før du rører</h3>
+        <p>Selv om du elsker å gi klemmer, er det ikke sikkert vennen din vil ha en klem akkurat nå.</p>
+        <ul>
+            <li>Spør: "Kan jeg få en klem?"</li>
+            <li>Hvis vennen sier <strong>JA</strong>: Klem i vei! 🤗</li>
+            <li>Hvis vennen sier <strong>NEI</strong>: Da må du stoppe. Det er helt greit å si nei.</li>
+        </ul>
+
+        <div class="fun-fact">
+            Hvis vi respekterer andres grenser, føler de seg trygge sammen med oss. Da blir vi enda bedre venner!
+        </div>
+        <div class="nav-buttons"><button class="btn-outline" onclick="goto('slide-menu', 'Meny')">Til Meny</button><button class="btn" onclick="goto('slide-quiz1', 'Quiz-tid!')">Gå til Quiz! 🏆</button></div>
+    </div>
+
+    <!-- QUIZ 1 -->
+    <div id="slide-quiz1" class="slide">
+        <h3>Spørsmål 1 av 3</h3>
+        <h2>Hva er hjertets viktigste jobb? ❤️</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Å lage mat til magen</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz2')">Å pumpe blod rundt i kroppen</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Å hjelpe oss å høre lyder</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 2 -->
+    <div id="slide-quiz2" class="slide">
+        <h3>Spørsmål 2 av 3</h3>
+        <h2>Hvem er sjefen over kroppen din? 🛑</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-quiz3')">Jeg bestemmer over min egen kropp!</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Læreren bestemmer alt</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Bestemoren min</button>
+        </div>
+    </div>
+
+    <!-- QUIZ 3 -->
+    <div id="slide-quiz3" class="slide">
+        <h3>Spørsmål 3 av 3</h3>
+        <h2>Hva skal du gjøre med en "vond hemmelighet"? 🤐</h2>
+        <div class="quiz-container">
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Aldri si det til noen</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false)">Gjemme den under senga</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'slide-end')">Fortelle det til en voksen med en gang</button>
+        </div>
+    </div>
+
+    <!-- SLUTT -->
+    <div id="slide-end" class="slide">
+        <h2 style="text-align: center;">Gratulerer! 🏆</h2>
+        <span class="big-emoji">🌟🎉🤩</span>
+        <p style="text-align: center;">Du er nå en ekspert på kroppen og vennskap!</p>
+        <p style="text-align: center;">Husk at du er unik og verdifull, og at kroppen din er bare din.</p>
+        
+        <div class="nav-buttons" style="justify-content: center;">
+            <button class="btn" onclick="location.reload()">Start på nytt 🔄</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // --- NAVIGASJON (Dette får knappene til å virke) ---
+    function goto(slideId, title) {
+        // Skjul alle slides
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        // Vis den valgte sliden
+        document.getElementById(slideId).classList.add('active');
+        // Oppdater teksten øverst i hjørnet
+        document.getElementById('status-text').innerText = title;
+        // Scroll til toppen av sliden
+        document.getElementById(slideId).scrollTop = 0;
+    }
+
+    // --- QUIZ LOGIKK (Dette sjekker om svaret er rett) ---
+    function checkAnswer(btn, isCorrect, nextSlideId) {
+        let parent = btn.parentElement;
+        let buttons = parent.querySelectorAll('.quiz-btn');
+        
+        // Skru av alle knappene så man ikke kan trykke flere ganger
+        buttons.forEach(b => b.disabled = true); 
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            btn.innerHTML += " ✅ RIKTIG!";
+            // Vent 1.5 sekund før vi går videre
+            setTimeout(() => goto(nextSlideId, 'Quiz'), 1500);
+        } else {
+            btn.classList.add('wrong');
+            btn.innerHTML += " ❌ Prøv igjen!";
+            // Vent litt, så la brukeren prøve igjen
+            setTimeout(() => {
+                buttons.forEach(b => { 
+                    b.disabled = false; 
+                    b.classList.remove('wrong'); 
+                    // Fjern teksten vi la til
+                    b.innerHTML = b.innerHTML.split(" ❌")[0]; 
+                }); 
+            }, 1500);
+        }
+    }
+</script>
+
+</body>
+</html>
