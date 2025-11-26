@@ -38,6 +38,9 @@
             --color-bhg-vår: #38b000; /* Vårgrønn */
             --color-bhg-sommer: #FFD700; /* Solgul */
             --color-bhg-høst: #c0392b; /* Dyp Rødbrun */
+            
+            /* NY FARGE FOR BARNEHAGE OPPDAGELSE */
+            --color-bhg-oppdagelse: #f5b041; /* Amber/Gull */
         }
 
         /* Oppdaterer aksentfargene basert på aktiv side (Forslag 3) */
@@ -140,7 +143,8 @@
                 100px 420px 1px 1px rgba(255, 255, 255, 0.4),
                 -10px -400px 1px 1px rgba(255, 255, 255, 0.4),
                 200px 200px 1px 1px rgba(255, 255, 255, 0.4),
-                -500px -500px 1px 1px rgba(255, 255, 255, 0.4) /* Sørger for at skyggen er stor nok */
+                -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 
+                500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
             ;
         }
 
@@ -383,37 +387,18 @@
         }
         
         /* Barnehage Underkategorier */
-        #slide-barnehage .sub-category-title:nth-of-type(1) { /* Årstider */
+        #slide-barnehage .sub-category-title:nth-of-type(1) { /* Årstider og Natur */
             border-left-color: var(--color-bhg-vinter); 
             color: var(--color-bhg-vinter); 
         }
-        #slide-barnehage .sub-category-title:nth-of-type(2) { /* Sosialt */
+        #slide-barnehage .sub-category-title:nth-of-type(2) { /* NY: Oppdagelser og Utforsking */
+            border-left-color: var(--color-bhg-oppdagelse); 
+            color: var(--color-bhg-oppdagelse); 
+        }
+        #slide-barnehage .sub-category-title:nth-of-type(3) { /* Sosialt og Følelser */
             border-left-color: var(--color-theme-barnehage); 
             color: var(--color-theme-barnehage); 
         }
-
-        /* --- SØKEFELT STYLING --- */
-        #search-input {
-            width: 100%;
-            padding: 15px 20px;
-            margin-bottom: 30px;
-            border: 2px solid var(--primary-accent-color);
-            background-color: var(--color-card-bg);
-            color: var(--color-text-main);
-            font-size: 1.1rem;
-            border-radius: 8px;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        #search-input::placeholder {
-            color: var(--color-text-sub);
-        }
-        #search-input:focus {
-            border-color: var(--primary-accent-color);
-            box-shadow: 0 0 15px var(--primary-accent-color); 
-        }
-
 
         /* --- LENKELISTE & KORT DESIGN --- */
         .link-grid {
@@ -447,8 +432,11 @@
         .bhg-sommer { border-left-color: var(--color-bhg-sommer) !important; }
         .bhg-høst { border-left-color: var(--color-bhg-høst) !important; }
         
+        /* NYE BARNEHAGE OPPDAGELSES FARGER */
+        .bhg-oppdagelse { border-left-color: var(--color-bhg-oppdagelse) !important; }
+
         /* Barnehage sosialt tema bruker standard BHG farge */
-        #slide-barnehage .sub-category-title:nth-of-type(2) ~ .link-grid .link-item { border-left-color: var(--color-theme-barnehage); }
+        #slide-barnehage .sub-category-title:nth-of-type(3) ~ .link-grid .link-item { border-left-color: var(--color-theme-barnehage); }
 
 
         .link-item:hover {
@@ -477,7 +465,7 @@
             color: var(--color-text-sub);
             font-size: 0.9rem;
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 0; /* Fjernet bunnmargen for å fjerne plass til Gemini-knapp */
         }
         
         .link-item.hidden {
@@ -538,187 +526,8 @@
             font-size: 1.5rem;
             font-weight: 600;
         }
-
-        /* --- GEMINI KNAPP STYLING --- */
-        .gemini-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 10px;
-            padding: 2px 5px; /* Endret: Mindre padding */
-            font-size: 0.7rem; /* Endret: Mindre font */
-            font-weight: 600;
-            border-radius: 9999px; /* Pill-form */
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            /* Gemini Gradient Farger (Blå/Lilla) */
-            background: linear-gradient(90deg, #4285F4 0%, #9B51E0 100%); 
-            color: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-        .gemini-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-        }
-        .gemini-button span {
-            margin-right: 3px; /* Mindre margin */
-            font-size: 0.9rem; /* Mindre ikon */
-            color: white !important; /* Overstyrer sub-fargen */
-        }
         
-
-        /* --- CHAT MODAL STYLING --- */
-        .chat-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        .chat-modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .chat-container {
-            width: 90%;
-            max-width: 600px;
-            height: 80%;
-            background: var(--color-dark-bg);
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 2px solid var(--primary-accent-color);
-        }
-
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: var(--color-card-bg);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--primary-accent-color);
-        }
-        .chat-header h3 {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-        .chat-close-btn {
-            background: none;
-            border: none;
-            color: var(--color-text-sub);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .chat-close-btn:hover {
-            color: var(--primary-accent-color);
-        }
-
-        .chat-messages {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        /* SCROLLBAR STYLING */
-        .chat-messages::-webkit-scrollbar {
-            width: 8px;
-        }
-        .chat-messages::-webkit-scrollbar-thumb {
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-        }
-        .chat-messages::-webkit-scrollbar-track {
-            background: var(--color-dark-bg);
-        }
-
-        .message {
-            max-width: 85%;
-            padding: 12px;
-            border-radius: 10px;
-            line-height: 1.4;
-        }
-        .user-message {
-            align-self: flex-end;
-            background: var(--primary-accent-color);
-            color: var(--color-dark-bg);
-            border-bottom-right-radius: 2px;
-        }
-        .gemini-message {
-            align-self: flex-start;
-            background: var(--color-card-bg);
-            color: var(--color-text-main);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom-left-radius: 2px;
-        }
-        .gemini-message strong {
-            color: var(--primary-accent-color);
-        }
-
-        .chat-input-area {
-            display: flex;
-            padding: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            background: var(--color-card-bg);
-        }
-        #chat-input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: var(--color-dark-bg);
-            color: var(--color-text-main);
-            border-radius: 6px;
-            outline: none;
-            transition: border-color 0.2s;
-            resize: none;
-        }
-        #chat-input:focus {
-            border-color: var(--primary-accent-color);
-        }
-        #send-btn {
-            background: var(--primary-accent-color);
-            color: var(--color-dark-bg);
-            border: none;
-            padding: 10px 15px;
-            margin-left: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s;
-        }
-        #send-btn:hover {
-            background: var(--primary-accent-color);
-            box-shadow: 0 0 10px var(--primary-accent-color);
-        }
-        
-        .loading-dots {
-            font-size: 2rem;
-            line-height: 0;
-            overflow: hidden;
-            display: none;
-            color: var(--primary-accent-color);
-        }
-        .loading-dots.active {
-            display: block;
-        }
-        
-        /* Message for API Limit */
+        /* Message for API Limit (Beholdt i CSS for eventuell fremtidig bruk, men fjernet fra JS) */
         .limit-message {
             color: #ff004c;
             text-align: center;
@@ -736,151 +545,9 @@
         body::before {
             box-shadow: 
                 -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+            ;
         }
         /* Hoved-stjernelag 2 CSS (Inkluderer her for å unngå lange styles blokker over) */
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
-        body::after {
-            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
-        }
-    </style>
-</head>
-<body class="intro-theme">
-
-    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
-    <style>
-        /* Setter de to stjernelistene på pseudo-elementene */
-        body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
-        }
         body::after {
             box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
         }
@@ -961,37 +628,22 @@
                 <div class="link-item">
                     <a href="Vikingene.html"><span class="list-icon">🛡️</span>Vikingtiden: Krigere, Handel og Mytologi</a>
                     <span>Tema: Skip, guder, samfunnshierarki, slutten på epoken.</span>
-                    <button class="gemini-button" onclick="openChat('Vikingtiden: Krigere, Handel og Mytologi')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="MiddelalderenOgSvartedauen.html"><span class="list-icon">💀</span>Middelalderen og Svartedauden</a>
                     <span>Tema: Samfunnsstruktur, pestens ankomst og konsekvenser.</span>
-                    <button class="gemini-button" onclick="openChat('Middelalderen og Svartedauden')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="NorskHistorieMot1814.html"><span class="list-icon">📜</span>Norsk Historie: Veien mot 1814 (Grunnloven)</a>
                     <span>Tema: Napoleonskrigene, Kieltraktaten, Eidsvoll og Mossekonvensjonen.</span>
-                    <button class="gemini-button" onclick="openChat('Norsk Historie: Veien mot 1814 (Grunnloven)')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="SamerOgUrfolk.html"><span class="list-icon">🦌</span>Samer og Urfolk</a>
                     <span>Tema: Fornorskingshistorien, Alta-saken, Sametinget, urfolksrettigheter.</span>
-                    <button class="gemini-button" onclick="openChat('Samer og Urfolk')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="jul.html"><span class="list-icon">🎄</span>Julens Historie og Tradisjoner (KRLE)</a>
                     <span>Tema: Vikingenes Jól, Juleevangeliet, Nissen, tradisjoner.</span>
-                    <button class="gemini-button" onclick="openChat('Julens Historie og Tradisjoner (KRLE)')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
             </div>
             
@@ -1000,37 +652,22 @@
                 <div class="link-item">
                     <a href="demokrati.html"><span class="list-icon">🗳️</span>Demokrati & Medborgerskap</a>
                     <span>Tema: Frie valg, påvirkningskanaler, ytringsfrihet, menneskerettigheter.</span>
-                    <button class="gemini-button" onclick="openChat('Demokrati & Medborgerskap')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="FNogKonflikter.html"><span class="list-icon">🌍</span>FN, Konflikter og Mennesker på Flukt</a>
                     <span>Tema: FNs rolle, Sikkerhetsrådet, årsaker til konflikt, flyktninger og migrasjon.</span>
-                    <button class="gemini-button" onclick="openChat('FN, Konflikter og Mennesker på Flukt')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="RettigheterOgPlikter.html"><span class="list-icon">⚖️</span>Lov og Rett: Spillereglene i Samfunnet</a>
                     <span>Tema: Rettigheter, plikter, ytringsfrihet, diskriminering, hatprat.</span>
-                    <button class="gemini-button" onclick="openChat('Lov og Rett: Spillereglene i Samfunnet')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="KildekritikkOgDigitalespot.html"><span class="list-icon">🕵️</span>Kildekritikk & Digitale Spor</a>
                     <span>Tema: TONE-metoden, Deepfakes, algoritmer og personvern.</span>
-                    <button class="gemini-button" onclick="openChat('Kildekritikk & Digitale Spor')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="NorgeOgEuropa.html"><span class="list-icon">🗺️</span>Norge, Europa og Verden (Geo-presentasjon)</a>
                     <span>Tema: Europa, verdensdeler, havområder.</span>
-                    <button class="gemini-button" onclick="openChat('Norge, Europa og Verden')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
             </div>
              <p class="no-results" id="no-results-samfunn-1">Fant ingen treff i Nivå 1.</p>
@@ -1071,37 +708,22 @@
                 <div class="link-item">
                     <a href="ArvOgEvolusjon.html"><span class="list-icon">🧬</span>Arv og Evolusjon</a>
                     <span>Tema: DNA, gener, mutasjoner, naturlig seleksjon, Darwin.</span>
-                    <button class="gemini-button" onclick="openChat('Arv og Evolusjon')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="ØkosystemerOgTilpasning.html"><span class="list-icon">🌳</span>Økosystemer & Tilpasning</a>
                     <span>Tema: Næringsnett, produsenter/konsumenter, symbiose, vinteroverlevelse.</span>
-                    <button class="gemini-button" onclick="openChat('Økosystemer & Tilpasning')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="dyrespor.html"><span class="list-icon">🐾</span>Dyrespor og Vinteroverlevelse</a>
                     <span>Tema: Sporjakt, overlevelsesstrategier, pels, kamuflasje, snøhuler.</span>
-                    <button class="gemini-button" onclick="openChat('Dyrespor og Vinteroverlevelse')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="Fugler2.html"><span class="list-icon">🦅</span>Ornitologi: Trekkfugler og Navigasjon</a>
                     <span>Tema: Fysiologi, magnetisk sans, verdensrekorder, trusler.</span>
-                    <button class="gemini-button" onclick="openChat('Ornitologi: Trekkfugler og Navigasjon')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="dinosaurer.html"><span class="list-icon">🦖</span>Dinosaurernes Verden</a>
                     <span>Tema: Trias, Jura, Kritt, fossiler, utryddelse, fugler er dinosaurer.</span>
-                    <button class="gemini-button" onclick="openChat('Dinosaurernes Verden')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
             </div>
 
@@ -1110,58 +732,34 @@
                 <div class="link-item">
                     <a href="rommet.html"><span class="list-icon">🪐</span>Reisen ut i Rommet</a>
                     <span>Tema: Solsystemet, Månen, Nordlys, årstider, 3D-modell.</span>
-                    <button class="gemini-button" onclick="openChat('Reisen ut i Rommet')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="usynligeuniverset.html"><span class="list-icon">⚛️</span>Det Usynlige Universet (Atomer & Kjemi)</a>
                     <span>Tema: Atomets oppbygning, faser, kjemiske reaksjoner, magnetisme.</span>
-                    <button class="gemini-button" onclick="openChat('Det Usynlige Universet (Atomer & Kjemi)')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="ForskningOgMetode.html"><span class="list-icon">🧪</span>Vitenskapelig Metode</a>
                     <span>Tema: Hypoteser, variabler, feilkilder, fagfellevurdering.</span>
-                    <button class="gemini-button" onclick="openChat('Vitenskapelig Metode')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="RessurserOgBærekraft.html"><span class="list-icon">♻️</span>Ressurser og Bærekraft</a>
                     <span>Tema: Ressurstyper, bærekraftig utvikling, økologisk fotavtrykk, sirkulærøkonomi.</span>
-                    <button class="gemini-button" onclick="openChat('Ressurser og Bærekraft')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="varme.html"><span class="list-icon">🌡️</span>Vinterenergi: Varme og Isolasjon</a>
                     <span>Tema: Varmelæra (fysikk), pelstyper, brunt fett, trelagsprinsippet.</span>
-                    <button class="gemini-button" onclick="openChat('Vinterenergi: Varme og Isolasjon')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="isogvann.html"><span class="list-icon">🧊</span>Isens Hemmeligheter</a>
                     <span>Tema: Vannets tetthet, isens kraft, frostsprengning, salt.</span>
-                    <button class="gemini-button" onclick="openChat('Isens Hemmeligheter')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="Været.html"><span class="list-icon">🌧️</span>Elementene & Været</a>
                     <span>Tema: Branntrekanten, vannets syklus, atmosfære, høytrykk/lavtrykk.</span>
-                    <button class="gemini-button" onclick="openChat('Elementene & Været')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
                 <div class="link-item">
                     <a href="kartkunnskaper.html"><span class="list-icon">🗺️</span>Kartkunnskap PRO (Geofag)</a>
                     <span>Tema: Målestokk, høydekoter, topografiske kart, kompass (1-2-3 metode).</span>
-                    <button class="gemini-button" onclick="openChat('Kartkunnskap PRO (Geofag)')">
-                        <span class="list-icon">✨</span>Spør Gemini om dette
-                    </button>
                 </div>
             </div>
             <p class="no-results" id="no-results-natur-1">Fant ingen treff i Nivå 1.</p>
@@ -1187,51 +785,64 @@
         
         <h2 class="category-title">BARNEHAGE</h2>
         
+        <!-- FAGKATEGORI 1: Årstider og Natur -->
         <h3 class="sub-category-title">🍂 Årstider og Natur</h3>
         <div class="link-grid">
             
             <div class="link-item bhg-vinter">
                 <a href="VinterBHG.html"><span class="list-icon">❄️</span>Vinterens Hemmeligheter</a>
                 <span>Tema: Snø, is, dyrenes dvale, varme klær (ull).</span>
-                <button class="gemini-button" onclick="openChat('Vinterens Hemmeligheter')">
-                    <span class="list-icon">✨</span>Spør Gemini om dette
-                </button>
             </div>
             
             <div class="link-item bhg-vår">
                 <a href="VårBHG.html"><span class="list-icon">🌷</span>Vårens Hemmeligheter</a>
                 <span>Tema: Sola, snøsmelting, dyrene våkner, første blomster.</span>
-                <button class="gemini-button" onclick="openChat('Vårens Hemmeligheter')">
-                    <span class="list-icon">✨</span>Spør Gemini om dette
-                </button>
             </div>
 
             <div class="link-item bhg-sommer">
                 <a href="SommerBHG.html"><span class="list-icon">☀️</span>Sommerens Eventyr</a>
                 <span>Tema: Solkrem, bading, lyse netter, bær og insekter.</span>
-                <button class="gemini-button" onclick="openChat('Sommerens Eventyr')">
-                    <span class="list-icon">✨</span>Spør Gemini om dette
-                </button>
             </div>
             
             <div class="link-item bhg-høst">
                 <a href="HøstBHG.html"><span class="list-icon">🍁</span>Høstens Eventyr</a>
                 <span>Tema: Fargede blader, sopp, dyrenes hamstring, regn og vind.</span>
-                <button class="gemini-button" onclick="openChat('Høstens Eventyr')">
-                    <span class="list-icon">✨</span>Spør Gemini om dette
-                </button>
+            </div>
+            
+        </div>
+
+        <!-- NY FAGKATEGORI 2: Oppdagelser og Utforsking -->
+        <h3 class="sub-category-title">🔍 Oppdagelser og Utforsking</h3>
+        <div class="link-grid">
+            
+            <div class="link-item bhg-oppdagelse">
+                <a href="SanseneBHG.html"><span class="list-icon">✋</span>De Fem Sansene</a>
+                <span>Tema: Syn, hørsel, lukt, smak og følelse. Kroppens superkrefter.</span>
+            </div>
+            
+            <div class="link-item bhg-oppdagelse">
+                <a href="SmåkrypBHG.html"><span class="list-icon">🐞</span>Småkryp og Kriblekroken</a>
+                <span>Tema: Maur, meitemark, marihøner. Hvorfor de er viktige for jorda.</span>
+            </div>
+            
+            <div class="link-item bhg-oppdagelse">
+                <a href="FriluftslivBHG.html"><span class="list-icon">🌲</span>Friluftsliv og Utforsking</a>
+                <span>Tema: Trygghet i skogen, trelagsprinsippet, lek og balanse.</span>
+            </div>
+
+            <div class="link-item bhg-oppdagelse">
+                <a href="NaturensSyklus.html"><span class="list-icon">♻️</span>Naturens Syklus: Gjenbruk</a>
+                <span>Tema: Fra blad til jord, vannets reise, solas kraft (fotosyntese).</span>
             </div>
 
         </div>
 
+        <!-- FAGKATEGORI 3: Sosialt og Følelser -->
         <h3 class="sub-category-title">❤️ Sosialt og Følelser</h3>
         <div class="link-grid">
             <div class="link-item">
                 <a href="KroppenvårVennskapOgGrenser.html"><span class="list-icon">❤️</span>Kroppen, Vennskap & Grenser</a>
                 <span>Tema: Hjerte/Lunge, Følelser, Gode og Vonde Hemmeligheter, Min kropp er min.</span>
-                <button class="gemini-button" onclick="openChat('Kroppen, Vennskap & Grenser')">
-                    <span class="list-icon">✨</span>Spør Gemini om dette
-                </button>
             </div>
         </div>
     </div>
@@ -1239,228 +850,15 @@
     <!-- SCROLL TIL TOPP KNAPP -->
     <button id="scroll-to-top" onclick="scrollToTop()">↑</button>
 
-    <!-- CHAT MODAL -->
-    <div id="chat-modal-overlay" class="chat-modal-overlay">
-        <div class="chat-container">
-            <div class="chat-header">
-                <h3 id="chat-topic-title">Gemini Læringsassistent</h3>
-                <button class="chat-close-btn" onclick="closeChat()">×</button>
-            </div>
-            <div id="chat-messages" class="chat-messages">
-                <!-- Meldinger vises her -->
-            </div>
-            <div class="chat-input-area">
-                <textarea id="chat-input" placeholder="Skriv spørsmålet ditt her..."></textarea>
-                <button id="send-btn" onclick="sendMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-
 
     <script>
         // --- API KONFIGURASJON ---
-        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
-        // ADVARSEL: Nøkkelen er fjernet for å beskytte deg.
-        // I dette Canvas-miljøet injiseres en midlertidig nøkkel automatisk.
-        // API_KEY er satt til en tom streng, men systemet vil fylle den ut ved kjøring her.
-        const API_KEY = ""; 
+        // Funksjonalitet for Gemini Chat er fjernet for å beskytte API-nøkkelen.
+        // Konstanter og funksjoner relatert til chat er fjernet.
         
         // --- API BRUKER KONTROLL ---
-        const MAX_API_CALLS = 500; // Setter grensen for "Høy bruk" for å beskytte mot kostnader
+        const MAX_API_CALLS = 500; // Beholder grense for API-kall i tilfelle chatten gjeninnføres
         const STORAGE_KEY = 'geminiCallCount';
-
-        let chatHistory = [];
-        let currentTopic = "";
-        let chatInput = document.getElementById('chat-input');
-        let chatMessagesDiv = document.getElementById('chat-messages');
-        let chatModalOverlay = document.getElementById('chat-modal-overlay');
-        let chatTopicTitle = document.getElementById('chat-topic-title');
-
-        // Henter gjeldende antall API-kall fra localStorage
-        function getCallCount() {
-            return parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
-        }
-
-        // Øker antall API-kall og lagrer det
-        function incrementCallCount() {
-            let count = getCallCount();
-            count++;
-            localStorage.setItem(STORAGE_KEY, count);
-            return count;
-        }
-
-        // --- Hjelpefunksjon for å legge til meldinger i chat-vinduet ---
-        function addMessage(text, sender) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(`${sender}-message`);
-            messageDiv.innerHTML = text.replace(/\n/g, '<br>'); // Håndterer linjeskift
-            chatMessagesDiv.appendChild(messageDiv);
-            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll til bunn
-        }
-        
-        // --- Velkomstmelding (Gemini-stil) ---
-        function addWelcomeMessage(topic) {
-            const topicText = topic.split(':')[0]; // Tar kun hovedtema
-            
-            // Velkomstmelding rettet mot elever/brukere
-            const welcomeText = `
-                Hei! Jeg er din læringsassistent for **${topicText}**! 👋
-                <br><br>
-                Har du spørsmål om temaet? Lurer du på vanskelige ord? Eller vil du sjekke om du har forstått alt riktig? 
-                <br><br>
-                **Bare spør i feltet under!** Jeg er klar til å hjelpe deg.
-            `;
-            addMessage(welcomeText, 'gemini');
-        }
-
-
-        // --- CHAT LOGIKK ---
-        function openChat(topic) {
-            const currentCalls = getCallCount();
-            if (currentCalls >= MAX_API_CALLS) {
-                // Viser grensemelding og åpner ikke chat
-                alert(`Beklager, grensen for antall API-kall (${MAX_API_CALLS}) er nådd for å hindre uforutsette kostnader. Chatten er midlertidig deaktivert.`);
-                return;
-            }
-
-            currentTopic = topic;
-            chatHistory = []; // Reset historikk for nytt tema
-            chatTopicTitle.innerText = `Gemini: ${topic}`;
-            chatMessagesDiv.innerHTML = ''; // Tøm meldingene
-            
-            addWelcomeMessage(topic);
-            
-            chatModalOverlay.classList.add('active');
-            chatInput.focus();
-
-            // Sjekker og viser telleren inne i chat-vinduet
-            if (currentCalls > 0) {
-                const limitWarning = document.createElement('div');
-                limitWarning.classList.add('limit-message');
-                limitWarning.innerHTML = `⚠️ Advarsel: Du har brukt ${currentCalls} av ${MAX_API_CALLS} gratis samtaler. Chatten stopper ved grensen.`;
-                chatMessagesDiv.appendChild(limitWarning);
-            }
-        }
-
-        function closeChat() {
-            chatModalOverlay.classList.remove('active');
-            document.getElementById('chat-input').value = '';
-            document.getElementById('chat-messages').innerHTML = '';
-        }
-        
-        // --- Hjelpefunksjon for å håndtere API-kall med retries (Exponential Backoff) ---
-        async function fetchWithBackoff(url, options, retries = 5, delay = 1000) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.ok) {
-                        return response;
-                    }
-                    // Håndterer feil som 429 (Rate Limit) ved å vente og prøve igjen
-                    if (response.status === 429 && i < retries - 1) {
-                        await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
-                        continue;
-                    }
-                    throw new Error(`API error: ${response.status} ${response.statusText}`);
-                } catch (error) {
-                    if (i === retries - 1) {
-                        throw error;
-                    }
-                    await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
-                }
-            }
-        }
-
-        // --- Hovedfunksjon for å sende melding til Gemini ---
-        async function sendMessage() {
-            const userText = chatInput.value.trim();
-            if (userText === '') return;
-
-            // 1. KONTROLL: Sjekk API grense
-            const currentCalls = getCallCount();
-            if (currentCalls >= MAX_API_CALLS) {
-                addMessage(`Beklager, grensen på ${MAX_API_CALLS} samtaler for å unngå uforutsette kostnader er nådd. Chatten er deaktivert.`, 'gemini');
-                chatInput.value = '';
-                document.getElementById('send-btn').disabled = true;
-                return;
-            }
-
-            // Deaktiver input og vis lasting
-            chatInput.value = '';
-            chatInput.disabled = true;
-            document.getElementById('send-btn').disabled = true;
-            addMessage(userText, 'user');
-            addMessage('<span class="loading-dots active">...</span>', 'gemini');
-
-            // Legg til melding i chat-historikken
-            chatHistory.push({ role: "user", parts: [{ text: userText }] });
-
-            // Sett systeminstruksjonen for å gi kontekst til Gemini
-            const systemPrompt = `Du er en vennlig og engasjerende læringsassistent for elever. Svar kun på spørsmål knyttet til temaet: "${currentTopic}". Forklar ting på en enkel, pedagogisk måte. Bruk et positivt og oppmuntrende språk.`;
-
-            try {
-                // VIKTIG: Ingen sjekk på API_KEY her, da Canvas injiserer den automatisk
-                // Når denne koden publiseres, vil den kun fungere om du bruker en sikker backend.
-                
-                const payload = {
-                    contents: chatHistory,
-                    tools: [{ "google_search": {} }],
-                    systemInstruction: {
-                        parts: [{ text: systemPrompt }]
-                    },
-                };
-
-                const apiUrl = `${API_URL}?key=${API_KEY}`;
-                
-                const response = await fetchWithBackoff(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-                
-                // Fjern lasting meldingen
-                chatMessagesDiv.lastChild.remove(); 
-                
-                const candidate = result.candidates?.[0];
-                const geminiResponse = candidate?.content?.parts?.[0]?.text;
-
-                if (geminiResponse) {
-                    addMessage(geminiResponse, 'gemini');
-                    chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
-                    
-                    // ØK TELLEREN ETTER VELKJUKKET API-KALL
-                    incrementCallCount(); 
-
-                } else {
-                    addMessage('Beklager, jeg forstod ikke svaret. Kan du prøve igjen?', 'gemini');
-                }
-
-            } catch (error) {
-                console.error("Gemini API Error:", error);
-                // Fjern lasting meldingen
-                chatMessagesDiv.lastChild.remove(); 
-                
-                // Nå vises kun generell feilmelding, da vi stoler på at Canvas fikser nøkkelen
-                addMessage('Beklager, det oppstod en feil under kommunikasjonen. Prøv igjen senere.', 'gemini');
-                
-            } finally {
-                chatInput.disabled = false;
-                document.getElementById('send-btn').disabled = false;
-                chatInput.focus();
-            }
-        }
-
-        // Aktiverer ENTER for å sende melding
-        chatInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-
 
         // --- NAVIGASJON & FILTER LOGIKK (Fra tidligere iterasjoner) ---
         let currentSlide = 'slide-intro-choice';
