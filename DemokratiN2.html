@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demokrati & Medborgerskap - Ungdomstrinnet</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    :root {
+        --primary: #00205b; /* Norsk mørkeblå */
+        --accent: #ba0c2f;  /* Norsk rød */
+        --light: #f8f9fa;
+        --text: #2c3e50;
+        --gold: #d4af37;
+        --success: #2e7d32;
+        --error: #c62828;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #e2e8f0;
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--text);
+        overflow: hidden;
+    }
+
+    /* Main App Container */
+    .app-container {
+        width: 1280px;
+        height: 720px;
+        background: #ffffff;
+        box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+    }
+
+    /* Top Bar */
+    .top-bar {
+        height: 80px;
+        background: white;
+        border-bottom: 4px solid var(--primary);
+        padding: 0 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 28px;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    /* Progress Dots */
+    .progress-dots { display: flex; gap: 8px; }
+    .dot { width: 12px; height: 12px; background: #ddd; border-radius: 50%; transition: 0.3s; cursor: pointer; }
+    .dot.active { background: var(--accent); transform: scale(1.2); }
+    .dot:hover { background: var(--primary); }
+
+    /* Slide Wrapper */
+    .slide-wrapper {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background: radial-gradient(circle at top left, var(--light), #ffffff);
+    }
+
+    /* Individual Slide */
+    .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 50px;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        overflow-y: auto;
+    }
+    .slide.active {
+        display: block;
+        opacity: 1;
+    }
+
+    /* Typography */
+    h2 {
+        color: var(--primary);
+        font-size: 3rem;
+        margin-top: 0;
+        margin-bottom: 30px;
+        font-family: 'Playfair Display', serif;
+        border-left: 8px solid var(--gold);
+        padding-left: 20px;
+    }
+    h3 {
+        color: var(--accent);
+        margin-top: 25px;
+        font-size: 1.5rem;
+        font-weight: 600;
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 5px;
+    }
+    p, ul, ol, li {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text);
+    }
+    strong { color: var(--primary); font-weight: 800; }
+    
+    /* Layouts */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 20px; }
+
+    /* Card/Box components */
+    .info-box {
+        background: #f0f4f7;
+        padding: 25px;
+        border-radius: 6px;
+        border: 1px solid #e0e6ec;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    .definition-box {
+        background: var(--primary);
+        color: white;
+        padding: 20px;
+        border-radius: 6px;
+        border-right: 5px solid var(--gold);
+        margin: 20px 0;
+        font-style: italic;
+    }
+    .definition-box strong { color: var(--gold); font-weight: 700; }
+
+    /* Maktfordeling visuals */
+    .power-box {
+        text-align: center;
+        padding: 25px;
+        /* Fikset farger for bedre kontrast */
+        background: #0d47a1; /* Deep Blue 1 */
+        color: white;
+        border-radius: 8px;
+        transition: background 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 32, 91, 0.2);
+    }
+    .power-box:nth-child(2) { background: #1565c0; } /* Deep Blue 2 */
+    .power-box:nth-child(3) { background: #1976d2; } /* Deep Blue 3 */
+    .power-box i { font-size: 2.5rem; margin-bottom: 15px; color: var(--gold); }
+    .power-box h4 { margin: 0 0 5px 0; font-size: 1.2rem; color: white; }
+    .power-desc { font-size: 0.9rem; color: white; } /* Text is white for high contrast */
+
+    /* Quiz styles */
+    .quiz-area { margin-top: 30px; }
+    .quiz-option {
+        display: block;
+        width: 100%;
+        padding: 15px 20px;
+        margin-bottom: 12px;
+        background: var(--light);
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        text-align: left;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 500;
+    }
+    .quiz-option:hover { border-color: var(--primary); background: #eef2f5; }
+    .correct { background: #e8f5e9 !important; border-color: var(--success) !important; color: var(--success); }
+    .wrong { background: #ffebee !important; border-color: var(--error) !important; color: var(--error); }
+    .explanation { display: none; margin-top: 15px; padding: 15px; background: #f2f2f2; border-left: 5px solid var(--primary); border-radius: 5px; font-size: 1rem; }
+
+    /* Menu specific styles (New Slide 2) */
+    .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: var(--light);
+        border-radius: 8px;
+        border-left: 5px solid var(--accent);
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    .menu-item:hover {
+        background: #eef2f5;
+        border-left-color: var(--primary);
+        transform: translateX(5px);
+    }
+    .menu-item .icon {
+        font-size: 2.5rem;
+        color: var(--primary);
+        width: 50px;
+        text-align: center;
+    }
+    .menu-item h4 {
+        margin: 0;
+        font-size: 1.4rem;
+        color: var(--text);
+    }
+
+    /* Forside specific styles (New Slide 1) */
+    .forside-content {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    .forside-content h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 5.5rem;
+        color: var(--primary);
+        margin: 0;
+        line-height: 1.1;
+    }
+    .forside-content h2 {
+        font-size: 2rem;
+        color: var(--accent);
+        margin-bottom: 50px;
+        border: none;
+        padding: 0;
+    }
+
+
+    /* Footer/Navigation */
+    .footer {
+        padding: 20px 50px;
+        background: #f0f4f7;
+        border-top: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn {
+        padding: 10px 25px;
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.0rem;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+    .btn:hover { background: #e02b54; }
+    .btn:disabled { background: #cccccc; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); }
+    .btn-primary:hover { background: #1c3d70; }
+
+</style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="top-bar">
+        <div class="logo">
+            <i class="fa-solid fa-scale-balanced" style="color: var(--accent);"></i>
+            Demokrati & Medborgerskap
+        </div>
+        <div class="progress-dots" id="dots">
+            <!-- Dots generated by JS -->
+        </div>
+    </div>
+
+    <div class="slide-wrapper" id="slide-wrapper">
+        
+        <!-- SLIDE 1: FORSIDE -->
+        <div id="slide-1" class="slide active">
+            <div class="forside-content">
+                <i class="fa-solid fa-square-poll-vertical" style="font-size: 10rem; color: var(--gold); margin-bottom: 20px;"></i>
+                <h1>Demokrati i Norge</h1>
+                <h2>Fra prinsipp til praksis</h2>
+                <button class="btn btn-primary" onclick="goToSlide(2)" style="font-size: 1.2rem; padding: 15px 40px;">Start Presentasjon</button>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: HOVEDMENY -->
+        <div id="slide-2" class="slide">
+            <h2>Hovedmeny</h2>
+            <p>Velg et tema du ønsker å utforske. Totalt 12 slides.</p>
+            
+            <div class="grid-2" style="margin-top: 40px;">
+                <div>
+                    <div class="menu-item" onclick="goToSlide(3)">
+                        <div class="icon"><i class="fa-solid fa-hands-helping"></i></div>
+                        <h4>1. Hva er demokrati og rettsstaten?</h4>
+                    </div>
+                    <div class="menu-item" onclick="goToSlide(4)">
+                        <div class="icon"><i class="fa-solid fa-shuffle"></i></div>
+                        <h4>2. Maktfordelingsprinsippet</h4>
+                    </div>
+                    <div class="menu-item" onclick="goToSlide(5)">
+                        <div class="icon"><i class="fa-solid fa-chess-rook"></i></div>
+                        <h4>3. Parlamentarismen i praksis</h4>
+                    </div>
+                </div>
+                <div>
+                    <div class="menu-item" onclick="goToSlide(6)">
+                        <div class="icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+                        <h4>4. Politisk Akse: Høyre/Venstre</h4>
+                    </div>
+                    <div class="menu-item" onclick="goToSlide(7)">
+                        <div class="icon"><i class="fa-solid fa-city"></i></div>
+                        <h4>5. Kommunalt Selvstyre (Lokaldemokrati)</h4>
+                    </div>
+                    <div class="menu-item" onclick="goToSlide(8)">
+                        <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+                        <h4>6. Medborgerskap & Digital Kritikk</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-item" onclick="goToSlide(9)" style="margin-top: 20px; border-left-color: var(--gold);">
+                <div class="icon" style="color: var(--gold);"><i class="fa-solid fa-circle-question"></i></div>
+                <h4>Start Quiz</h4>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: HVA ER DEMOKRATI? -->
+        <div id="slide-3" class="slide">
+            <h2>Hva er demokrati og rettsstaten?</h2>
+            <div class="grid-2">
+                <div>
+                    <p>Demokratiet handler om mer enn bare valgdagen. Det er et styresett basert på **Folkesuverenitetsprinsippet**, der folket har den øverste makten. Sentrale pilarer i demokratiet er:</p>
+                    <ul>
+                        <li><strong>Pluralisme:</strong> At ulike meninger og interessegrupper får uttrykke seg og kjempe om makten.</li>
+                        <li><strong>Flertallsstyre og Mindretallsvern:</strong> Flertallet bestemmer, men mindretallets rettigheter og meninger må respekteres.</li>
+                        <li><strong>Ytringsfrihet:</strong> Retten til å si, skrive og trykke sin mening uten å risikere straff, innenfor lovens grenser.</li>
+                    </ul>
+                </div>
+                <div class="definition-box">
+                    <strong>Rettsstaten:</strong>
+                    En stat der alle er bundet av loven, inkludert de som styrer. Myndighetene kan ikke gripe inn i privatlivet uten hjemmel i lov. Dette sikrer forutsigbarhet og rettssikkerhet.
+                </div>
+                <div class="info-box" style="grid-column: 1 / span 2;">
+                    <h3>Direkte vs. Indirekte Demokrati</h3>
+                    <p>I Norge har vi **indirekte demokrati** (representativt), hvor vi velger politikere som styrer på våre vegne. **Direkte demokrati** (f.eks. folkeavstemninger) brukes kun i spesielle, rådgivende tilfeller (som kommunesammenslåinger).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: MAKTFORDELINGSPRINSIPPET -->
+        <div id="slide-4" class="slide">
+            <h2>Maktfordelingsprinsippet</h2>
+            <p>For å hindre tyranni og maktmisbruk, er den norske statsmakten delt i tre uavhengige grener. </p>
+            
+            <div class="grid-3" style="margin-top: 40px;">
+                <div class="power-box">
+                    <i class="fa-solid fa-landmark"></i>
+                    <h4>Lovgivende makt</h4>
+                    <div class="power-desc">
+                        <strong>Stortinget (169 representanter).</strong>
+                        Vedtår lover (formelle regler), bevilger penger (Statsbudsjettet), og fører kontroll med Regjeringen. De har den største formelle makten.
+                    </div>
+                </div>
+                <div class="power-box">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <h4>Utøvende makt</h4>
+                    <div class="power-desc">
+                        <strong>Regjeringen (Statsminister og statsråder).</strong>
+                        Setter lover ut i livet, foreslår Statsbudsjettet, og representerer Norge internasjonalt (utenrikspolitikk). Utøver makt på vegne av Stortinget.
+                    </div>
+                </div>
+                <div class="power-box">
+                    <i class="fa-solid fa-gavel"></i>
+                    <h4>Dømmende makt</h4>
+                    <div class="power-desc">
+                        <strong>Domstolene (Tingrett, Lagmannsrett, Høyesterett).</strong>
+                        Tolker lovene og dømmer i sivile saker og straffesaker. Domstolene er helt uavhengige og beskytter borgerne mot maktmisbruk fra staten.
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 30px; font-size: 1rem; color: var(--accent);"><em>Prinsippet er at én makt begrenser en annen – en sentral mekanisme i ethvert demokrati.</em></p>
+        </div>
+
+        <!-- SLIDE 5: PARLAMENTARISME -->
+        <div id="slide-5" class="slide">
+            <h2>Parlamentarismen i praksis</h2>
+            <p>Parlamentarisme er et styresett hvor regjeringen utgår fra, og er ansvarlig overfor, nasjonalforsamlingen (Stortinget). Norge fikk parlamentarisme i 1884.</p>
+            
+            <div class="grid-2">
+                <div class="info-box">
+                    <h3>Tillitsforholdet og Mistillit</h3>
+                    <p>En regjering sitter så lenge et **flertall** i Stortinget har tillit til den. Hvis Stortinget vedtar et **mistillitsforslag**, er regjeringen juridisk forpliktet til å gå av. Dette er Stortingets viktigste kontrollmiddel over Regjeringen.</p>
+                </div>
+                <div class="info-box">
+                    <h3>Kabinettsspørsmål</h3>
+                    <p>Dette er Regjeringens maktmiddel. Ved å stille kabinettsspørsmål, sier regjeringen at "Hvis dere ikke stemmer for dette, går vi av". Det brukes for å presse gjennom saker der det er tvil om flertall, ofte i budsjettforhandlinger.</p>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 40px;">Hvordan dannes en regjering?</h3>
+            <p>Etter valg sonderer partiene for å finne et parlamentarisk grunnlag. Dette kan resultere i en **flertallsregjering** (som har mer enn 85 mandater i Stortinget) eller en **mindretallsregjering** (som må søke støtte fra andre partier fra sak til sak).</p>
+        </div>
+
+        <!-- SLIDE 6: POLITISKE IDEOLOGIER OG AKSEN -->
+        <div id="slide-6" class="slide">
+            <h2>Politisk Akse: Høyre og Venstre</h2>
+            <p>Hovedskillet i norsk politikk handler om **fordelingspolitikk** – hvordan goder og byrder skal fordeles, og hvor stor statens rolle skal være. [Image of political spectrum diagram]</p>
+            
+            <div class="grid-2" style="margin-top: 30px;">
+                <div class="info-box" style="border-left: 5px solid var(--accent);">
+                    <h3>Venstresiden (F.eks. SV, AP, Rødt)</h3>
+                    <ul>
+                        <li><strong>Økonomi:</strong> Kollektivisme, omfordeling, progressiv beskatning (høyere skatt på høy inntekt).</li>
+                        <li><strong>Mål:</strong> Sosioøkonomisk likhet, velferdsstaten skal være sterk og universell.</li>
+                        <li><strong>Sentrum-Venstre:</strong> Jobber ofte for å balansere marked og stat.</li>
+                    </ul>
+                </div>
+                <div class="info-box" style="border-left: 5px solid var(--primary);">
+                    <h3>Høyresiden (F.eks. H, FrP)</h3>
+                    <ul>
+                        <li><strong>Økonomi:</strong> Liberalisme, markedsøkonomi, flatere skattestruktur (lavere skatt).</li>
+                        <li><strong>Mål:</strong> Individuell frihet, økonomisk vekst, redusere statens byråkrati.</li>
+                        <li><strong>Sentrum-Høyre:</strong> Aksepterer velferdsstaten, men ønsker private løsninger og konkurranse.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SLIDE 7: KOMMUNALT SELVSTYRE -->
+        <div id="slide-7" class="slide">
+            <h2>Kommunalt Selvstyre (Lokaldemokrati)</h2>
+            <p>Norge har tre politiske nivåer: Stortinget (nasjonalt), Fylkestinget (regionalt) og **Kommunestyret** (lokalt). Kommunalt selvstyre er en grunnleggende del av demokratiet.</p>
+            
+            <div class="grid-2">
+                <div class="info-box" style="border-left: 5px solid var(--accent);">
+                    <h3>Hva bestemmer Kommunen?</h3>
+                    <p>Kommunestyret har ansvar for nesten alle de tjenestene du bruker i hverdagen:</p>
+                    <ul>
+                        <li>Grunnskole (8.–10. trinn)</li>
+                        <li>Helse og omsorg (sykehjem, hjemmetjenester)</li>
+                        <li>Regulering av bolig- og næringsområder (arealplaner)</li>
+                        <li>Vann, avløp og renovasjon</li>
+                    </ul>
+                </div>
+                <div class="info-box" style="border-left: 5px solid var(--gold);">
+                    <h3>Fordeler med Lokaldemokrati</h3>
+                    <p>Målet er at beslutninger skal tas så nært som mulig de som blir påvirket av dem. Dette sikrer:</p>
+                    <ul>
+                        <li>**Nærhet:** Enklere for innbyggerne å påvirke politikerne.</li>
+                        <li>**Tilpasning:** Tjenestene kan tilpasses lokale behov og utfordringer.</li>
+                        <li>**Deltakelse:** Skaper engasjement og opplæring i demokratiske prosesser.</li>
+                    </ul>
+                </div>
+            </div>
+            <p style="margin-top: 25px;">Husk at valget til Kommunestyret (lokalvalget) skjer annethvert år, midt mellom Stortingsvalgene.</p>
+        </div>
+
+
+        <!-- SLIDE 8: DEN FJERDE STATSMAKT OG KILDEKRITIKK -->
+        <div id="slide-8" class="slide">
+            <h2>Medborgerskap i den digitale tidsalder</h2>
+            <p>Media kalles **"Den fjerde statsmakt"** fordi de skal overvåke politikerne og informere borgerne. I dag møter vi media i et komplekst digitalt landskap. </p>
+            
+            <div class="grid-2">
+                <div class="info-box">
+                    <h3>Trusler mot informert demokrati</h3>
+                    <ul>
+                        <li><strong>Ekkokamre:</strong> Algoritmer viser deg kun innhold du er enig i. Dette forsterker egne meninger og skaper polarisering.</li>
+                        <li><strong>Desinformasjon/Fake News:</strong> Bevisst spredning av feilinformasjon for å påvirke valg eller skape splid.</li>
+                        <li><strong>Trolldom i sosiale medier:</strong> Utenlandske aktører eller organiserte grupper som prøver å påvirke debatten.</li>
+                    </ul>
+                </div>
+                <div class="info-box" style="border-left: 5px solid var(--gold);">
+                    <h3>Sjekkliste for kritisk tenkning</h3>
+                    <ol>
+                        <li><strong>Avsender:</strong> Hvem har laget informasjonen? Er de troverdige og uavhengige?</li>
+                        <li><strong>Kildegrunnlag:</strong> Er det henvist til forskning eller primærkilder som kan etterprøves?</li>
+                        <li><strong>Dato og relevans:</strong> Er informasjonen gammel, eller er den relevant i dag?</li>
+                        <li><strong>Formål:</strong> Hva vil avsenderen at du skal gjøre (stemme, kjøpe, hate)?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: QUIZ START -->
+        <div id="slide-9" class="slide">
+            <h2>Quiz: Maktfordeling</h2>
+            <h3>Hvem er det som har ansvaret for å vedta den endelige versjonen av Statsbudsjettet?</h3>
+            
+            <div class="quiz-area">
+                <button class="quiz-option" onclick="checkAnswer(this, 9, false)">Regjeringen</button>
+                <button class="quiz-option" onclick="checkAnswer(this, 9, true)">Stortinget</button>
+                <button class="quiz-option" onclick="checkAnswer(this, 9, false)">Riksrevisjonen</button>
+            </div>
+            <div id="explanation-9" class="explanation"></div>
+        </div>
+
+        <!-- SLIDE 10: QUIZ 2 -->
+        <div id="slide-10" class="slide">
+            <h2>Quiz: Parlamentarisme</h2>
+            <h3>Hva er den direkte konsekvensen av et mistillitsforslag mot en regjering?</h3>
+            
+            <div class="quiz-area">
+                <button class="quiz-option" onclick="checkAnswer(this, 10, false)">Det må holdes nyvalg umiddelbart.</button>
+                <button class="quiz-option" onclick="checkAnswer(this, 10, true)">Regjeringen er forpliktet til å gå av, selv om den kan fortsette som forretningsministerium.</button>
+                <button class="quiz-option" onclick="checkAnswer(this, 10, false)">Stortinget mister sin lovgivende makt frem til neste valg.</button>
+            </div>
+            <div id="explanation-10" class="explanation"></div>
+        </div>
+
+        <!-- SLIDE 11: QUIZ 3 (NYTT SPØRSMÅL) -->
+        <div id="slide-11" class="slide">
+            <h2>Quiz: Politisk Akse</h2>
+            <h3>Hvilken av disse løsningene vil typisk bli støttet av Venstresiden i norsk politikk?</h3>
+            
+            <div class="quiz-area">
+                <button class="quiz-option" onclick="checkAnswer(this, 11, true)">Økt statlig styring og felles løsninger for helse- og utdanningstjenester.</button>
+                <button class="quiz-option" onclick="checkAnswer(this, 11, false)">Privatisering av sykehus for å øke effektiviteten gjennom konkurranse.</button>
+                <button class="quiz-option" onclick="checkAnswer(this, 11, false)">Kraftig reduksjon i skattenivået for å stimulere individuelt forbruk.</button>
+            </div>
+            <div id="explanation-11" class="explanation"></div>
+        </div>
+
+        <!-- SLIDE 12: AVSLUTNING (Siste knapp endret) -->
+        <div id="slide-12" class="slide">
+            <h2>Oppsummering og refleksjon</h2>
+            <div class="grid-2">
+                <div>
+                    <p>Du har nå fått en dypere forståelse av det norske politiske systemet:</p>
+                    <ul style="font-weight: 500;">
+                        <li>Makten er delt: Lov, utøvelse, dømming.</li>
+                        <li>Parlamentarismen betyr at Stortinget er øverste sjef.</li>
+                        <li>Lokaldemokratiet er viktig for dine hverdagsgoder.</li>
+                        <li>Vær kritisk til digitale kilder for å unngå ekkokamre.</li>
+                    </ul>
+                    <p style="margin-top: 30px; font-weight: 600; color: var(--accent);">Vær en aktiv, informert og kritisk medborger. Demokratiet trenger deg!</p>
+                </div>
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                    <i class="fa-solid fa-square-poll-vertical" style="font-size: 8rem; color: var(--gold);"></i>
+                    <p style="margin-top: 10px; font-style: italic;">Din deltakelse er viktig for fellesskapet.</p>
+                    <!-- NY KNAPP: Sender tilbake til forsiden (Slide 1) -->
+                    <button class="btn btn-primary" onclick="goToSlide(1)" style="margin-top: 20px;">Tilbake til Start</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <button id="prevBtn" class="btn btn-secondary" onclick="changeSlide(-1)" disabled><i class="fa-solid fa-arrow-left"></i> Forrige</button>
+        <div id="status" style="font-weight: 600; color: #555;">Slide 4 av 12</div>
+        <button id="nextBtn" class="btn btn-primary" onclick="changeSlide(1)">Neste <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+</div>
+
+<script>
+    const totalSlides = 12; // Oppdatert til 12
+    let currentSlide = 4;
+    const dotsContainer = document.getElementById('dots');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const statusText = document.getElementById('status');
+    const slides = document.querySelectorAll('.slide');
+
+    // Funksjon for å opprette prikker i navigasjonen
+    function initDots() {
+        // Fjern eksisterende prikker før de lages på nytt
+        dotsContainer.innerHTML = ''; 
+        for(let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.dataset.slide = i;
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    // Funksjon for å bytte slide (fremover/bakover)
+    function changeSlide(direction) {
+        goToSlide(currentSlide + direction);
+    }
+
+    // Funksjon for å gå til en spesifikk slide
+    function goToSlide(slideIndex) {
+        if (slideIndex < 1 || slideIndex > totalSlides) return;
+
+        // Skjul gjeldende
+        if (document.getElementById(`slide-${currentSlide}`)) {
+            document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+        }
+        
+        // Oppdater nåværende
+        currentSlide = slideIndex;
+
+        // Vis ny slide
+        const nextSlideElement = document.getElementById(`slide-${currentSlide}`);
+        if (nextSlideElement) {
+            nextSlideElement.classList.add('active');
+        }
+
+        updateUI();
+    }
+
+    // Funksjon for å oppdatere knapper, prikker og status
+    function updateUI() {
+        // Oppdater prikker
+        document.querySelectorAll('.dot').forEach((dot, index) => {
+            dot.classList.toggle('active', index + 1 === currentSlide);
+        });
+
+        // Oppdater knapper
+        prevBtn.disabled = currentSlide === 1;
+        nextBtn.disabled = currentSlide === totalSlides;
+        
+        // Gi Neste-knappen en annen tekst på menysiden
+        if (currentSlide === 2) {
+            nextBtn.innerHTML = 'Gå til første tema <i class="fa-solid fa-arrow-right"></i>';
+        } else {
+            nextBtn.innerHTML = 'Neste <i class="fa-solid fa-arrow-right"></i>';
+        }
+        
+        // Deaktiver Neste-knappen på Forside og Oppsummering
+        if (currentSlide === 1 || currentSlide === totalSlides) {
+            nextBtn.disabled = currentSlide === totalSlides;
+        }
+
+        // Oppdater status
+        statusText.textContent = `Slide ${currentSlide} av ${totalSlides}`;
+        
+        // Resett quiz-tilstand når vi går tilbake/fremover fra en quiz-slide
+        if (currentSlide >= 9 && currentSlide <= 11) {
+             resetQuiz(currentSlide);
+        }
+    }
+
+    // Logikk for quiz-svar
+    function checkAnswer(btn, quizId, isCorrect) {
+        const parentArea = btn.closest('.quiz-area');
+        const explanationDiv = document.getElementById(`explanation-${quizId}`);
+        const allBtns = parentArea.querySelectorAll('.quiz-option');
+
+        // Deaktiver alle knapper når et svar er valgt
+        allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+        let explanationText = "";
+
+        // Definer forklaringer for hver quiz-ID (nå 9, 10, og 11)
+        if (quizId === 9) {
+            explanationText = isCorrect 
+                ? "Korrekt! Stortinget (den lovgivende makt) er den eneste som har fullmakt til å vedta Statsbudsjettet. Regjeringen (den utøvende makt) kommer med forslaget."
+                : "Feil. Regjeringen legger fram budsjettforslaget, men Stortinget må godkjenne og vedta den endelige versjonen.";
+        } else if (quizId === 10) {
+            explanationText = isCorrect
+                ? "Riktig! I parlamentarismen må regjeringen gå av når Stortinget har uttrykt mistillit. Nyvalg holdes kun ved faste intervaller (hvert 4. år)."
+                : "Feil. Mistillit tvinger regjeringen til å gå, men det er ikke automatisk nyvalg i Norge.";
+        } else if (quizId === 11) {
+             explanationText = isCorrect
+                ? "Korrekt! Venstresiden prioriterer statlig styring og universelle, felles løsninger for å sikre likhet. Privatisering og skattelette er typisk Høyresidens politikk."
+                : "Feil. Privatisering og skattelette er typisk Høyresidens politikk. Venstresiden foretrekker økt statlig styring for å sikre fellesskap og likhet.";
+        }
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+        } else {
+            btn.classList.add('wrong');
+            // Marker riktig svar grønt for å vise fasiten
+            allBtns.forEach(b => {
+                // Quiz 9
+                if (quizId === 9 && b.textContent.includes("Stortinget")) b.classList.add('correct');
+                // Quiz 10
+                if (quizId === 10 && b.textContent.includes("Regjeringen er forpliktet til å gå av")) b.classList.add('correct');
+                // Quiz 11
+                if (quizId === 11 && b.textContent.includes("Økt statlig styring og felles løsninger")) b.classList.add('correct');
+            });
+        }
+        
+        explanationDiv.innerHTML = explanationText;
+        explanationDiv.style.display = 'block';
+    }
+    
+    // Funksjon for å resette quiz-status når man navigerer vekk og tilbake
+    function resetQuiz(quizId) {
+        const slideElement = document.getElementById(`slide-${quizId}`);
+        if (!slideElement) return;
+        const parentArea = slideElement.querySelector('.quiz-area');
+        if (!parentArea) return;
+        
+        const allBtns = parentArea.querySelectorAll('.quiz-option');
+        const explanationDiv = document.getElementById(`explanation-${quizId}`);
+        
+        allBtns.forEach(b => {
+            b.style.pointerEvents = 'auto';
+            b.classList.remove('correct', 'wrong');
+        });
+        
+        if (explanationDiv) {
+            explanationDiv.style.display = 'none';
+        }
+    }
+
+
+    // Initialiser presentasjonen ved lasting
+    window.onload = function() {
+        initDots();
+        goToSlide(4); // Viser Maktfordeling-sliden som standard
+    };
+</script>
+
+</body>
+</html>
