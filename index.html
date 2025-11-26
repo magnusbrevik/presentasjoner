@@ -421,8 +421,14 @@
         }
         
         /* Fargekoder for venstre-stripe på kortene (Må matche underkategoritittel) */
-        #slide-skole-samfunn .sub-category-title:nth-of-type(1) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-hist); }
-        #slide-skole-samfunn .sub-category-title:nth-of-type(2) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-demo); }
+        #content-samfunn-1 .link-item:nth-child(-n+5) { border-left-color: var(--color-sub-hist); } /* Historie (5 items) */
+        #content-samfunn-1 .link-item:nth-child(n+6) { border-left-color: var(--color-sub-demo); } /* Demokrati (5 items) */
+
+        /* Nivå 2 Samfunnsfag farger (Setter til History for Vikingene og Democracy for Demokrati N2) */
+        #content-samfunn-2 .link-item:nth-child(1) { border-left-color: var(--color-sub-hist); } /* Vikingene N2 (History) */
+        #content-samfunn-2 .link-item:nth-child(2) { border-left-color: var(--color-sub-demo); } /* Demokrati N2 (Democracy) */
+
+
         #slide-skole-natur .sub-category-title:nth-of-type(1) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-biol); }
         #slide-skole-natur .sub-category-title:nth-of-type(2) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-fysikk); }
         
@@ -673,12 +679,22 @@
              <p class="no-results" id="no-results-samfunn-1">Fant ingen treff i Nivå 1.</p>
         </div>
 
-        <!-- Nivå 2 Innhold (Tomt) -->
+        <!-- Nivå 2 Innhold (Oppdatert) -->
         <div id="content-samfunn-2" class="level-content">
-            <div class="content-placeholder">
-                <h3>Innhold under utvikling ⏳</h3>
-                <p>Nivå 2 (Avansert) for Samfunnsfag vil snart inneholde dybdestudier og utvidet materiale for eldre elever/videregående. Kom snart tilbake!</p>
+            <h3 class="sub-category-title">Avansert Tema og Dybdestudie</h3>
+            <div class="link-grid">
+                <!-- NY PRESENTASJON 1: Vikingene N2 (Historie) -->
+                <div class="link-item">
+                    <a href="VikingeneN2.html"><span class="list-icon">⚔️</span>Vikingtiden: Ættekonflikt og Statsdannelse (N2)</a>
+                    <span>Dybde: Leidangen, trelleøkonomi, rettsvesen (ting/bot) og synkretisme.</span>
+                </div>
+                <!-- NY PRESENTASJON 2: Demokrati N2 (Demokrati) -->
+                <div class="link-item">
+                    <a href="DemokratiN2.html"><span class="list-icon">🏛️</span>Demokratiet: Parlamentarisme & Maktfordeling (N2)</a>
+                    <span>Dybde: Høyre/Venstre-akse, kabinettsspørsmål og kildekritikk i digital tid.</span>
+                </div>
             </div>
+            <p class="no-results" id="no-results-samfunn-2" style="display: none;">Fant ingen treff i Nivå 2.</p>
         </div>
     </div>
     
