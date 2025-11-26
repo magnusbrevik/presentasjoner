@@ -9,7 +9,7 @@
     <style>
         /* --- DESIGNTOKENS (Fargepalett) --- */
         :root {
-            --color-dark-bg: #0e141f; /* DYPEST MØRKEBLÅ BAKGRUNN */
+            --color-dark-bg: #0e141f; /* Dyp, mørk blå */
             --color-dark-bg-light: #1c2a38;
             --color-card-bg: #1e1e1e;
             --color-accent-amber: #f5b041;
@@ -18,23 +18,26 @@
             --color-text-main: #f0f0f0;
             --color-text-sub: #aaa;
             --color-card-shadow: rgba(0, 0, 0, 0.7);
-            
-            /* NY VARIABEL FOR DYNAMISK HOVEDAKSENT */
-            --primary-accent-color: #ff004c; 
-            
-            /* NYE TEMA FARGER FOR HOVEDKATEGORIER (Permanent) */
-            --color-theme-samfunn: #ff7f50;   /* Coral/Jordnær Rød (Hoved) */
-            --color-theme-natur: #aaff00;     /* Lys Lime-Grønn (Hoved) */
-            --color-theme-barnehage: #f43f5e; /* Dyp Rosa (Hoved) */
+            --color-theme-samfunn: #ff7f50; /* Coral/Jordnær Rød */
+            --color-theme-natur: #aaff00;   /* Lys Lime-Grønn */
+            --color-theme-barnehage: #f43f5e; /* Rosa */
 
-            /* NYE TEMA FARGER FOR UNDERKATEGORIER (Permanent) */
-            --color-sub-historie: #e64a19;     /* Dyp Oransje-Rød for Historie */
-            --color-sub-demokrati: #2196f3;    /* Lys Blå for Demokrati */
-            --color-sub-biologi: #27ae60;      /* Grønn for Biologi */
-            --color-sub-fysikk: #06b6d4;       /* Cyan for Fysikk/Geofag */
+            /* Dynamisk hovedaksent (Endres av JS) */
+            --primary-accent-color: #ff004c; /* Starter som sterk rød */ 
+
+            /* Farger for underkategorier Samfunnsfag */
+            --color-sub-hist: #e64a19; /* Mørk Oransje-Rød */
+            --color-sub-demo: #2196f3; /* Klar Blå */
+            
+            /* Farger for underkategorier Naturfag */
+            --color-sub-biol: #27ae60; /* Grønn for Biologi */
+            --color-sub-fysikk: #06b6d4; /* Cyan for Fysikk/Geofag */
         }
 
-        /* Oppdaterer aksentfargene basert på aktiv side */
+        /* Oppdaterer aksentfargene basert på aktiv side (Forslag 3) */
+        body.intro-theme {
+            --primary-accent-color: #ff004c; /* Starter som sterk rød */ 
+        }
         body.school-theme {
             --primary-accent-color: var(--color-accent-cyan);
         }
@@ -45,7 +48,7 @@
         /* --- GLOBAL STYLING --- */
         body {
             font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--color-dark-bg); 
+            background: linear-gradient(135deg, var(--color-dark-bg) 0%, var(--color-dark-bg-light) 100%); 
             color: var(--color-text-main);
             margin: 0;
             padding: 50px 20px;
@@ -57,59 +60,123 @@
             overflow-x: hidden; 
         }
 
-        /* ----------------------------------------------------- */
-        /* --- BAKGRUNN: Starfield - ROBUST KAOS UTGAVE --- */
-        /* ----------------------------------------------------- */
-
-        /* 1. Animasjon for stjernene (Parallakse-effekt) */
-        @keyframes starsMedium {
-            from { transform: translate(0, 0); }
-            to { transform: translate(-1500px, 1000px); }
+        /* --- FORSLAG C: ANIMERT STARFIELD BAKGRUNN --- */
+        /* Lag 1: Tett, raskt bevegelse (nærmest) */
+        .stars-1 {
+            background-color: transparent;
+            /* Simulerer mange tilfeldige stjerner */
+            box-shadow: 
+                -219px -157px 1px 1px rgba(255, 255, 255, 0.7), 
+                -29px 135px 1px 1px rgba(255, 255, 255, 0.7), 
+                -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 
+                286px -112px 1px 1px rgba(255, 255, 255, 0.7), 
+                179px -290px 1px 1px rgba(255, 255, 255, 0.7), 
+                -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 
+                30px 10px 1px 1px rgba(255, 255, 255, 0.7), 
+                -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 
+                230px 130px 1px 1px rgba(255, 255, 255, 0.7), 
+                -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 
+                160px 240px 1px 1px rgba(255, 255, 255, 0.7), 
+                -250px 210px 1px 1px rgba(255, 255, 255, 0.7), 
+                -300px -150px 1px 1px rgba(255, 255, 255, 0.7), 
+                -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 
+                /* Utvidet liste med flere tilfeldige punkter for tetthet */
+                100px 50px 1px 1px rgba(255, 255, 255, 0.7),
+                -150px 250px 1px 1px rgba(255, 255, 255, 0.7),
+                350px 180px 1px 1px rgba(255, 255, 255, 0.7),
+                -80px -50px 1px 1px rgba(255, 255, 255, 0.7),
+                200px 300px 1px 1px rgba(255, 255, 255, 0.7),
+                -300px 50px 1px 1px rgba(255, 255, 255, 0.7),
+                10px -10px 1px 1px rgba(255, 255, 255, 0.7),
+                -200px -250px 1px 1px rgba(255, 255, 255, 0.7),
+                320px 220px 1px 1px rgba(255, 255, 255, 0.7),
+                -50px 350px 1px 1px rgba(255, 255, 255, 0.7),
+                120px -100px 1px 1px rgba(255, 255, 255, 0.7),
+                -350px -180px 1px 1px rgba(255, 255, 255, 0.7),
+                50px 400px 1px 1px rgba(255, 255, 255, 0.7),
+                280px -50px 1px 1px rgba(255, 255, 255, 0.7),
+                -220px 10px 1px 1px rgba(255, 255, 255, 0.7),
+                140px 160px 1px 1px rgba(255, 255, 255, 0.7),
+                -400px 200px 1px 1px rgba(255, 255, 255, 0.7),
+                -10px -280px 1px 1px rgba(255, 255, 255, 0.7),
+                300px 10px 1px 1px rgba(255, 255, 255, 0.7),
+                -270px -30px 1px 1px rgba(255, 255, 255, 0.7),
+                180px 320px 1px 1px rgba(255, 255, 255, 0.7),
+                -30px 190px 1px 1px rgba(255, 255, 255, 0.7),
+                250px -150px 1px 1px rgba(255, 255, 255, 0.7),
+                -110px 400px 1px 1px rgba(255, 255, 255, 0.7),
+                500px 500px 1px 1px rgba(255, 255, 255, 0.7) /* Sørger for at skyggen er stor nok */
+            ;
         }
-        @keyframes starsLarge {
-            from { transform: translate(0, 0); }
-            to { transform: translate(1000px, -500px); }
+
+        /* Lag 2: Tynn, langsom bevegelse (lengst unna) */
+        .stars-2 {
+            background-color: transparent;
+            box-shadow: 
+                150px 150px 1px 1px rgba(255, 255, 255, 0.4), 
+                200px 50px 1px 1px rgba(255, 255, 255, 0.4), 
+                -150px -200px 1px 1px rgba(255, 255, 255, 0.4), 
+                -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 
+                400px -100px 1px 1px rgba(255, 255, 255, 0.4), 
+                10px 300px 1px 1px rgba(255, 255, 255, 0.4), 
+                -200px -50px 1px 1px rgba(255, 255, 255, 0.4), 
+                /* Utvidet liste for tetthet */
+                -50px 50px 1px 1px rgba(255, 255, 255, 0.4),
+                250px 350px 1px 1px rgba(255, 255, 255, 0.4),
+                -100px -150px 1px 1px rgba(255, 255, 255, 0.4),
+                300px -250px 1px 1px rgba(255, 255, 255, 0.4),
+                -400px 300px 1px 1px rgba(255, 255, 255, 0.4),
+                50px -350px 1px 1px rgba(255, 255, 255, 0.4),
+                -250px 450px 1px 1px rgba(255, 255, 255, 0.4),
+                180px -180px 1px 1px rgba(255, 255, 255, 0.4),
+                350px 100px 1px 1px rgba(255, 255, 255, 0.4),
+                -320px -20px 1px 1px rgba(255, 255, 255, 0.4),
+                100px 420px 1px 1px rgba(255, 255, 255, 0.4),
+                -10px -400px 1px 1px rgba(255, 255, 255, 0.4),
+                200px 200px 1px 1px rgba(255, 255, 255, 0.4),
+                -500px -500px 1px 1px rgba(255, 255, 255, 0.4) /* Sørger for at skyggen er stor nok */
+            ;
         }
 
-        /* HOVED ELEMENTER FOR BAKGRUNN (To lag) */
+        /* Lager to lag med stjerner */
         body::before, body::after {
             content: '';
             position: fixed;
-            /* Størrelsen er kun 1px for å fungere som anker for box-shadow */
-            width: 1px; 
-            height: 1px;
             top: 0;
             left: 0;
+            width: 1px; /* Stjernene tegnes av box-shadow */
+            height: 1px;
+            /* Sikrer at stjernene dekker et stort område */
+            transform: translate(-50vw, -50vh); 
             z-index: -1;
             pointer-events: none;
         }
 
-        /* Lag 1: Fjerne stjerner (medium, blålig) - Beveger seg sakte */
+        /* Setter skyggene på de to lagene */
         body::before {
-            background: transparent;
-            /* ØKT ANTALL: Setter opp MANGE ujevne stjerner i et stort, kaotisk mønster */
-            box-shadow: 
-                /* Lag 1 koordinater for tett fordeling. Listen er VELDIG lang */
-                400px 100px #c0d8ff, 800px 300px #c0d8ff, 1200px 600px #c0d8ff, 1600px 800px #c0d8ff,
-                200px 900px #c0d8ff, 600px 1200px #c0d8ff, 1000px 1500px #c0d8ff, 1400px 1800px #c0d8ff,
-                20px 20px #c0d8ff, 40px 120px #c0d8ff, 60px 220px #c0d8ff, 80px 300px #c0d8ff, 100px 420px #c0d8ff, 120px 500px #c0d8ff, 140px 620px #c0d8ff, 160px 700px #c0d8ff, 180px 820px #c0d8ff, 200px 900px #c0d8ff, 220px 1020px #c0d8ff, 240px 1100px #c0d8ff, 260px 1220px #c0d8ff, 280px 1300px #c0d8ff, 300px 1420px #c0d8ff, 320px 1500px #c0d8ff, 340px 1620px #c0d8ff, 360px 1700px #c0d8ff, 380px 1820px #c0d8ff, 400px 1900px #c0d8ff, 420px 2020px #c0d8ff, 440px 2100px #c0d8ff, 460px 2220px #c0d8ff, 480px 2300px #c0d8ff, 500px 2420px #c0d8ff, 520px 2500px #c0d8ff, 540px 2620px #c0d8ff, 560px 2700px #c0d8ff, 580px 2820px #c0d8ff, 600px 2900px #c0d8ff, 620px 3020px #c0d8ff, 640px 3100px #c0d8ff, 660px 3220px #c0d8ff, 680px 3300px #c0d8ff, 700px 3420px #c0d8ff, 720px 3500px #c0d8ff, 740px 3620px #c0d8ff, 760px 3700px #c0d8ff, 780px 3820px #c0d8ff, 800px 3900px #c0d8ff, 820px 4020px #c0d8ff, 840px 4100px #c0d8ff, 860px 4220px #c0d8ff, 880px 4300px #c0d8ff, 900px 4420px #c0d8ff, 920px 4500px #c0d8ff, 940px 4620px #c0d8ff, 960px 4700px #c0d8ff, 980px 4820px #c0d8ff, 1000px 4900px #c0d8ff, 1020px 5020px #c0d8ff, 1040px 5100px #c0d8ff, 1060px 5220px #c0d8ff, 1080px 5300px #c0d8ff, 1100px 5420px #c0d8ff, 1120px 5500px #c0d8ff, 1140px 5620px #c0d8ff, 1160px 5700px #c0d8ff, 1180px 5820px #c0d8ff, 1200px 5900px #c0d8ff, 1220px 6020px #c0d8ff, 1240px 6100px #c0d8ff, 1260px 6220px #c0d8ff, 1280px 6300px #c0d8ff, 1300px 6420px #c0d8ff, 1320px 6500px #c0d8ff, 1340px 6620px #c0d8ff, 1360px 6700px #c0d8ff, 1380px 6820px #c0d8ff, 1400px 6900px #c0d8ff, 1420px 7020px #c0d8ff, 1440px 7100px #c0d8ff, 1460px 7220px #c0d8ff, 1480px 7300px #c0d8ff, 1500px 7420px #c0d8ff, 1520px 7500px #c0d8ff, 1540px 7620px #c0d8ff, 1560px 7700px #c0d8ff, 1580px 7820px #c0d8ff, 1600px 7900px #c0d8ff, 1620px 8020px #c0d8ff, 1640px 8100px #c0d8ff, 1660px 8220px #c0d8ff, 1680px 8300px #c0d8ff, 1700px 8420px #c0d8ff, 1720px 8500px #c0d8ff, 1740px 8620px #c0d8ff, 1760px 8700px #c0d8ff, 1780px 8820px #c0d8ff, 1800px 8900px #c0d8ff, 1820px 9020px #c0d8ff, 1840px 9100px #c0d8ff, 1860px 9220px #c0d8ff, 1880px 9300px #c0d8ff, 1900px 9420px #c0d8ff, 1920px 9500px #c0d8ff, 1940px 9620px #c0d8ff, 1960px 9700px #c0d8ff, 1980px 9820px #c0d8ff, 2000px 9900px #c0d8ff, 2020px 10020px #c0d8ff, 2040px 10100px #c0d8ff, 2060px 10220px #c0d8ff, 2080px 10300px #c0d8ff, 2100px 10420px #c0d8ff, 2120px 10500px #c0d8ff, 2140px 10620px #c0d8ff, 2160px 10700px #c0d8ff, 2180px 10820px #c0d8ff, 2200px 10900px #c0d8ff, 2220px 11020px #c0d8ff, 2240px 11100px #c0d8ff, 2260px 11220px #c0d8ff, 2280px 11300px #c0d8ff, 2300px 11420px #c0d8ff, 2320px 11500px #c0d8ff, 2340px 11620px #c0d8ff, 2360px 11700px #c0d8ff, 2380px 11820px #c0d8ff, 2400px 11900px #c0d8ff, 2420px 12020px #c0d8ff, 2440px 12100px #c0d8ff;
-            animation: starsMedium 200s linear infinite;
+            /* Får egenskapene fra stjerneliste 1 */
+            /* Denne koden er nå manuelt fylt ut i HTMLen */
+            animation: moveStars 120s linear infinite; 
+            opacity: 0.8; 
         }
 
-        /* Lag 2: Nærmere stjerner (large, hvitere) - Beveger seg raskere */
         body::after {
-            background: transparent;
-            /* ØKT ANTALL: Setter opp færre, men lysere stjerner, fortsatt mange! */
-            box-shadow: 
-                -100px -200px #ffffff, 500px -400px #ffffff, 1100px -600px #ffffff, 1700px -800px #ffffff,
-                -300px 100px #ffffff, 300px 300px #ffffff, 900px 500px #ffffff, 1500px 700px #ffffff,
-                -500px 900px #ffffff, 100px 1100px #ffffff, 700px 1300px #ffffff, 1300px 1500px #ffffff,
-                -700px 1700px #ffffff, -10px -10px #ffffff, 60px 150px #ffffff, 120px 250px #ffffff, 180px 350px #ffffff, 240px 450px #ffffff, 300px 550px #ffffff, 360px 650px #ffffff, 420px 750px #ffffff, 480px 850px #ffffff, 540px 950px #ffffff, 600px 1050px #ffffff, 660px 1150px #ffffff, 720px 1250px #ffffff, 780px 1350px #ffffff, 840px 1450px #ffffff, 900px 1550px #ffffff, 960px 1650px #ffffff, 1020px 1750px #ffffff, 1080px 1850px #ffffff, 1140px 1950px #ffffff, 1200px 2050px #ffffff, 1260px 2150px #ffffff, 1320px 2250px #ffffff, 1380px 2350px #ffffff, 1440px 2450px #ffffff, 1500px 2550px #ffffff, 1560px 2650px #ffffff, 1620px 2750px #ffffff, 1680px 2850px #ffffff, 1740px 2950px #ffffff, 1800px 3050px #ffffff, 1860px 3150px #ffffff, 1920px 3250px #ffffff, 1980px 3350px #ffffff, 2040px 3450px #ffffff, 2100px 3550px #ffffff, 2160px 3650px #ffffff, 2220px 3750px #ffffff, 2280px 3850px #ffffff, 2340px 3950px #ffffff, 2400px 4050px #ffffff, 2460px 4150px #ffffff, 2520px 4250px #ffffff, 2580px 4350px #ffffff, 2640px 4450px #ffffff, 2700px 4550px #ffffff, 2760px 4650px #ffffff, 2820px 4750px #ffffff, 2880px 4850px #ffffff, 2940px 4950px #ffffff, 3000px 5050px #ffffff, 3060px 5150px #ffffff, 3120px 5250px #ffffff, 3180px 5350px #ffffff, 3240px 5450px #ffffff, 3300px 5550px #ffffff, 3360px 5650px #ffffff, 3420px 5750px #ffffff, 3480px 5850px #ffffff, 3540px 5950px #ffffff, 3600px 6050px #ffffff, 3660px 6150px #ffffff, 3720px 6250px #ffffff, 3780px 6350px #ffffff, 3840px 6450px #ffffff, 3900px 6550px #ffffff, 3960px 6650px #ffffff, 4020px 6750px #ffffff, 4080px 6850px #ffffff, 4140px 6950px #ffffff, 4200px 7050px #ffffff;
-            animation: starsLarge 100s linear infinite;
-            /* Gir Lag 2 en annen startposisjon for å sikre kaos */
-            transform: translate(200px, 100px); 
+            /* Får egenskapene fra stjerneliste 2 */
+            /* Denne koden er nå manuelt fylt ut i HTMLen */
+            animation: moveStarsTwo 200s linear infinite; 
+            opacity: 0.6; 
         }
 
+
+        @keyframes moveStars {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-100vw, -100vh); } 
+        }
+        @keyframes moveStarsTwo {
+            from { transform: translate(0, 0); }
+            to { transform: translate(100vw, 100vh); } 
+        }
+        
         /* --- HOVEDTITLER OG HEADER (Flytende design) --- */
         .header-box {
             background-color: rgba(0, 0, 0, 0.5);
@@ -125,38 +192,21 @@
                 inset 0 0 5px rgba(255, 255, 255, 0.05);
         }
 
-        /* --- H1 OVERKSRIFT: Solid farge med glød --- */
         h1 {
-            /* Bruker CSS-variabel for dynamisk farge */
-            color: var(--h1-color, var(--primary-accent-color)); 
+            color: var(--primary-accent-color); 
             font-size: 2.8rem;
             margin: 0;
             text-transform: uppercase;
             letter-spacing: 3px;
             font-weight: 900;
-            transition: color 0.3s, text-shadow 0.3s;
-            
-            /* Legger til en sterk, farget glød */
+            transition: color 0.3s;
+            /* Neonglød */
             text-shadow: 
-                0 0 5px rgba(0, 0, 0, 0.5), /* Dybdeskarphet */
-                0 0 20px var(--h1-color, var(--primary-accent-color)), /* Sterk glød 1 */
-                0 0 30px rgba(255, 255, 255, 0.2); /* Hvit "neoneffekt" */
+                0 0 5px #fff,
+                0 0 10px var(--primary-accent-color),
+                0 0 20px var(--primary-accent-color),
+                0 0 30px rgba(255, 0, 76, 0.5); /* Sterk Rød Glød */
         }
-        
-        /* Spesifikk overstyring for intro-siden (Sterk Rød) */
-        .intro-theme h1 {
-            --h1-color: #ff004c; /* Sterk Rød */
-        }
-        /* Skole-siden bruker Cyan */
-        .school-theme h1 {
-            --h1-color: var(--color-accent-cyan);
-        }
-        /* Barnehage-siden bruker Rosa */
-        .barnehage-theme h1 {
-            --h1-color: var(--color-theme-barnehage);
-        }
-
-
         
         .header-box p {
             font-size: 1.1rem;
@@ -174,16 +224,15 @@
             flex-wrap: wrap;
         }
         
-        /* GJØR VALGBOKSENE MYE STØRRE */
         .choice-button {
-            width: 350px; /* Økt fra 280px */
-            height: 250px; /* Økt fra 180px */
+            width: 350px; /* Større boks */
+            height: 250px; /* Større boks */
             background: var(--color-card-bg);
             border: 1px solid rgba(255, 255, 255, 0.1); 
             border-radius: 12px;
             color: var(--color-text-main);
             text-align: center;
-            font-size: 2.2rem; /* Økt fontstørrelse */
+            font-size: 2.2rem; /* Større tekst */
             font-weight: 800;
             cursor: pointer;
             transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
@@ -195,7 +244,7 @@
             text-transform: uppercase;
         }
 
-        /* Forbedret Hover med Neumorfisme/Glow */
+        /* FORSLAG 2: Forbedret Hover med Neumorfisme/Glow */
         .choice-button:hover {
             transform: translateY(-8px);
             /* Indre skygge for 'presset' effekt */
@@ -204,19 +253,19 @@
                 0 0 25px var(--primary-accent-color), /* Farget glød */
                 inset 0 0 15px rgba(255, 255, 255, 0.1); /* Liten indre glød */
         }
-        /* Spesifikke farger for intro-valg */
+        /* Spesifikke farger for intro-valg (Starter Rød) */
         .choice-button.school:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 1), 0 0 25px rgba(255, 0, 76, 0.6); /* Bruker sterk rød glød */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 1), 0 0 25px #ff004c;
             color: #ff004c;
         }
         .choice-button.barnehage:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 1), 0 0 25px rgba(255, 0, 76, 0.6); /* Bruker sterk rød glød */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 1), 0 0 25px #ff004c;
             color: #ff004c;
         }
 
 
         .choice-button .icon {
-            font-size: 4rem; /* Økt ikonstørrelse */
+            font-size: 4rem;
             margin-bottom: 15px;
             line-height: 1;
         }
@@ -232,51 +281,7 @@
             display: block;
         }
 
-        /* VIKTIG FIX: Kontrollerer Nivå 1 og Nivå 2 visning */
-        .level-content { display: none; }
-        .level-content.active-level { display: block; animation: fadeIn 0.5s ease; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- NIVÅVELGER --- */
-        .level-selector-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .level-selector button {
-            background: none;
-            border: 2px solid var(--primary-accent-color);
-            color: var(--primary-accent-color);
-            padding: 10px 20px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .level-selector button:first-child {
-            border-top-left-radius: 8px;
-            border-bottom-left-radius: 8px;
-            border-right: none;
-        }
-        .level-selector button:last-child {
-            border-top-right-radius: 8px;
-            border-bottom-right-radius: 8px;
-            border-left: none;
-        }
-
-        .level-selector button.active {
-            background: var(--primary-accent-color);
-            color: var(--color-dark-bg);
-            box-shadow: 0 0 15px var(--primary-accent-color);
-        }
-        
-        /* --- TILBAKEKNAPP (Bruker dynamisk aksentfarge) --- */
+        /* --- TILBAKEKNAPP --- */
         .back-button-container {
             width: 100%;
             max-width: 1000px;
@@ -305,16 +310,77 @@
             margin-right: 5px;
         }
 
-        /* --- SØKEFELT STYLING (Bruker dynamisk aksentfarge) --- */
-        /* Søkefelt flyttes til underkategorisidene */
-        .search-input-container {
-             margin-bottom: 30px;
-             width: 100%;
+        /* --- KATEGORITITLER (NYE, PERMANENTE FARGER) --- */
+        .category-title {
+            color: var(--color-text-main);
+            font-size: 2.2rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            border-bottom: 4px solid var(--primary-accent-color); 
+            padding-bottom: 5px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            transition: border-bottom-color 0.3s;
         }
 
-        #search-input-samfunn, #search-input-natur, #search-input-barnehage {
+        /* PERMANENT FARGE FOR SAMFUNNSFAG */
+        #slide-skole h2.category-title:nth-of-type(1),
+        #slide-skole-samfunn h2.category-title {
+            border-bottom-color: var(--color-theme-samfunn);
+            color: var(--color-theme-samfunn); 
+        }
+        
+        /* PERMANENT FARGE FOR NATURFAG */
+        #slide-skole h2.category-title:nth-of-type(2),
+        #slide-skole-natur h2.category-title {
+            border-bottom-color: var(--color-theme-natur);
+            color: var(--color-theme-natur); 
+        }
+
+        /* PERMANENT FARGE FOR BARNEHAGE */
+        #slide-barnehage h2.category-title { 
+            border-bottom-color: var(--color-theme-barnehage); 
+            color: var(--color-theme-barnehage);
+        }
+
+        /* --- UNDERKATEGORITITLER (h3) --- */
+        .sub-category-title {
+            font-size: 1.5rem;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            font-weight: 700;
+            text-transform: capitalize;
+            border-left: 5px solid transparent; 
+            padding-left: 10px;
+        }
+
+        /* Samfunnsfag Underkategorier */
+        #slide-skole-samfunn .sub-category-title:nth-of-type(1) { 
+            border-left-color: var(--color-sub-hist); 
+            color: var(--color-sub-hist); 
+        }
+        #slide-skole-samfunn .sub-category-title:nth-of-type(2) { 
+            border-left-color: var(--color-sub-demo); 
+            color: var(--color-sub-demo); 
+        }
+
+        /* Naturfag Underkategorier */
+        #slide-skole-natur .sub-category-title:nth-of-type(1) { 
+            border-left-color: var(--color-sub-biol); 
+            color: var(--color-sub-biol); 
+        }
+        #slide-skole-natur .sub-category-title:nth-of-type(2) { 
+            border-left-color: var(--color-sub-fysikk); 
+            color: var(--color-sub-fysikk); 
+        }
+
+        /* --- SØKEFELT STYLING --- */
+        #search-input {
             width: 100%;
             padding: 15px 20px;
+            margin-bottom: 30px;
             border: 2px solid var(--primary-accent-color);
             background-color: var(--color-card-bg);
             color: var(--color-text-main);
@@ -324,252 +390,161 @@
             outline: none;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .search-input-container input::placeholder {
+        #search-input::placeholder {
             color: var(--color-text-sub);
         }
-        .search-input-container input:focus {
+        #search-input:focus {
             border-color: var(--primary-accent-color);
-            /* Glød ved fokus */
             box-shadow: 0 0 15px var(--primary-accent-color); 
         }
 
-        /* NY MELDINGSBOKS FOR SØK-FEIL I NIVÅ 1 */
-        .search-message-box {
-            margin-top: 30px;
-            padding: 20px;
-            border: 2px solid var(--primary-accent-color);
-            border-radius: 8px;
-            text-align: center;
-            font-size: 1.1rem;
-            background-color: rgba(0, 0, 0, 0.3);
-            display: none; /* Starter skjult */
-        }
-        .search-message-box h3 {
-            margin: 0 0 10px 0;
-            color: var(--primary-accent-color);
-        }
 
-
-        /* --- NYTT KATEGORI VALGSSYSTEM PÅ SKOLE SIDE --- */
-        .main-category-choice {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-
-        .category-choice-button {
-            width: 300px;
-            height: 180px;
-            background: var(--color-card-bg);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--color-text-main);
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s, color 0.3s;
-            box-shadow: 0 10px 25px var(--color-card-shadow);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-transform: uppercase;
-        }
-
-        .category-choice-button:hover {
-            transform: translateY(-8px);
-        }
-
-        .category-choice-button.samfunn:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 1), 0 0 25px var(--color-theme-samfunn);
-            color: var(--color-theme-samfunn);
-        }
-        .category-choice-button.natur:hover {
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 1), 0 0 25px var(--color-theme-natur);
-            color: var(--color-theme-natur);
-        }
-        
-        /* --- KATEGORITITLER (Disse brukes nå kun på de dype sidene) --- */
-        .category-title {
-            color: var(--color-text-main); /* Fallback */
-            font-size: 2.2rem;
-            margin-top: 50px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            border-bottom: 4px solid var(--primary-accent-color); 
-            padding-bottom: 5px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            transition: border-bottom-color 0.3s, color 0.3s;
-        }
-        
-        /* Permanent farge for h2/titler på de dype sidene */
-        #slide-skole-samfunn h2 {
-            color: var(--color-theme-samfunn);
-            border-bottom-color: var(--color-theme-samfunn);
-        }
-        #slide-skole-natur h2 {
-            color: var(--color-theme-natur);
-            border-bottom-color: var(--color-theme-natur);
-        }
-
-        /* --- NY UNDER-KATEGORI STYLING (H3) (Brukes på dype sider) --- */
-        .sub-category-title {
-            color: var(--primary-accent-color); /* Fallback */
-            font-size: 1.6rem;
-            margin-top: 40px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            text-transform: capitalize;
-            border-left: 5px solid; /* Får fargen fra spesifikke regler under */
-            padding-left: 10px;
-            transition: color 0.3s;
-        }
-        .sub-category-title:first-of-type {
-            margin-top: 0;
-        }
-        
-        /* Underkategori fargekoder for Samfunnsfag */
-        #slide-skole-samfunn h3:nth-of-type(1) { 
-            border-left-color: var(--color-sub-historie); 
-            color: var(--color-sub-historie);
-        } 
-        #slide-skole-samfunn h3:nth-of-type(2) { 
-            border-left-color: var(--color-sub-demokrati); 
-            color: var(--color-sub-demokrati);
-        } 
-
-        /* Underkategori fargekoder for Naturfag */
-        #slide-skole-natur h3:nth-of-type(1) { 
-            border-left-color: var(--color-sub-biologi); 
-            color: var(--color-sub-biologi);
-        } 
-        #slide-skole-natur h3:nth-of-type(2) { 
-            border-left-color: var(--color-sub-fysikk);
-            color: var(--color-sub-fysikk);
-        }
-
-
-        /* Barnehage (Rosa) */
-        #slide-barnehage h2 {
-             color: var(--color-theme-barnehage);
-             border-bottom-color: var(--color-theme-barnehage);
-        }
-        
-        /* Stil for tom Nivå 2-boks */
-        .empty-level-message {
-            margin-top: 50px;
-            padding: 40px;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            text-align: center;
-            color: var(--color-text-sub);
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-
-        /* --- LENKELISTE --- */
+        /* --- LENKELISTE & KORT DESIGN --- */
         .link-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 20px;
             width: 100%;
         }
 
         .link-item {
             background: var(--color-card-bg);
             padding: 25px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            transition: transform 0.3s, box-shadow 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border-left: 5px solid transparent; 
+            transition: transform 0.3s, box-shadow 0.3s, border-left-color 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative; 
-            overflow: hidden;
         }
         
-        /* Hover effekt (Bruker dynamisk aksentfarge for en generell glød) */
+        /* Fargekoder for venstre-stripe på kortene (Må matche underkategoritittel) */
+        #slide-skole-samfunn .sub-category-title:nth-of-type(1) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-hist); }
+        #slide-skole-samfunn .sub-category-title:nth-of-type(2) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-demo); }
+        #slide-skole-natur .sub-category-title:nth-of-type(1) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-biol); }
+        #slide-skole-natur .sub-category-title:nth-of-type(2) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-fysikk); }
+        #slide-barnehage .link-grid .link-item { border-left-color: var(--color-theme-barnehage); }
+
+
         .link-item:hover {
-            transform: translateY(-5px);
-            /* Glød basert på primæraksenten for den aktive siden */
-            box-shadow: 
-                0 12px 30px rgba(0, 0, 0, 0.8), 
-                0 0 15px var(--primary-accent-color); 
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); 
         }
-        .link-item:hover a { color: var(--primary-accent-color); }
-        .link-item:hover span { color: var(--color-text-main); }
-
-
         .link-item a {
             color: var(--color-text-main);
             text-decoration: none;
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.2rem;
+            font-weight: bold;
             margin-bottom: 8px;
             display: flex; 
             align-items: center;
             transition: color 0.3s;
         }
+        .link-item:hover a { color: var(--primary-accent-color); }
+        .link-item:hover span { color: var(--color-text-main); }
 
         .link-item a .list-icon {
-            margin-right: 12px;
-            font-size: 1.6rem;
+            margin-right: 10px;
+            font-size: 1.5rem;
             color: inherit; 
         }
-
         .link-item span {
             color: var(--color-text-sub);
             font-size: 0.9rem;
             display: block;
-            line-height: 1.4;
+            margin-bottom: 10px;
         }
         
         .link-item.hidden {
             display: none;
         }
-        
-        /* --- GEMINI-KNAPP STYLING (Liten) --- */
-        .gemini-action-container {
-            margin-top: 15px; /* Skiller fra beskrivelsen */
-            padding-top: 15px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.1);
-            text-align: right;
-        }
-        .gemini-action-button {
-            display: inline-flex;
-            align-items: center;
-            /* Liten størrelse */
-            padding: 5px 10px; 
-            border-radius: 15px;
-            font-size: 0.75rem; 
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            text-transform: uppercase;
-            
-            /* Gemini Gradient Farger (Blå/Lilla/Grønn/Gul) */
-            background: linear-gradient(90deg, #4285F4 0%, #9B27B0 50%, #0F9D58 100%);
-            color: white;
-            border: none;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-            text-decoration: none; /* Sikrer at lenken ser ut som en knapp */
-        }
-        .gemini-action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6), 0 0 10px #4285F4;
-        }
-        .gemini-icon {
-            margin-right: 5px; /* Redusert avstand */
-            font-size: 1rem; /* Redusert ikonstørrelse */
+        .no-results {
+            color: var(--primary-accent-color);
+            text-align: center;
+            padding: 50px 0;
+            font-size: 1.5rem;
+            display: none;
         }
 
-        /* --- CHAT MODAL STYLING (Nytt) --- */
+        /* --- NIVÅ VELGER (Level Selector) --- */
+        .level-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .level-button {
+            padding: 10px 20px;
+            border: 1px solid var(--primary-accent-color);
+            background: none;
+            color: var(--primary-accent-color);
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        .level-button.active {
+            background-color: var(--primary-accent-color);
+            color: var(--color-dark-bg);
+            box-shadow: 0 0 15px var(--primary-accent-color);
+        }
+        .level-button:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .level-content {
+            display: none; /* Skjules av CSS, vises av JS */
+        }
+
+        /* Melding for Nivå 2 / Tomt innhold */
+        .content-placeholder {
+            text-align: center;
+            padding: 80px 20px;
+            border: 1px dashed var(--primary-accent-color);
+            border-radius: 12px;
+            color: var(--primary-accent-color);
+            margin-top: 30px;
+        }
+        .content-placeholder h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* --- GEMINI KNAPP STYLING --- */
+        .gemini-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            padding: 4px 8px; /* Mye mindre padding */
+            font-size: 0.8rem; /* Mye mindre font */
+            font-weight: 600;
+            border-radius: 9999px; /* Pill-form */
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            /* Gemini Gradient Farger (Blå/Lilla) */
+            background: linear-gradient(90deg, #4285F4 0%, #9B51E0 100%); 
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .gemini-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        .gemini-button span {
+            margin-right: 5px;
+            font-size: 1rem;
+            color: white !important; /* Overstyrer sub-fargen */
+        }
+        
+
+        /* --- CHAT MODAL STYLING --- */
         .chat-modal-overlay {
             position: fixed;
             top: 0;
@@ -577,51 +552,55 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.85);
-            display: none; /* Skjult som standard */
+            display: flex;
             justify-content: center;
             align-items: center;
             z-index: 2000;
-            animation: fadeInOverlay 0.3s;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .chat-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .chat-container {
             width: 90%;
             max-width: 600px;
-            height: 90%;
-            max-height: 700px;
-            background: var(--color-dark-bg-light);
+            height: 80%;
+            background: var(--color-dark-bg);
             border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
             display: flex;
             flex-direction: column;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
             overflow: hidden;
+            border: 2px solid var(--primary-accent-color);
         }
-        
+
         .chat-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--color-card-bg);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--primary-accent-color);
         }
-
         .chat-header h3 {
             margin: 0;
-            color: var(--color-accent-cyan);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
-
-        .chat-close-button {
+        .chat-close-btn {
             background: none;
             border: none;
-            color: white;
+            color: var(--color-text-sub);
             font-size: 1.5rem;
             cursor: pointer;
             transition: color 0.2s;
         }
-        .chat-close-button:hover {
-            color: var(--color-accent-red);
+        .chat-close-btn:hover {
+            color: var(--primary-accent-color);
         }
 
         .chat-messages {
@@ -632,138 +611,126 @@
             flex-direction: column;
             gap: 15px;
         }
+        
+        /* SCROLLBAR STYLING */
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--color-dark-bg);
+        }
 
         .message {
             max-width: 85%;
             padding: 12px;
             border-radius: 10px;
-            line-height: 1.5;
-            word-wrap: break-word;
-            animation: fadeInMessage 0.4s;
+            line-height: 1.4;
         }
-        
-        /* Bruker-melding */
-        .message.user {
-            background: var(--color-accent-cyan);
-            color: var(--color-dark-bg);
+        .user-message {
             align-self: flex-end;
-            border-bottom-right-radius: 0;
+            background: var(--primary-accent-color);
+            color: var(--color-dark-bg);
+            border-bottom-right-radius: 2px;
         }
-        
-        /* Gemini-melding */
-        .message.gemini {
-            background: var(--color-card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .gemini-message {
             align-self: flex-start;
-            border-bottom-left-radius: 0;
-        }
-        
-        /* Velkomstmelding (Første melding fra systemet) */
-        .message.welcome {
-            background: rgba(var(--color-accent-cyan), 0.1); /* Subtil bakgrunn */
+            background: var(--color-card-bg);
             color: var(--color-text-main);
-            text-align: center;
-            align-self: center;
-            width: 100%;
-            font-style: italic;
-            border: 1px solid var(--color-accent-cyan);
-            padding: 15px;
-            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: 2px;
+        }
+        .gemini-message strong {
+            color: var(--primary-accent-color);
         }
 
         .chat-input-area {
             display: flex;
             padding: 15px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--color-card-bg);
         }
-
         #chat-input {
             flex-grow: 1;
-            padding: 10px 15px;
-            border: 1px solid var(--color-accent-cyan);
-            border-radius: 20px;
-            background: var(--color-card-bg);
-            color: white;
-            font-size: 1rem;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--color-dark-bg);
+            color: var(--color-text-main);
+            border-radius: 6px;
             outline: none;
             transition: border-color 0.2s;
+            resize: none;
         }
         #chat-input:focus {
             border-color: var(--primary-accent-color);
         }
-
-        #chat-send-button {
-            background: var(--color-accent-cyan);
+        #send-btn {
+            background: var(--primary-accent-color);
             color: var(--color-dark-bg);
             border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            padding: 10px 15px;
             margin-left: 10px;
-            font-size: 1.2rem;
+            border-radius: 6px;
+            font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            transition: background 0.2s, box-shadow 0.2s;
         }
-        #chat-send-button:hover {
+        #send-btn:hover {
             background: var(--primary-accent-color);
-        }
-
-        .loading-indicator {
-            align-self: flex-start;
-            background: var(--color-card-bg);
-            padding: 12px;
-            border-radius: 10px;
-            color: var(--color-text-sub);
-            font-style: italic;
-        }
-
-        /* SCROLL TIL TOPP KNAPP (Bruker dynamisk aksentfarge) */
-        #scroll-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--primary-accent-color);
-            color: var(--color-dark-bg);
-            border: none;
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            font-size: 1.6rem;
-            line-height: 55px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            display: none;
-            z-index: 1000;
-            transition: background 0.3s;
-        }
-        #scroll-to-top:hover {
-            filter: brightness(1.2); /* Lysere hover-effekt */
+            box-shadow: 0 0 10px var(--primary-accent-color);
         }
         
-        /* Responsivitet for små skjermer */
-        @media (max-width: 768px) {
-            body { padding: 30px 15px; }
-            h1 { font-size: 2rem; letter-spacing: 2px; }
-            .header-box { padding: 15px 20px; margin-bottom: 30px; }
-            .choice-container { gap: 20px; margin-top: 40px; }
-            .choice-button { width: 100%; max-width: 350px; height: 180px; font-size: 1.8rem; }
-            .category-choice-button { width: 100%; max-width: 350px; height: 150px; font-size: 1.6rem; }
-            .link-grid { grid-template-columns: 1fr; gap: 15px; }
-            .category-title { font-size: 1.8rem; margin-top: 30px; }
-            .sub-category-title { font-size: 1.4rem; }
-            #scroll-to-top { bottom: 20px; right: 20px; width: 45px; height: 45px; line-height: 45px; font-size: 1.4rem; }
-            .gemini-action-button { font-size: 0.7rem; padding: 4px 8px; } /* Enda mindre på mobil */
-            .chat-container { width: 100%; height: 100%; max-width: none; max-height: none; border-radius: 0;}
-            .chat-messages { padding: 10px; }
+        .loading-dots {
+            font-size: 2rem;
+            line-height: 0;
+            overflow: hidden;
+            display: none;
+            color: var(--primary-accent-color);
+        }
+        .loading-dots.active {
+            display: block;
+        }
+        
+        /* Message for API Limit */
+        .limit-message {
+            color: #ff004c;
+            text-align: center;
+            padding: 10px;
+            border: 1px dashed #ff004c;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
         }
 
     </style>
+
+    <!-- Hoved-stjernelag 1 CSS (Inkluderer her for å unngå lange styles blokker over) -->
+    <style>
+        body::before {
+            box-shadow: 
+                -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        /* Hoved-stjernelag 2 CSS (Inkluderer her for å unngå lange styles blokker over) */
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
 </head>
 <body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 320px, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
 
     <div class="header-box">
         <h1>FAGLIGE PRESENTASJONER</h1>
@@ -772,9 +739,8 @@
 
     <!-- START VALGSSIDE -->
     <div id="slide-intro-choice" class="content-slide active">
-        
         <div class="choice-container">
-            <div class="choice-button school" onclick="showContent('slide-skole', 'Skole - Hovedkategorier')">
+            <div class="choice-button school" onclick="showContent('slide-skole', 'Skole - Velg Fagområde')">
                 <span class="icon">🎓</span>
                 SKOLE
             </div>
@@ -784,366 +750,277 @@
                 BARNEHAGE
             </div>
         </div>
-        
     </div>
 
-    <!-- NY SIDE 2: KATEGORIVALG SKOLE -->
+    <!-- INNHOLDSSIDE 1: SKOLE (VELG FAGOMRÅDE) -->
     <div id="slide-skole" class="content-slide">
+        
         <div class="back-button-container">
             <button class="back-button" onclick="showContent('slide-intro-choice', 'Velg målgruppe for å starte.')">
-                <span class="icon-arrow">←</span> Tilbake til valg
+                <span class="icon-arrow">←</span> Tilbake
             </button>
         </div>
         
-        <h2 class="category-title" style="border-bottom-color: var(--primary-accent-color); color: var(--primary-accent-color);">Velg fagområde</h2>
+        <h2 class="category-title">Velg Fagområde (Ungdomstrinnet)</h2>
         
-        <div class="main-category-choice">
-            
-            <!-- SAMFUNNSFAG KNAPP -->
-            <div class="category-choice-button samfunn" onclick="showContent('slide-skole-samfunn', 'Skole - Samfunnsfag')">
-                <span class="icon">🏛️</span>
-                SAMFUNNSFAG
+        <div class="choice-container" style="margin-top: 40px;">
+            <div class="choice-button" style="width: 400px; height: 200px; border-color: var(--color-theme-samfunn); color: var(--color-theme-samfunn);" 
+                 onclick="showContent('slide-skole-samfunn', 'Skole - Samfunnsfag')">
+                <span class="icon">⚖️</span>
+                Samfunnsfag
             </div>
             
-            <!-- NATURFAG KNAPP -->
-            <div class="category-choice-button natur" onclick="showContent('slide-skole-natur', 'Skole - Naturfag')">
+            <div class="choice-button" style="width: 400px; height: 200px; border-color: var(--color-theme-natur); color: var(--color-theme-natur);" 
+                 onclick="showContent('slide-skole-natur', 'Skole - Naturfag')">
                 <span class="icon">🔬</span>
-                NATURFAG
+                Naturfag
             </div>
         </div>
-
+        
     </div>
 
-    <!-- NY SIDE 3A: SKOLE - SAMFUNNSFAG INNHOLD -->
+    <!-- INNHOLDSSIDE 1.1: SKOLE - SAMFUNNSFAG -->
     <div id="slide-skole-samfunn" class="content-slide">
         <div class="back-button-container">
-            <button class="back-button" onclick="showContent('slide-skole', 'Skole - Hovedkategorier')">
+            <button class="back-button" onclick="showContent('slide-skole', 'Skole - Velg Fagområde')">
                 <span class="icon-arrow">←</span> Tilbake til fagvalg
             </button>
         </div>
         
-        <div class="level-selector-container">
-            <div class="level-selector">
-                <button id="level-samfunn-1" class="active" onclick="setPresentationLevel('slide-skole-samfunn', 1)">Nivå 1 (Grunnleggende)</button>
-                <button id="level-samfunn-2" onclick="setPresentationLevel('slide-skole-samfunn', 2)">Nivå 2 (Avansert)</button>
-            </div>
+        <h2 class="category-title">Samfunnsfag</h2>
+        
+        <div class="level-selector">
+            <button id="samfunn-level-1-btn" class="level-button active" onclick="changeLevel('samfunn', 1)">Nivå 1 (Grunnleggende)</button>
+            <button id="samfunn-level-2-btn" class="level-button" onclick="changeLevel('samfunn', 2)">Nivå 2 (Avansert)</button>
         </div>
         
-        <!-- SØKEFELT FLYTTES HIT -->
-        <div class="search-input-container">
-            <input type="text" id="search-input-samfunn" onkeyup="filterPresentations('slide-skole-samfunn')" placeholder="🔍 Søk etter tema (f.eks. 'Eidsvoll' eller 'FN')..."/>
-        </div>
+        <!-- Søkefelt for Nivå 1 -->
+        <input type="text" id="search-input-samfunn-1" onkeyup="filterPresentations('samfunn', 1)" placeholder="🔍 Søk i Nivå 1 (f.eks. 'Eidsvoll' eller 'FN')..."/>
 
-        <!-- NY MELDINGSBOKS FOR SØK-FEIL I NIVÅ 1 -->
-        <div class="search-message-box" id="search-message-samfunn" style="display:none;">
-            <!-- Fylles med innhold av JS -->
-        </div>
-
-        <h2 class="category-title">Samfunnsfag (Historie, Politikk, Etikk)</h2>
-        
-        <!-- === NIVÅ 1 (Eksisterende innhold) === -->
-        <div id="content-samfunn-1" class="level-content active-level">
-            <!-- NY TEMATISK SORTERING FOR SAMFUNNSFAG -->
+        <!-- Nivå 1 Innhold -->
+        <div id="content-samfunn-1" class="level-content active">
+            
             <h3 class="sub-category-title">⚔️ Historie & Arv</h3>
             <div class="link-grid">
-                <!-- Vikingtiden -->
                 <div class="link-item">
                     <a href="Vikingene.html"><span class="list-icon">🛡️</span>Vikingtiden: Krigere, Handel og Mytologi</a>
                     <span>Tema: Skip, guder, samfunnshierarki, slutten på epoken.</span>
-                    <div class="gemini-action-container">
-                        <button class="gemini-action-button" onclick="openChat('Vikingtiden: Krigere, Handel og Mytologi')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Vikingtiden: Krigere, Handel og Mytologi')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Middelalderen og Svartedauden -->
                 <div class="link-item">
                     <a href="MiddelalderenOgSvartedauen.html"><span class="list-icon">💀</span>Middelalderen og Svartedauden</a>
                     <span>Tema: Samfunnsstruktur, pestens ankomst og konsekvenser.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Middelalderen og Svartedauden')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Middelalderen og Svartedauden')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Norge mot 1814 -->
                 <div class="link-item">
                     <a href="NorskHistorieMot1814.html"><span class="list-icon">📜</span>Norsk Historie: Veien mot 1814 (Grunnloven)</a>
                     <span>Tema: Napoleonskrigene, Kieltraktaten, Eidsvoll og Mossekonvensjonen.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Norsk Historie: Veien mot 1814 (Grunnloven)')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Norsk Historie: Veien mot 1814 (Grunnloven)')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Samer & Urfolk -->
                 <div class="link-item">
                     <a href="SamerOgUrfolk.html"><span class="list-icon">🦌</span>Samer og Urfolk</a>
                     <span>Tema: Fornorskingshistorien, Alta-saken, Sametinget, urfolksrettigheter.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Samer og Urfolk: Fornorskingshistorien, Alta-saken, Sametinget')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Samer og Urfolk')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Jul / KRLE -->
                 <div class="link-item">
                     <a href="jul.html"><span class="list-icon">🎄</span>Julens Historie og Tradisjoner (KRLE)</a>
                     <span>Tema: Vikingenes Jól, Juleevangeliet, Nissen, tradisjoner.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Julens Historie og Tradisjoner (KRLE)')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Julens Historie og Tradisjoner (KRLE)')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
             </div>
             
             <h3 class="sub-category-title">🌐 Demokrati & Global Samfunnskunnskap</h3>
             <div class="link-grid">
-                <!-- Demokrati & Medborgerskap -->
                 <div class="link-item">
                     <a href="demokrati.html"><span class="list-icon">🗳️</span>Demokrati & Medborgerskap</a>
                     <span>Tema: Frie valg, påvirkningskanaler, ytringsfrihet, menneskerettigheter.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Demokrati og Medborgerskap')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Demokrati & Medborgerskap')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- FN, Konflikter -->
                 <div class="link-item">
                     <a href="FNogKonflikter.html"><span class="list-icon">🌍</span>FN, Konflikter og Mennesker på Flukt</a>
                     <span>Tema: FNs rolle, Sikkerhetsrådet, årsaker til konflikt, flyktninger og migrasjon.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('FN, Konflikter og Mennesker på Flukt')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('FN, Konflikter og Mennesker på Flukt')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Lov og Rett -->
                 <div class="link-item">
                     <a href="RettigheterOgPlikter.html"><span class="list-icon">⚖️</span>Lov og Rett: Spillereglene i Samfunnet</a>
                     <span>Tema: Rettigheter, plikter, ytringsfrihet, diskriminering, hatprat.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Lov og Rett: Rettigheter og Plikter i Samfunnet')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Lov og Rett: Spillereglene i Samfunnet')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Kildekritikk -->
                 <div class="link-item">
                     <a href="KildekritikkOgDigitalespot.html"><span class="list-icon">🕵️</span>Kildekritikk & Digitale Spor</a>
                     <span>Tema: TONE-metoden, Deepfakes, algoritmer og personvern.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Kildekritikk og Digitale Spor: TONE-metoden, Deepfakes, algoritmer')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Kildekritikk & Digitale Spor')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Geografi / Norge i Verden -->
                 <div class="link-item">
                     <a href="NorgeOgEuropa.html"><span class="list-icon">🗺️</span>Norge, Europa og Verden (Geo-presentasjon)</a>
                     <span>Tema: Europa, verdensdeler, havområder.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Norge, Europa og Verden (Geografi)')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Norge, Europa og Verden')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
             </div>
+             <p class="no-results" id="no-results-samfunn-1">Fant ingen treff i Nivå 1.</p>
         </div>
-        
-        <!-- === NY NIVÅ 2 SEKSJON FOR AVANSERT INNHOLD (Nå tom) === -->
+
+        <!-- Nivå 2 Innhold (Tomt) -->
         <div id="content-samfunn-2" class="level-content">
-            <div class="empty-level-message">
-                <h2>Innhold under utvikling ⏳</h2>
-                <p>Nivå 2 (Avansert) for Samfunnsfag er for øyeblikket tomt. Her vil det komme mer dyptgående presentasjoner, tilpasset eldre elever eller grundigere studier.</p>
-                <p>Vennligst sjekk Nivå 1 for grunnleggende innhold.</p>
+            <div class="content-placeholder">
+                <h3>Innhold under utvikling ⏳</h3>
+                <p>Nivå 2 (Avansert) for Samfunnsfag vil snart inneholde dybdestudier og utvidet materiale for eldre elever/videregående. Kom snart tilbake!</p>
             </div>
         </div>
     </div>
-
-
-    <!-- NY SIDE 3B: SKOLE - NATURFAG INNHOLD -->
+    
+    <!-- INNHOLDSSIDE 1.2: SKOLE - NATURFAG -->
     <div id="slide-skole-natur" class="content-slide">
         <div class="back-button-container">
-            <button class="back-button" onclick="showContent('slide-skole', 'Skole - Hovedkategorier')">
+            <button class="back-button" onclick="showContent('slide-skole', 'Skole - Velg Fagområde')">
                 <span class="icon-arrow">←</span> Tilbake til fagvalg
             </button>
         </div>
         
-        <div class="level-selector-container">
-            <div class="level-selector">
-                <button id="level-natur-1" class="active" onclick="setPresentationLevel('slide-skole-natur', 1)">Nivå 1 (Grunnleggende)</button>
-                <button id="level-natur-2" onclick="setPresentationLevel('slide-skole-natur', 2)">Nivå 2 (Avansert)</button>
-            </div>
-        </div>
+        <h2 class="category-title">Naturfag</h2>
 
-        <!-- SØKEFELT FLYTTES HIT -->
-        <div class="search-input-container">
-            <input type="text" id="search-input-natur" onkeyup="filterPresentations('slide-skole-natur')" placeholder="🔍 Søk etter tema (f.eks. 'DNA' eller 'Solsystemet')..."/>
+        <div class="level-selector">
+            <button id="natur-level-1-btn" class="level-button active" onclick="changeLevel('natur', 1)">Nivå 1 (Grunnleggende)</button>
+            <button id="natur-level-2-btn" class="level-button" onclick="changeLevel('natur', 2)">Nivå 2 (Avansert)</button>
         </div>
-
-        <!-- NY MELDINGSBOKS FOR SØK-FEIL I NIVÅ 1 -->
-        <div class="search-message-box" id="search-message-natur" style="display:none;">
-            <!-- Fylles med innhold av JS -->
-        </div>
-
-        <h2 class="category-title">Naturfag (Biologi, Kjemi, Fysikk, Geofag)</h2>
         
-        <!-- === NIVÅ 1 (Eksisterende innhold) === -->
-        <div id="content-natur-1" class="level-content active-level">
-            <!-- NY TEMATISK SORTERING FOR NATURFAG -->
+        <!-- Søkefelt for Nivå 1 -->
+        <input type="text" id="search-input-natur-1" onkeyup="filterPresentations('natur', 1)" placeholder="🔍 Søk i Nivå 1 (f.eks. 'DNA' eller 'Solsystemet')..."/>
+
+        <!-- Nivå 1 Innhold -->
+        <div id="content-natur-1" class="level-content active">
+            
             <h3 class="sub-category-title">🔬 Biologi & Økologi</h3>
             <div class="link-grid">
-                <!-- Arv og Evolusjon -->
                 <div class="link-item">
                     <a href="ArvOgEvolusjon.html"><span class="list-icon">🧬</span>Arv og Evolusjon</a>
                     <span>Tema: DNA, gener, mutasjoner, naturlig seleksjon, Darwin.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Arv og Evolusjon: DNA, gener, mutasjoner, naturlig seleksjon')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Arv og Evolusjon')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Økosystemer -->
                 <div class="link-item">
                     <a href="ØkosystemerOgTilpasning.html"><span class="list-icon">🌳</span>Økosystemer & Tilpasning</a>
                     <span>Tema: Næringsnett, produsenter/konsumenter, symbiose, vinteroverlevelse.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Økosystemer og Tilpasning: Næringsnett, symbiose, vinteroverlevelse')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Økosystemer & Tilpasning')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Dyrespor / Vinter -->
                 <div class="link-item">
                     <a href="dyrespor.html"><span class="list-icon">🐾</span>Dyrespor og Vinteroverlevelse</a>
                     <span>Tema: Sporjakt, overlevelsesstrategier, pels, kamuflasje, snøhuler.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Dyrespor og Vinteroverlevelse')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Dyrespor og Vinteroverlevelse')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Fugler / Trekkfugler -->
                 <div class="link-item">
                     <a href="Fugler2.html"><span class="list-icon">🦅</span>Ornitologi: Trekkfugler og Navigasjon</a>
                     <span>Tema: Fysiologi, magnetisk sans, verdensrekorder, trusler.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Ornitologi: Trekkfugler og Navigasjon')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Ornitologi: Trekkfugler og Navigasjon')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Dinosaurer -->
                 <div class="link-item">
                     <a href="dinosaurer.html"><span class="list-icon">🦖</span>Dinosaurernes Verden</a>
                     <span>Tema: Trias, Jura, Kritt, fossiler, utryddelse, fugler er dinosaurer.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Dinosaurernes Verden')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Dinosaurernes Verden')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
             </div>
 
             <h3 class="sub-category-title">⚛️ Fysikk, Kjemi & Geofag</h3>
             <div class="link-grid">
-                <!-- Rommet -->
                 <div class="link-item">
                     <a href="rommet.html"><span class="list-icon">🪐</span>Reisen ut i Rommet</a>
                     <span>Tema: Solsystemet, Månen, Nordlys, årstider, 3D-modell.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Reisen ut i Rommet: Solsystemet, Månen, Nordlys')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Reisen ut i Rommet')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Det Usynlige Universet (Kjemi/Fysikk) -->
                 <div class="link-item">
                     <a href="usynligeuniverset.html"><span class="list-icon">⚛️</span>Det Usynlige Universet (Atomer & Kjemi)</a>
                     <span>Tema: Atomets oppbygning, faser, kjemiske reaksjoner, magnetisme.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Det Usynlige Universet: Atomer, Kjemi, Magnetisme')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Det Usynlige Universet (Atomer & Kjemi)')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Forskning og Metode -->
                 <div class="link-item">
                     <a href="ForskningOgMetode.html"><span class="list-icon">🧪</span>Vitenskapelig Metode</a>
                     <span>Tema: Hypoteser, variabler, feilkilder, fagfellevurdering.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Vitenskapelig Metode: Hypoteser, variabler, feilkilder')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Vitenskapelig Metode')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Ressurser og Bærekraft -->
                 <div class="link-item">
                     <a href="RessurserOgBærekraft.html"><span class="list-icon">♻️</span>Ressurser og Bærekraft</a>
                     <span>Tema: Ressurstyper, bærekraftig utvikling, økologisk fotavtrykk, sirkulærøkonomi.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Ressurser og Bærekraft: sirkulærøkonomi, økologisk fotavtrykk')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Ressurser og Bærekraft')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Varme & Isolasjon -->
                 <div class="link-item">
                     <a href="varme.html"><span class="list-icon">🌡️</span>Vinterenergi: Varme og Isolasjon</a>
                     <span>Tema: Varmelæra (fysikk), pelstyper, brunt fett, trelagsprinsippet.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Vinterenergi: Varme og Isolasjon (Fysikk)')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Vinterenergi: Varme og Isolasjon')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Is og Vann -->
                 <div class="link-item">
                     <a href="isogvann.html"><span class="list-icon">🧊</span>Isens Hemmeligheter</a>
                     <span>Tema: Vannets tetthet, isens kraft, frostsprengning, salt.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Isens Hemmeligheter: Vannets tetthet, frostsprengning')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Isens Hemmeligheter')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Vær og Elementer -->
                 <div class="link-item">
                     <a href="Været.html"><span class="list-icon">🌧️</span>Elementene & Været</a>
                     <span>Tema: Branntrekanten, vannets syklus, atmosfære, høytrykk/lavtrykk.</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Elementene og Været: vannets syklus, atmosfære, høytrykk/lavtrykk')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Elementene & Været')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
-                <!-- Kartkunnskap -->
                 <div class="link-item">
                     <a href="kartkunnskaper.html"><span class="list-icon">🗺️</span>Kartkunnskap PRO (Geofag)</a>
                     <span>Tema: Målestokk, høydekoter, topografiske kart, kompass (1-2-3 metode).</span>
-                    <div class="gemini-action-container">
-                         <button class="gemini-action-button" onclick="openChat('Kartkunnskap PRO (Geofag): Målestokk, høydekoter, kompass')">
-                            <span class="gemini-icon">✨</span> Spør Gemini om dette
-                        </button>
-                    </div>
+                    <button class="gemini-button" onclick="openChat('Kartkunnskap PRO (Geofag)')">
+                        <span class="list-icon">✨</span>Spør Gemini om dette
+                    </button>
                 </div>
             </div>
+            <p class="no-results" id="no-results-natur-1">Fant ingen treff i Nivå 1.</p>
         </div>
-        
-        <!-- === NY NIVÅ 2 SEKSJON FOR AVANSERT INNHOLD (Nå tom) === -->
+
+        <!-- Nivå 2 Innhold (Tomt) -->
         <div id="content-natur-2" class="level-content">
-            <div class="empty-level-message">
-                <h2>Innhold under utvikling ⏳</h2>
-                <p>Nivå 2 (Avansert) for Naturfag er for øyeblikket tomt. Her vil det komme mer dyptgående presentasjoner, tilpasset eldre elever eller grundigere studier.</p>
-                <p>Vennligst sjekk Nivå 1 for grunnleggende innhold.</p>
+            <div class="content-placeholder">
+                <h3>Innhold under utvikling ⏳</h3>
+                <p>Nivå 2 (Avansert) for Naturfag vil snart inneholde dybdestudier og utvidet materiale for eldre elever/videregående. Kom snart tilbake!</p>
             </div>
         </div>
     </div>
     
-    <!-- INNHOLDSSIDE 4: BARNEHAGE -->
+    <!-- INNHOLDSSIDE 2: BARNEHAGE -->
     <div id="slide-barnehage" class="content-slide">
         
         <div class="back-button-container">
@@ -1151,30 +1028,16 @@
                 <span class="icon-arrow">←</span> Tilbake til valg
             </button>
         </div>
-
+        
         <h2 class="category-title">BARNEHAGE</h2>
-        
-        <!-- Ingen nivåvelger for barnehage -->
-        <div class="search-input-container">
-            <input type="text" id="search-input-barnehage" onkeyup="filterPresentations('slide-barnehage')" placeholder="🔍 Søk etter tema (f.eks. 'Kroppen' eller 'Vennskap')..."/>
-        </div>
-
-        <!-- NY MELDINGSBOKS FOR SØK-FEIL I NIVÅ BARNEHAGE -->
-        <div class="search-message-box" id="search-message-barnehage" style="display:none;">
-            <!-- Fylles med innhold av JS -->
-        </div>
-        
         <div class="link-grid">
 
-            <!-- BARNEHAGE FIL -->
-            <div class="link-item">
+            <div class="link-item" style="border-left-color: var(--color-theme-barnehage);">
                 <a href="KroppenvårVennskapOgGrenser.html"><span class="list-icon">❤️</span>Kroppen, Vennskap & Grenser</a>
                 <span>Tema: Hjerte/Lunge, Følelser, Gode og Vonde Hemmeligheter, Min kropp er min.</span>
-                <div class="gemini-action-container">
-                     <button class="gemini-action-button" onclick="openChat('Kroppen, Vennskap & Grenser (Barnehage-nivå)')">
-                        <span class="gemini-icon">✨</span> Spør Gemini om dette
-                    </button>
-                </div>
+                <button class="gemini-button" onclick="openChat('Kroppen, Vennskap & Grenser')">
+                    <span class="list-icon">✨</span>Spør Gemini om dette
+                </button>
             </div>
 
         </div>
@@ -1183,157 +1046,182 @@
     <!-- SCROLL TIL TOPP KNAPP -->
     <button id="scroll-to-top" onclick="scrollToTop()">↑</button>
 
-    <!-- CHAT MODAL (Legges sist i body) -->
-    <div class="chat-modal-overlay" id="chat-modal">
+    <!-- CHAT MODAL -->
+    <div id="chat-modal-overlay" class="chat-modal-overlay">
         <div class="chat-container">
             <div class="chat-header">
-                <h3 id="chat-topic-header">Gemini Chat</h3>
-                <button class="chat-close-button" onclick="closeChat()">×</button>
+                <h3 id="chat-topic-title">Gemini Læringsassistent</h3>
+                <button class="chat-close-btn" onclick="closeChat()">×</button>
             </div>
-            <div class="chat-messages" id="chat-messages">
+            <div id="chat-messages" class="chat-messages">
                 <!-- Meldinger vises her -->
             </div>
             <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Spør Gemini om temaet..."/>
-                <button id="chat-send-button" onclick="sendMessage()">➤</button>
+                <textarea id="chat-input" placeholder="Skriv spørsmålet ditt her..."></textarea>
+                <button id="send-btn" onclick="sendMessage()">Send</button>
             </div>
         </div>
     </div>
 
 
     <script>
-        // Global variabel for å holde chat-historikk
-        let chatHistory = [];
-        let isSending = false;
-        let currentTopic = ""; // Lagrer det aktive temaet
-
-        // --- FETCH API CALL UTILITY (Med Google Search Grounding og Exponential Backoff) ---
+        // --- API KONFIGURASJON ---
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
-        const API_KEY = ""; // Canvas vil fylle denne
+        // ADVARSEL: ERSTATT MED DIN FAKTSKE API NØKKEL FØR PUBLISERING! 
+        // Nøkkelen din er satt inn her for å aktivere chatten på den publiserte siden.
+        const API_KEY = "AIzaSyDGHe-KBV1WYpjQHaP9W5HDkwoDbjYAeOk"; 
         
-        // Hjelpefunksjon for å håndtere API-kall med retry
-        async function fetchWithBackoff(url, options, retries = 3, delay = 1000) {
+        // --- API BRUKER KONTROLL ---
+        const MAX_API_CALLS = 500; // Setter grensen for "Høy bruk" for å beskytte mot kostnader
+        const STORAGE_KEY = 'geminiCallCount';
+
+        let chatHistory = [];
+        let currentTopic = "";
+        let chatInput = document.getElementById('chat-input');
+        let chatMessagesDiv = document.getElementById('chat-messages');
+        let chatModalOverlay = document.getElementById('chat-modal-overlay');
+        let chatTopicTitle = document.getElementById('chat-topic-title');
+
+        // Henter gjeldende antall API-kall fra localStorage
+        function getCallCount() {
+            return parseInt(localStorage.getItem(STORAGE_KEY) || '0', 10);
+        }
+
+        // Øker antall API-kall og lagrer det
+        function incrementCallCount() {
+            let count = getCallCount();
+            count++;
+            localStorage.setItem(STORAGE_KEY, count);
+            return count;
+        }
+
+        // --- Hjelpefunksjon for å legge til meldinger i chat-vinduet ---
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(`${sender}-message`);
+            messageDiv.innerHTML = text.replace(/\n/g, '<br>'); // Håndterer linjeskift
+            chatMessagesDiv.appendChild(messageDiv);
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight; // Scroll til bunn
+        }
+        
+        // --- Velkomstmelding (Gemini-stil) ---
+        function addWelcomeMessage(topic) {
+            const topicText = topic.split(':')[0]; // Tar kun hovedtema
+            
+            // Velkomstmelding rettet mot elever/brukere
+            const welcomeText = `
+                Hei! Jeg er din læringsassistent for **${topicText}**! 👋
+                <br><br>
+                Har du spørsmål om temaet? Lurer du på vanskelige ord? Eller vil du sjekke om du har forstått alt riktig? 
+                <br><br>
+                **Bare spør i feltet under!** Jeg er klar til å hjelpe deg.
+            `;
+            addMessage(welcomeText, 'gemini');
+        }
+
+
+        // --- CHAT LOGIKK ---
+        function openChat(topic) {
+            const currentCalls = getCallCount();
+            if (currentCalls >= MAX_API_CALLS) {
+                // Viser grensemelding og åpner ikke chat
+                alert(`Beklager, grensen for antall API-kall (${MAX_API_CALLS}) er nådd for å hindre uforutsette kostnader. Chatten er midlertidig deaktivert.`);
+                return;
+            }
+
+            currentTopic = topic;
+            chatHistory = []; // Reset historikk for nytt tema
+            chatTopicTitle.innerText = `Gemini: ${topic}`;
+            chatMessagesDiv.innerHTML = ''; // Tøm meldingene
+            
+            addWelcomeMessage(topic);
+            
+            chatModalOverlay.classList.add('active');
+            chatInput.focus();
+
+            // Sjekker og viser telleren inne i chat-vinduet
+            if (currentCalls > 0) {
+                const limitWarning = document.createElement('div');
+                limitWarning.classList.add('limit-message');
+                limitWarning.innerHTML = `⚠️ Advarsel: Du har brukt ${currentCalls} av ${MAX_API_CALLS} gratis samtaler. Chatten stopper ved grensen.`;
+                chatMessagesDiv.appendChild(limitWarning);
+            }
+        }
+
+        function closeChat() {
+            chatModalOverlay.classList.remove('active');
+            document.getElementById('chat-input').value = '';
+            document.getElementById('chat-messages').innerHTML = '';
+        }
+        
+        // --- Hjelpefunksjon for å håndtere API-kall med retries (Exponential Backoff) ---
+        async function fetchWithBackoff(url, options, retries = 5, delay = 1000) {
             for (let i = 0; i < retries; i++) {
                 try {
                     const response = await fetch(url, options);
-                    if (!response.ok) {
-                        if (response.status === 429 && i < retries - 1) { // 429 Too Many Requests
-                            await new Promise(resolve => setTimeout(resolve, delay));
-                            delay *= 2; // Exponential backoff
-                            continue;
-                        }
-                        throw new Error(`API call failed with status: ${response.status}`);
+                    if (response.ok) {
+                        return response;
                     }
-                    return response;
+                    // Håndterer feil som 429 (Rate Limit) ved å vente og prøve igjen
+                    if (response.status === 429 && i < retries - 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+                        continue;
+                    }
+                    throw new Error(`API error: ${response.status} ${response.statusText}`);
                 } catch (error) {
-                    if (i === retries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
+                    if (i === retries - 1) {
+                        throw error;
+                    }
+                    await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
                 }
             }
         }
 
+        // --- Hovedfunksjon for å sende melding til Gemini ---
+        async function sendMessage() {
+            const userText = chatInput.value.trim();
+            if (userText === '') return;
 
-        // --- CHAT FUNKSJONALITET ---
-
-        function openChat(topic) {
-            const chatModal = document.getElementById('chat-modal');
-            const chatTopicHeader = document.getElementById('chat-topic-header');
-            const chatMessages = document.getElementById('chat-messages');
-            const chatInput = document.getElementById('chat-input');
-
-            // Sett opp initial tilstand
-            chatHistory = [];
-            chatMessages.innerHTML = '';
-            currentTopic = topic;
-            chatTopicHeader.innerText = `Gemini Chat om: ${topic}`;
-            chatModal.style.display = 'flex';
-            
-            // NY VELKOMSTMELDING SOM RETTER SEG MOT BARN/ELEVER
-            addWelcomeMessage(topic);
-
-            chatInput.focus();
-        }
-
-        function closeChat() {
-            document.getElementById('chat-modal').style.display = 'none';
-        }
-        
-        function addWelcomeMessage(topic) {
-             const chatMessages = document.getElementById('chat-messages');
-             const messageDiv = document.createElement('div');
-             messageDiv.classList.add('message', 'welcome');
-             messageDiv.innerHTML = `
-                Hei! Jeg er Gemini, din smarteste hjelper! 🤖
-                <br><br>
-                Temaet vårt er **${topic}**.
-                <br>
-                Har du noe du lurer på i dette temaet? Vil du at jeg skal forklare noe på en kjempeenkel måte? Eller trenger du hjelp til å forstå vanskelige ord?
-                <br><br>
-                **Bare skriv inn spørsmålet ditt under, så hjelper jeg deg!**
-            `;
-             chatMessages.appendChild(messageDiv);
-        }
-        
-        function addMessage(text, sender) {
-            const chatMessages = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', sender);
-            
-            // Konverterer Markdown til enkel HTML (fet og linjeskift) for bedre lesbarhet i chatten
-            let htmlText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            htmlText = htmlText.replace(/\n/g, '<br>');
-            messageDiv.innerHTML = htmlText;
-            
-            chatMessages.appendChild(messageDiv);
-            // Scroll til bunnen for å vise nyeste melding
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        async function sendMessage(prompt = null, sender = 'user') {
-            const inputElement = document.getElementById('chat-input');
-            const userPrompt = prompt || inputElement.value.trim();
-            
-            if (!userPrompt || isSending) return;
-
-            // Legg til brukerens melding i UI
-            if (sender === 'user') {
-                // Fjern velkomstmeldingen hvis den finnes
-                const welcomeMessage = document.querySelector('.message.welcome');
-                if (welcomeMessage) welcomeMessage.remove();
-                
-                addMessage(userPrompt, 'user');
-                inputElement.value = '';
+            // 1. KONTROLL: Sjekk API grense
+            const currentCalls = getCallCount();
+            if (currentCalls >= MAX_API_CALLS) {
+                addMessage(`Beklager, grensen på ${MAX_API_CALLS} samtaler for å unngå uforutsette kostnader er nådd. Chatten er deaktivert.`, 'gemini');
+                chatInput.value = '';
+                document.getElementById('send-btn').disabled = true;
+                return;
             }
-            
-            isSending = true;
-            document.getElementById('chat-send-button').disabled = true;
-            
-            // Legg til loading indicator
-            const loadingIndicator = document.createElement('div');
-            loadingIndicator.classList.add('loading-indicator');
-            loadingIndicator.innerText = 'Gemini tenker...';
-            document.getElementById('chat-messages').appendChild(loadingIndicator);
-            document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
 
+            // Deaktiver input og vis lasting
+            chatInput.value = '';
+            chatInput.disabled = true;
+            document.getElementById('send-btn').disabled = true;
+            addMessage(userText, 'user');
+            addMessage('<span class="loading-dots active">...</span>', 'gemini');
 
-            // SYSTEM PROMPT OG FØRSTE MELDING
-            // Systeminstruksjonen må inneholde konteksten for temaet
-            const systemPrompt = `Du er en pedagogisk assistent for elever (barn/unge). Du skal være leken, vennlig, oppmuntrende, og bruke en enkel, men informativ tone. Svarene skal alltid være på norsk. All kommunikasjon skal holdes innenfor konteksten til temaet: "${currentTopic}". Hvis spørsmålet er faktuelt eller krever oppdatert informasjon, bruk Google Search grounding.`;
-            
-            // Legg til meldingen i historikken
-            chatHistory.push({ role: 'user', parts: [{ text: userPrompt }] });
-            
-            const payload = {
-                contents: chatHistory,
-                tools: [{ "google_search": {} }],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-            };
+            // Legg til melding i chat-historikken
+            chatHistory.push({ role: "user", parts: [{ text: userText }] });
+
+            // Sett systeminstruksjonen for å gi kontekst til Gemini
+            const systemPrompt = `Du er en vennlig og engasjerende læringsassistent for elever. Svar kun på spørsmål knyttet til temaet: "${currentTopic}". Forklar ting på en enkel, pedagogisk måte. Bruk et positivt og oppmuntrende språk.`;
 
             try {
-                const response = await fetchWithBackoff(API_URL + `?key=${API_KEY}`, {
+                // Forsikrer at API_KEY er satt
+                if (API_KEY === "" || API_KEY === "DIN_PRIVATE_GEMINI_API_NØKKEL_HER") {
+                    throw new Error("API-nøkkel mangler. Sett inn din nøkkel i koden.");
+                }
+
+                const payload = {
+                    contents: chatHistory,
+                    tools: [{ "google_search": {} }],
+                    systemInstruction: {
+                        parts: [{ text: systemPrompt }]
+                    },
+                };
+
+                const apiUrl = `${API_URL}?key=${API_KEY}`;
+                
+                const response = await fetchWithBackoff(apiUrl, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -1341,251 +1229,206 @@
 
                 const result = await response.json();
                 
-                // Fjern loading indicator
-                loadingIndicator.remove();
+                // Fjern lasting meldingen
+                chatMessagesDiv.lastChild.remove(); 
                 
                 const candidate = result.candidates?.[0];
+                const geminiResponse = candidate?.content?.parts?.[0]?.text;
 
-                if (candidate && candidate.content?.parts?.[0]?.text) {
-                    const geminiText = candidate.content.parts[0].text;
-                    addMessage(geminiText, 'gemini');
-
-                    // Oppdater chat-historikk med Gemini sitt svar
-                    chatHistory.push({ role: 'model', parts: [{ text: geminiText }] });
+                if (geminiResponse) {
+                    addMessage(geminiResponse, 'gemini');
+                    chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
                     
-                    // Kilde-logikk er fjernet fra UI for å holde chatten ren
+                    // ØK TELLEREN ETTER VELKJUKKET API-KALL
+                    incrementCallCount(); 
 
                 } else {
-                    addMessage("Beklager, jeg klarte ikke å generere et svar. Vennligst prøv igjen.", 'gemini');
+                    addMessage('Beklager, jeg forstod ikke svaret. Kan du prøve igjen?', 'gemini');
                 }
 
             } catch (error) {
                 console.error("Gemini API Error:", error);
-                loadingIndicator.remove();
-                addMessage("Beklager, det oppstod en feil under kommunikasjonen. Prøv igjen senere.", 'gemini');
-
+                // Fjern lasting meldingen
+                chatMessagesDiv.lastChild.remove(); 
+                
+                if (error.message.includes("API-nøkkel mangler")) {
+                    addMessage('Beklager, API-nøkkelen er ikke konfigurert. Sett inn nøkkelen i koden for å aktivere chatten.', 'gemini');
+                } else {
+                    addMessage('Beklager, det oppstod en feil under kommunikasjonen. Prøv igjen senere.', 'gemini');
+                }
             } finally {
-                isSending = false;
-                document.getElementById('chat-send-button').disabled = false;
-                document.getElementById('chat-input').focus();
+                chatInput.disabled = false;
+                document.getElementById('send-btn').disabled = false;
+                chatInput.focus();
             }
         }
 
+        // Aktiverer ENTER for å sende melding
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
 
-        // --- SIDE NAVIGASJON OG FILTER LOGIKK ---
 
-        // Hjelpefunksjon for å bytte mellom Nivå 1 og Nivå 2
-        function setPresentationLevel(slideId, level) {
-            const container = document.getElementById(slideId);
-            if (!container) return;
+        // --- NAVIGASJON & FILTER LOGIKK (Fra tidligere iterasjoner) ---
+        let currentSlide = 'slide-intro-choice';
+        let currentSubPage = ''; // samfunn, natur, barnehage
 
-            // Oppdaterer knappe-tilstand
-            const fagNavn = slideId.split('-')[2];
-            container.querySelector(`#level-${fagNavn}-1`).classList.remove('active');
-            container.querySelector(`#level-${fagNavn}-2`).classList.remove('active');
-            container.querySelector(`#level-${fagNavn}-${level}`).classList.add('active');
-
-            // Vis/Skjul innholdsseksjoner
-            container.querySelectorAll('.level-content').forEach(content => {
-                content.classList.remove('active-level');
-            });
-            document.getElementById(`content-${fagNavn}-${level}`).classList.add('active-level');
-            
-            // Re-filtrerer for å sikre at søket kun gjelder den aktive delen (og fjerner søkemelding)
-            filterPresentations(slideId);
-        }
-        
-        // Håndterer visning av sider
         function showContent(slideId, subHeaderText) {
-            const contentSlides = document.querySelectorAll('.content-slide');
-            contentSlides.forEach(slide => slide.style.display = 'none');
+            const oldSlide = document.getElementById(currentSlide);
+            if (oldSlide) {
+                oldSlide.classList.remove('active');
+            }
             
             const targetSlide = document.getElementById(slideId);
-            const body = document.body;
-
-            // Fjerner alle eksisterende tema-klasser
-            body.classList.remove('school-theme', 'barnehage-theme', 'intro-theme');
-
-            // --- Dynamisk aksentfarge basert på side ---
-            if (slideId === 'slide-skole' || slideId === 'slide-skole-samfunn' || slideId === 'slide-skole-natur') {
-                body.classList.add('school-theme');
-                document.documentElement.style.setProperty('--primary-accent-color', 'var(--color-accent-cyan)');
-                
-                // Ved dype sider: nullstill nivåvalg og filter
-                if (slideId === 'slide-skole-samfunn') {
-                    setPresentationLevel(slideId, 1);
-                    const input = document.getElementById('search-input-samfunn');
-                    if(input) input.value = '';
-                }
-                if (slideId === 'slide-skole-natur') {
-                    setPresentationLevel(slideId, 1);
-                    const input = document.getElementById('search-input-natur');
-                    if(input) input.value = '';
-                }
-            } else if (slideId === 'slide-barnehage') {
-                body.classList.add('barnehage-theme');
-                document.documentElement.style.setProperty('--primary-accent-color', 'var(--color-theme-barnehage)');
-                const input = document.getElementById('search-input-barnehage');
-                if(input) input.value = '';
-                
-            } else {
-                // Tilbake til intro
-                body.classList.add('intro-theme');
-                document.documentElement.style.setProperty('--primary-accent-color', '#ff004c');
-            }
-
-            // Standard visningslogikk
             if (targetSlide) {
-                targetSlide.style.display = 'block';
+                targetSlide.classList.add('active');
                 document.getElementById('sub-header-text').innerText = subHeaderText || 'Velg målgruppe for å starte.';
-                window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroller til toppen når man bytter side
+                window.scrollTo(0, 0); 
+                currentSlide = slideId;
+                
+                // Oppdater tema/farger basert på hovedside
+                document.body.classList.remove('intro-theme', 'school-theme', 'barnehage-theme');
+                if (slideId.startsWith('slide-skole')) {
+                    document.body.classList.add('school-theme');
+                } else if (slideId === 'slide-barnehage') {
+                    document.body.classList.add('barnehage-theme');
+                } else {
+                    document.body.classList.add('intro-theme');
+                }
+                
+                // Håndter spesifikke fagsider
+                if (slideId.startsWith('slide-skole-')) {
+                    const match = slideId.match(/slide-skole-(samfunn|natur)/);
+                    currentSubPage = match ? match[1] : '';
+                    
+                    // Sikrer at Nivå 1 er aktivt ved bytte av fag
+                    changeLevel(currentSubPage, 1);
+                    
+                    // Tøm søkefelt og kjør filter
+                    const searchInput = document.getElementById(`search-input-${currentSubPage}-1`);
+                    if (searchInput) {
+                        searchInput.value = '';
+                        filterPresentations(currentSubPage, 1);
+                    }
+                }
             }
         }
         
-        // Viser startvalget ved lasting
         document.addEventListener('DOMContentLoaded', () => {
             showContent('slide-intro-choice', 'Velg målgruppe for å starte.');
-            
-            // Gjør Enter-tast på chat-input til Send
-            document.getElementById('chat-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault(); // Forhindrer at formen sender som standard
-                    sendMessage();
-                }
-            });
+            // Påfører Starfield-effekten (Box-shadow er definert i CSS)
         });
-        
-        
-        /* --- SCROLL TIL TOPP FUNKSJONALITET (Uendret) --- */
-        const scrollToTopBtn = document.getElementById('scroll-to-top');
 
-        window.onscroll = function() { scrollFunction(); };
-        function scrollFunction() {
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                const samfunnSlide = document.getElementById('slide-skole-samfunn');
-                const naturSlide = document.getElementById('slide-skole-natur');
-                const barnehageSlide = document.getElementById('slide-barnehage');
 
-                if((samfunnSlide && samfunnSlide.style.display === 'block') || 
-                   (naturSlide && naturSlide.style.display === 'block') || 
-                   (barnehageSlide && barnehageSlide.style.display === 'block')) {
-                    scrollToTopBtn.style.display = "block";
-                }
-            } else {
-                scrollToTopBtn.style.display = "none";
+        function changeLevel(subject, level) {
+            const container = document.getElementById(`slide-skole-${subject}`);
+            const level1Content = document.getElementById(`content-${subject}-1`);
+            const level2Content = document.getElementById(`content-${subject}-2`);
+            const level1Btn = document.getElementById(`${subject}-level-1-btn`);
+            const level2Btn = document.getElementById(`${subject}-level-2-btn`);
+            const searchInput = document.getElementById(`search-input-${subject}-1`);
+
+            // Deaktiver og aktiver knapper
+            level1Btn.classList.remove('active');
+            level2Btn.classList.remove('active');
+            
+            level1Content.style.display = 'none';
+            level2Content.style.display = 'none';
+            
+            if (level === 1) {
+                level1Btn.classList.add('active');
+                level1Content.style.display = 'block';
+                searchInput.style.display = 'block';
+                // Tvinger filter til å vise alt Nivå 1 innhold igjen
+                searchInput.value = '';
+                filterPresentations(subject, 1);
+            } else if (level === 2) {
+                level2Btn.classList.add('active');
+                level2Content.style.display = 'block';
+                searchInput.style.display = 'none'; // Skjul søkefelt i Nivå 2
             }
         }
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-        
-        /* --- FILTER FUNKSJONALITET (Oppdatert for ny struktur) --- */
-        function filterPresentations(slideId) {
-            const currentSlide = document.getElementById(slideId);
-            if (!currentSlide) return;
 
-            const fagNavn = slideId.includes('barnehage') ? 'barnehage' : slideId.split('-')[2];
-            const inputElement = document.getElementById(`search-input-${fagNavn}`);
-            const input = inputElement ? inputElement.value.toLowerCase() : '';
-            
-            const activeLevelContent = currentSlide.querySelector('.level-content.active-level') || currentSlide; // Bruker hele sliden for barnehage
-            const searchMessageBox = document.getElementById(`search-message-${fagNavn}`);
 
-            // -------------------------------------------------------------------
-            // LOGIKK FOR NIVÅ 2 (Statisk melding)
-            // -------------------------------------------------------------------
-            const isLevel2 = activeLevelContent && activeLevelContent.id && activeLevelContent.id.endsWith('-2');
-
-            if (isLevel2) {
-                // Skjul søkeboks og vis tom melding
-                if (searchMessageBox) searchMessageBox.style.display = 'none';
-                
-                const emptyMessage = activeLevelContent.querySelector('.empty-level-message');
-                if (emptyMessage) {
-                    const h2 = emptyMessage.querySelector('h2');
-                    const p = emptyMessage.querySelector('p');
-
-                    if (input.length > 0) {
-                        h2.innerText = 'Ingen treff på søket.';
-                        p.innerHTML = `Søket ditt etter '<strong>${input}</strong>' ga ingen resultater i Nivå 2. Prøv et annet søkeord eller bytt til Nivå 1.`;
-                    } else {
-                        const fagNavnNorsk = fagNavn === 'samfunn' ? 'Samfunnsfag' : (fagNavn === 'natur' ? 'Naturfag' : 'Barnehage');
-                        h2.innerText = 'Innhold under utvikling ⏳';
-                        p.innerHTML = `Nivå 2 (Avansert) for ${fagNavnNorsk} er for øyeblikket tomt. Her vil det komme mer dyptgående presentasjoner, tilpasset eldre elever eller grundigere studier.<br>Vennligst sjekk Nivå 1 for grunnleggende innhold.`;
-                    }
-                    emptyMessage.style.display = 'block';
-                }
-                return; // Avslutt Nivå 2
-            }
+        function filterPresentations(subject, level) {
+            const input = document.getElementById(`search-input-${subject}-${level}`).value.toLowerCase();
+            const contentDiv = document.getElementById(`content-${subject}-${level}`);
+            const allItems = contentDiv.querySelectorAll('.link-item');
+            const categoryTitles = contentDiv.querySelectorAll('.sub-category-title');
+            const noResultsMessage = document.getElementById(`no-results-${subject}-${level}`);
+            let visibleCount = 0;
             
-            // -------------------------------------------------------------------
-            // LOGIKK FOR NIVÅ 1 & BARNEHAGE (Filtrering)
-            // -------------------------------------------------------------------
-            
-            let hasVisibleContent = false;
-            const allItems = activeLevelContent.querySelectorAll('.link-item');
-            const categoryTitles = activeLevelContent.querySelectorAll('.sub-category-title');
-            
+            // Første pass: Filtrer individuelle lenker
             allItems.forEach(item => {
                 const title = item.querySelector('a').innerText.toLowerCase();
                 const description = item.querySelector('span').innerText.toLowerCase();
                 
-                if (title.indexOf(input) === -1 && description.indexOf(input) === -1) {
-                    item.classList.add('hidden');
-                } else {
+                if (title.includes(input) || description.includes(input)) {
                     item.classList.remove('hidden');
-                    hasVisibleContent = true;
+                    visibleCount++;
+                } else {
+                    item.classList.add('hidden');
                 }
             });
 
-            // Vis/skjul underkategorititlene og grids (kun for Nivå 1)
-            if (activeLevelContent.id && (activeLevelContent.id.endsWith('-1') || activeLevelContent.id.includes('barnehage'))) {
-                
-                // Håndterer underkategorier
-                categoryTitles.forEach(title => {
-                    const grid = title.nextElementSibling;
-                    const visibleItems = grid.querySelectorAll('.link-item:not(.hidden)');
-                    
-                    if (visibleItems.length === 0) {
-                        title.style.display = 'none';
-                        grid.style.display = 'none';
-                    } else {
-                        title.style.display = 'block';
-                        grid.style.display = 'grid'; 
-                    }
-                });
+            // Andre pass: Vis/skjul underkategorititlene basert på om de har synlige elementer
+            categoryTitles.forEach(title => {
+                // Finner den neste grid-containeren etter tittelen
+                let nextElement = title.nextElementSibling;
+                let visibleInSub = 0;
 
-                // Håndterer Barnehage-siden (som ikke har h3-titler)
-                if (slideId === 'slide-barnehage') {
-                    const linkGrid = currentSlide.querySelector('.link-grid');
-                    if(linkGrid) linkGrid.style.display = linkGrid.querySelector('.link-item:not(.hidden)') ? 'grid' : 'none';
+                while(nextElement && !nextElement.classList.contains('sub-category-title')) {
+                    if (nextElement.classList.contains('link-grid')) {
+                        const visibleItems = nextElement.querySelectorAll('.link-item:not(.hidden)');
+                        visibleInSub = visibleItems.length;
+                        
+                        if (visibleInSub === 0) {
+                            title.style.display = 'none';
+                            nextElement.style.display = 'none';
+                        } else {
+                            title.style.display = 'block';
+                            nextElement.style.display = 'grid';
+                        }
+                        break;
+                    }
+                    nextElement = nextElement.nextElementSibling;
+                }
+            });
+            
+            // Vis/Skjul Ingen Treff-melding
+            if(noResultsMessage) {
+                if (visibleCount === 0 && input.length > 0) {
+                    noResultsMessage.style.display = 'block';
+                } else {
+                    noResultsMessage.style.display = 'none';
                 }
             }
+        }
 
 
-             
-             // Vis/skjul søkefeilmelding (den nye boksen utenfor Nivå 2)
-             if (!hasVisibleContent && input.length > 0 && searchMessageBox) {
-                 searchMessageBox.innerHTML = `<h3>Ingen treff på søket i Nivå 1.</h3><p>Søket ditt etter '<strong>${input}</strong>' ga ingen resultater.</p>`;
-                 searchMessageBox.style.display = 'block';
-                 
-                 // Skjul Nivå 1-innholdet helt for å vise feilmeldingen sentrert
-                 const h2Title = activeLevelContent.querySelector('h2.category-title');
-                 if(h2Title) h2Title.style.display = 'none';
-                 activeLevelContent.style.display = 'none';
+        /* --- SCROLL TIL TOPP FUNKSJONALITET --- */
+        const scrollToTopBtn = document.getElementById('scroll-to-top');
 
-             } else if (searchMessageBox) {
-                 searchMessageBox.style.display = 'none';
-                 
-                 // Vis Nivå 1-innholdet igjen
-                 const h2Title = activeLevelContent.querySelector('h2.category-title');
-                 if(h2Title) h2Title.style.display = 'block';
-                 activeLevelContent.style.display = 'block';
+        window.onscroll = function() {
+            scrollFunction();
+        };
 
-                 // Skjul "under utvikling" meldingen fra Level 2 hvis den er der (dobbeltsjekk)
-                 const emptyMessage = currentSlide.querySelector('#content-natur-2 .empty-level-message, #content-samfunn-2 .empty-level-message');
-                 if(emptyMessage) emptyMessage.style.display = 'none';
-             }
+        function scrollFunction() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                 scrollToTopBtn.style.display = "block";
+            } else {
+                scrollToTopBtn.style.display = "none";
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
         }
         
     </script>
