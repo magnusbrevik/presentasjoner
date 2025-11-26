@@ -32,6 +32,12 @@
             /* Farger for underkategorier Naturfag */
             --color-sub-biol: #27ae60; /* Grønn for Biologi */
             --color-sub-fysikk: #06b6d4; /* Cyan for Fysikk/Geofag */
+
+            /* NYE FARGER FOR BARNEHAGE ÅRSTIDER */
+            --color-bhg-vinter: #89CFF0; /* Lyseblå */
+            --color-bhg-vår: #38b000; /* Vårgrønn */
+            --color-bhg-sommer: #FFD700; /* Solgul */
+            --color-bhg-høst: #c0392b; /* Dyp Rødbrun */
         }
 
         /* Oppdaterer aksentfargene basert på aktiv side (Forslag 3) */
@@ -375,6 +381,16 @@
             border-left-color: var(--color-sub-fysikk); 
             color: var(--color-sub-fysikk); 
         }
+        
+        /* Barnehage Underkategorier */
+        #slide-barnehage .sub-category-title:nth-of-type(1) { /* Årstider */
+            border-left-color: var(--color-bhg-vinter); 
+            color: var(--color-bhg-vinter); 
+        }
+        #slide-barnehage .sub-category-title:nth-of-type(2) { /* Sosialt */
+            border-left-color: var(--color-theme-barnehage); 
+            color: var(--color-theme-barnehage); 
+        }
 
         /* --- SØKEFELT STYLING --- */
         #search-input {
@@ -424,7 +440,15 @@
         #slide-skole-samfunn .sub-category-title:nth-of-type(2) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-demo); }
         #slide-skole-natur .sub-category-title:nth-of-type(1) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-biol); }
         #slide-skole-natur .sub-category-title:nth-of-type(2) ~ .level-content .link-grid .link-item { border-left-color: var(--color-sub-fysikk); }
-        #slide-barnehage .link-grid .link-item { border-left-color: var(--color-theme-barnehage); }
+        
+        /* Barnehage farger for Årstider */
+        .bhg-vinter { border-left-color: var(--color-bhg-vinter) !important; }
+        .bhg-vår { border-left-color: var(--color-bhg-vår) !important; }
+        .bhg-sommer { border-left-color: var(--color-bhg-sommer) !important; }
+        .bhg-høst { border-left-color: var(--color-bhg-høst) !important; }
+        
+        /* Barnehage sosialt tema bruker standard BHG farge */
+        #slide-barnehage .sub-category-title:nth-of-type(2) ~ .link-grid .link-item { border-left-color: var(--color-theme-barnehage); }
 
 
         .link-item:hover {
@@ -521,8 +545,8 @@
             align-items: center;
             justify-content: center;
             margin-top: 10px;
-            padding: 4px 8px; /* Mye mindre padding */
-            font-size: 0.8rem; /* Mye mindre font */
+            padding: 2px 5px; /* Endret: Mindre padding */
+            font-size: 0.7rem; /* Endret: Mindre font */
             font-weight: 600;
             border-radius: 9999px; /* Pill-form */
             border: none;
@@ -538,8 +562,8 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
         .gemini-button span {
-            margin-right: 5px;
-            font-size: 1rem;
+            margin-right: 3px; /* Mindre margin */
+            font-size: 0.9rem; /* Mindre ikon */
             color: white !important; /* Overstyrer sub-fargen */
         }
         
@@ -725,12 +749,144 @@
     <style>
         /* Setter de to stjernelistene på pseudo-elementene */
         body::before {
-            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 320px, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
         }
         body::after {
             box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
         }
     </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
+
+    <!-- STARFIELD CSS INJEKSJON FOR KORREKT ANIMASJON -->
+    <style>
+        /* Setter de to stjernelistene på pseudo-elementene */
+        body::before {
+            box-shadow: -219px -157px 1px 1px rgba(255, 255, 255, 0.7), -29px 135px 1px 1px rgba(255, 255, 255, 0.7), -178px -188px 1px 1px rgba(255, 255, 255, 0.7), 286px -112px 1px 1px rgba(255, 255, 255, 0.7), 179px -290px 1px 1px rgba(255, 255, 255, 0.7), -140px 160px 1px 1px rgba(255, 255, 255, 0.7), 30px 10px 1px 1px rgba(255, 255, 255, 0.7), -10px 40px 1px 1px rgba(255, 255, 255, 0.7), 230px 130px 1px 1px rgba(255, 255, 255, 0.7), -50px 120px 1px 1px rgba(255, 255, 255, 0.7), 160px 240px 1px 1px rgba(255, 255, 255, 0.7), -250px 210px 1px 1px rgba(255, 255, 255, 0.7), -300px -150px 1px 1px rgba(255, 255, 255, 0.7), -40px -300px 1px 1px rgba(255, 255, 255, 0.7), 100px 50px 1px 1px rgba(255, 255, 255, 0.7), -150px 250px 1px 1px rgba(255, 255, 255, 0.7), 350px 180px 1px 1px rgba(255, 255, 255, 0.7), -80px -50px 1px 1px rgba(255, 255, 255, 0.7), 200px 300px 1px 1px rgba(255, 255, 255, 0.7), -300px 50px 1px 1px rgba(255, 255, 255, 0.7), 10px -10px 1px 1px rgba(255, 255, 255, 0.7), -200px -250px 1px 1px rgba(255, 255, 255, 0.7), 320px 220px 1px 1px rgba(255, 255, 255, 0.7), -50px 350px 1px 1px rgba(255, 255, 255, 0.7), 120px -100px 1px 1px rgba(255, 255, 255, 0.7), -350px -180px 1px 1px rgba(255, 255, 255, 0.7), 50px 400px 1px 1px rgba(255, 255, 255, 0.7), 280px -50px 1px 1px rgba(255, 255, 255, 0.7), -220px 10px 1px 1px rgba(255, 255, 255, 0.7), 140px 160px 1px 1px rgba(255, 255, 255, 0.7), -400px 200px 1px 1px rgba(255, 255, 255, 0.7), -10px -280px 1px 1px rgba(255, 255, 255, 0.7), 300px 10px 1px 1px rgba(255, 255, 255, 0.7), -270px -30px 1px 1px rgba(255, 255, 255, 0.7), 180px 320px 1px 1px rgba(255, 255, 255, 0.7), -30px 190px 1px 1px rgba(255, 255, 255, 0.7), 250px -150px 1px 1px rgba(255, 255, 255, 0.7), -110px 400px 1px 1px rgba(255, 255, 255, 0.7), 500px 500px 1px 1px rgba(255, 255, 255, 0.7), -450px -450px 1px 1px rgba(255, 255, 255, 0.7), 420px 420px 1px 1px rgba(255, 255, 255, 0.7), -380px 300px 1px 1px rgba(255, 255, 255, 0.7), 150px -350px 1px 1px rgba(255, 255, 255, 0.7), -20px 500px 1px 1px rgba(255, 255, 255, 0.7), 380px 50px 1px 1px rgba(255, 255, 255, 0.7), -170px 320px 1px 1px rgba(255, 255, 255, 0.7), 250px -20px 1px 1px rgba(255, 255, 255, 0.7), -40px 10px 1px 1px rgba(255, 255, 255, 0.7), 50px -150px 1px 1px rgba(255, 255, 255, 0.7)
+        }
+        body::after {
+            box-shadow: 150px 150px 1px 1px rgba(255, 255, 255, 0.4), 200px 50px 1px 1px rgba(255, 255, 255, 0.4), -150px -200px 1px 1px rgba(255, 255, 255, 0.4), -300px 100px 1px 1px rgba(255, 255, 255, 0.4), 400px -100px 1px 1px rgba(255, 255, 255, 0.4), 10px 300px 1px 1px rgba(255, 255, 255, 0.4), -200px -50px 1px 1px rgba(255, 255, 255, 0.4), -50px 50px 1px 1px rgba(255, 255, 255, 0.4), 250px 350px 1px 1px rgba(255, 255, 255, 0.4), -100px -150px 1px 1px rgba(255, 255, 255, 0.4), 300px -250px 1px 1px rgba(255, 255, 255, 0.4), -400px 300px 1px 1px rgba(255, 255, 255, 0.4), 50px -350px 1px 1px rgba(255, 255, 255, 0.4), -250px 450px 1px 1px rgba(255, 255, 255, 0.4), 180px -180px 1px 1px rgba(255, 255, 255, 0.4), 350px 100px 1px 1px rgba(255, 255, 255, 0.4), -320px -20px 1px 1px rgba(255, 255, 255, 0.4), 100px 420px 1px 1px rgba(255, 255, 255, 0.4), -10px -400px 1px 1px rgba(255, 255, 255, 0.4), 200px 200px 1px 1px rgba(255, 255, 255, 0.4), -500px -500px 1px 1px rgba(255, 255, 255, 0.4), 500px 50px 1px 1px rgba(255, 255, 255, 0.4), -50px 500px 1px 1px rgba(255, 255, 255, 0.4), 20px -40px 1px 1px rgba(255, 255, 255, 0.4), -450px 150px 1px 1px rgba(255, 255, 255, 0.4), 100px -450px 1px 1px rgba(255, 255, 255, 0.4), 300px 400px 1px 1px rgba(255, 255, 255, 0.4), -200px -300px 1px 1px rgba(255, 255, 255, 0.4), 450px -10px 1px 1px rgba(255, 255, 255, 0.4), -100px 250px 1px 1px rgba(255, 255, 255, 0.4), 150px -50px 1px 1px rgba(255, 255, 255, 0.4)
+        }
+    </style>
+</head>
+<body class="intro-theme">
 
     <div class="header-box">
         <h1>FAGLIGE PRESENTASJONER</h1>
@@ -1030,16 +1186,53 @@
         </div>
         
         <h2 class="category-title">BARNEHAGE</h2>
+        
+        <h3 class="sub-category-title">🍂 Årstider og Natur</h3>
         <div class="link-grid">
+            
+            <div class="link-item bhg-vinter">
+                <a href="VinterBHG.html"><span class="list-icon">❄️</span>Vinterens Hemmeligheter</a>
+                <span>Tema: Snø, is, dyrenes dvale, varme klær (ull).</span>
+                <button class="gemini-button" onclick="openChat('Vinterens Hemmeligheter')">
+                    <span class="list-icon">✨</span>Spør Gemini om dette
+                </button>
+            </div>
+            
+            <div class="link-item bhg-vår">
+                <a href="VårBHG.html"><span class="list-icon">🌷</span>Vårens Hemmeligheter</a>
+                <span>Tema: Sola, snøsmelting, dyrene våkner, første blomster.</span>
+                <button class="gemini-button" onclick="openChat('Vårens Hemmeligheter')">
+                    <span class="list-icon">✨</span>Spør Gemini om dette
+                </button>
+            </div>
 
-            <div class="link-item" style="border-left-color: var(--color-theme-barnehage);">
+            <div class="link-item bhg-sommer">
+                <a href="SommerBHG.html"><span class="list-icon">☀️</span>Sommerens Eventyr</a>
+                <span>Tema: Solkrem, bading, lyse netter, bær og insekter.</span>
+                <button class="gemini-button" onclick="openChat('Sommerens Eventyr')">
+                    <span class="list-icon">✨</span>Spør Gemini om dette
+                </button>
+            </div>
+            
+            <div class="link-item bhg-høst">
+                <a href="HøstBHG.html"><span class="list-icon">🍁</span>Høstens Eventyr</a>
+                <span>Tema: Fargede blader, sopp, dyrenes hamstring, regn og vind.</span>
+                <button class="gemini-button" onclick="openChat('Høstens Eventyr')">
+                    <span class="list-icon">✨</span>Spør Gemini om dette
+                </button>
+            </div>
+
+        </div>
+
+        <h3 class="sub-category-title">❤️ Sosialt og Følelser</h3>
+        <div class="link-grid">
+            <div class="link-item">
                 <a href="KroppenvårVennskapOgGrenser.html"><span class="list-icon">❤️</span>Kroppen, Vennskap & Grenser</a>
                 <span>Tema: Hjerte/Lunge, Følelser, Gode og Vonde Hemmeligheter, Min kropp er min.</span>
                 <button class="gemini-button" onclick="openChat('Kroppen, Vennskap & Grenser')">
                     <span class="list-icon">✨</span>Spør Gemini om dette
                 </button>
             </div>
-
         </div>
     </div>
     
@@ -1067,10 +1260,9 @@
     <script>
         // --- API KONFIGURASJON ---
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
-        // ADVARSEL: NØKKELEN ER NÅ FJERN fra kildekoden!
-        // For at chatten skal fungere på den publiserte nettsiden, MÅ du ha en server (backend)
-        // som sikkert håndterer API-kallet. Hvis du tester her i Canvas, vil en nøkkel automatisk
-        // injiseres og chatten vil fungere.
+        // ADVARSEL: Nøkkelen er fjernet for å beskytte deg.
+        // I dette Canvas-miljøet injiseres en midlertidig nøkkel automatisk.
+        // API_KEY er satt til en tom streng, men systemet vil fylle den ut ved kjøring her.
         const API_KEY = ""; 
         
         // --- API BRUKER KONTROLL ---
@@ -1208,11 +1400,9 @@
             const systemPrompt = `Du er en vennlig og engasjerende læringsassistent for elever. Svar kun på spørsmål knyttet til temaet: "${currentTopic}". Forklar ting på en enkel, pedagogisk måte. Bruk et positivt og oppmuntrende språk.`;
 
             try {
-                // FORSIKRER AT API_KEY ER SATT ELLER FINNES I MILJØET
-                if (!API_KEY) {
-                    throw new Error("API-nøkkel mangler. Sett inn din nøkkel i koden ELLER bruk en sikker backend.");
-                }
-
+                // VIKTIG: Ingen sjekk på API_KEY her, da Canvas injiserer den automatisk
+                // Når denne koden publiseres, vil den kun fungere om du bruker en sikker backend.
+                
                 const payload = {
                     contents: chatHistory,
                     tools: [{ "google_search": {} }],
@@ -1253,11 +1443,9 @@
                 // Fjern lasting meldingen
                 chatMessagesDiv.lastChild.remove(); 
                 
-                if (error.message.includes("API-nøkkel mangler")) {
-                    addMessage('Beklager, chatten fungerer kun med en gyldig API-nøkkel. Vennligst sjekk koden.', 'gemini');
-                } else {
-                    addMessage('Beklager, det oppstod en feil under kommunikasjonen. Prøv igjen senere.', 'gemini');
-                }
+                // Nå vises kun generell feilmelding, da vi stoler på at Canvas fikser nøkkelen
+                addMessage('Beklager, det oppstod en feil under kommunikasjonen. Prøv igjen senere.', 'gemini');
+                
             } finally {
                 chatInput.disabled = false;
                 document.getElementById('send-btn').disabled = false;
