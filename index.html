@@ -1067,9 +1067,11 @@
     <script>
         // --- API KONFIGURASJON ---
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
-        // ADVARSEL: ERSTATT MED DIN FAKTSKE API NØKKEL FØR PUBLISERING! 
-        // Nøkkelen din er satt inn her for å aktivere chatten på den publiserte siden.
-        const API_KEY = "AIzaSyDGHe-KBV1WYpjQHaP9W5HDkwoDbjYAeOk"; 
+        // ADVARSEL: NØKKELEN ER NÅ FJERN fra kildekoden!
+        // For at chatten skal fungere på den publiserte nettsiden, MÅ du ha en server (backend)
+        // som sikkert håndterer API-kallet. Hvis du tester her i Canvas, vil en nøkkel automatisk
+        // injiseres og chatten vil fungere.
+        const API_KEY = ""; 
         
         // --- API BRUKER KONTROLL ---
         const MAX_API_CALLS = 500; // Setter grensen for "Høy bruk" for å beskytte mot kostnader
@@ -1206,9 +1208,9 @@
             const systemPrompt = `Du er en vennlig og engasjerende læringsassistent for elever. Svar kun på spørsmål knyttet til temaet: "${currentTopic}". Forklar ting på en enkel, pedagogisk måte. Bruk et positivt og oppmuntrende språk.`;
 
             try {
-                // Forsikrer at API_KEY er satt
-                if (API_KEY === "" || API_KEY === "DIN_PRIVATE_GEMINI_API_NØKKEL_HER") {
-                    throw new Error("API-nøkkel mangler. Sett inn din nøkkel i koden.");
+                // FORSIKRER AT API_KEY ER SATT ELLER FINNES I MILJØET
+                if (!API_KEY) {
+                    throw new Error("API-nøkkel mangler. Sett inn din nøkkel i koden ELLER bruk en sikker backend.");
                 }
 
                 const payload = {
@@ -1252,7 +1254,7 @@
                 chatMessagesDiv.lastChild.remove(); 
                 
                 if (error.message.includes("API-nøkkel mangler")) {
-                    addMessage('Beklager, API-nøkkelen er ikke konfigurert. Sett inn nøkkelen i koden for å aktivere chatten.', 'gemini');
+                    addMessage('Beklager, chatten fungerer kun med en gyldig API-nøkkel. Vennligst sjekk koden.', 'gemini');
                 } else {
                     addMessage('Beklager, det oppstod en feil under kommunikasjonen. Prøv igjen senere.', 'gemini');
                 }
